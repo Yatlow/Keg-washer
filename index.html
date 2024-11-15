@@ -1259,36 +1259,42 @@
                'Content-Type': 'application/json',
                'Authorization': `Bearer ${token}`
                 },
-                body: formData      
+                body: JSON.stringify(formData)     
              })
-             .then(response => response.json())
+               .then(response => {
+            if (!response.ok) {
+                throw new Error('תקלה בתקשורת לשרת');
+            }
+            return response.json();
+        })
+        
              .then(data => {
-                   if (res.data) {
                         let inner = document.getElementById("conirmContent");
-                        inner.innerHTML = response.message
+                        inner.innerHTML = data.message
                         document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
                         document.getElementById("exitConfirm").innerHTML = LangFlag===0? 'אישור': 'OK';
                         DisableItems()
 
                         attributes.forEach(attribute => {
-                            if (res.data.hasOwnProperty(attribute)) {
-                                $('#' + attribute).val(res.new_data[attribute]);
+                            if (data.hasOwnProperty(attribute)) {
+                                $('#' + attribute).val(data[attribute]);
 
                                 // Correct handling of special attributes:
                                 if (attribute === "preboobotMeteg") {
-                                    preboobotMeteg = res.data[attribute];
+                                    preboobotMeteg = data[attribute];
                                     toggleMeteg("PrebootToggleHousing", preboobotMeteg);
                                 } 
                                 else if (attribute === "pressureMeteg") {
-                                    pressureMeteg = res.data[attribute];
+                                    pressureMeteg = data[attribute];
                                     toggleMeteg("PressureToggleHousing", pressureMeteg);
                                 }
                             }
                         });
               })
              .catch(error => {
-                    console.error('Error:', error));   
-                    inner.innerHTML = res.message;
+                    let inner = document.getElementById("conirmContent")
+                    console.error('Error:', error);   
+                    inner.innerHTML = 'תקלה בתקשורת לשרת';
                     document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
                     document.getElementById("exitConfirm").classList.add("confirmBoxBtnHidden");
                     document.getElementById("Resend").classList.remove("confirmBoxBtnHidden");
