@@ -1,0 +1,1931 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title class="translatable">פרמטרים למערכת חביות</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" rel="stylesheet"/>
+<link href="style.css" rel="stylesheet"/>
+<link href="assets/pics/hatch_logoblack_clear_Background.png" rel="shortcut icon" type="image/x-icon"/>
+</head>
+<body id="bodyBox">
+<div id="login-container" class="login-container">
+        <div class="translatable login-container-h1">הכנס פרטי משתמש</div>
+        <form id="login-form">
+            <div class="loginInput">
+                <a class="translatable">אימייל:</a>
+                <input type="email" id="login-email" placeholder="אימייל" required>
+            </div>
+            <div class="loginInput">
+                <a class="translatable">סיסמא:</a>
+                <div><input type="password" id="login-password" placeholder="סיסמא" required>
+                <label for="login-password"><img src="assets/pics/ShowPass.png" id="ShowPass" for="login-password"></div></label>
+            </div>
+            <div class="loginFormBottonsBox">
+                <div id="forgotPassword" class="forgotPassword clickable translatable">שכחתי סיסמא</div>
+                <button type="submit" class="confirmBoxBtn translatable" id="LoginBtn">כניסה</button>
+            </div>
+            <div id="loadingUserBox"></div>
+            <div id="resetPasswordBox" class="hiddenMain">
+                <div id="resetsPassMesseag"></div>
+                <button type="button" id="resetPassword" class="translatable confirmBoxBtn">איפוס סיסמא</button>
+                <button type="button" id="closeForgtBox" class="confirmBoxBtn translatable">סגור</button>
+            </div>
+        </form>
+        <div id="login-error-message" class="hiddenMain loginErr translatable"></div>
+    </div>
+
+<div id="hostLangOut"><div class="LangIndictor translatable initial_lang_location" id="LangIndictor">English</div></div>
+
+<div id="LogoutBox" class="hiddenMain">
+    <div id="LogoutMesseag" class="translatable">מחליף משתמש</div>
+    <div>
+        <img src="assets/pics/loading.png" class="loading" id="loading6">
+    </div>
+</div>
+
+<div class="hiddenMain" id="contenet">
+<div class="container-fluid MainBox">
+    <div class="headBox row">
+    <div class="h1Box col-12 col-md-5">
+    <div class="H1 translatable">עדכון פרמטרים במשטף חביות</div>
+    </div>
+    <div class="col-12 col-md-3">
+    <img class="logo img-fluid" src="assets/pics/hatch_logoblack_clear_Background.png"/>
+    </div>
+    <div class="col-12 col-md-2 HeadinfoBox">
+    <div class="Headinfo translatable">עדכון אחרון </div>
+    <div class="Headinfo">12/11/24 11:06PM</div>
+    <div class="Headinfo">V 5.1.5</div>
+    <div class="Headinfo translatable">© ישראל אטלו</div>
+    </div>
+    <div class="col-12 col-md-2 LangIndictorBox">
+        <div id="username-display" class="hiddenMain"></div>
+        <button class="formBtn translatable" id="logout-btn" type="button">החלף משתמש</button>
+        <div id="hostLangIn"></div>
+    </div>
+    </div>
+
+    <form id="control-form" method="POST">
+    <div class="formBox">
+    <div class="SubmitionBox" id="topSubmit">
+    <button class="formBtn translatable" id="sendTop" type="submit">עדכן נתונים</button>
+    <button class="formBtn translatable" id="showDefaultsTop" type="button">הצג נתוני ברירת מחדל</button>
+    <button class="formBtn translatable" id="reset-btn-top" type="button">איפוס לנתוני ברירת מחדל</button>
+    
+    </div>
+    <!-- stage 0 -->
+    <div class="functionBox container-fluid">
+    <div class="FirstfunctionLabel functionLabel row">
+    <div class="col-12 col-md-3">
+    <div class="translatable">סייקל בדיקה ראשוני</div>
+    </div>
+    <div class="col-12 col-md-3 FNCTTglBox">
+    <div>|</div>
+    <div class="FNCTglHouse" id="PrebootToggleHousing">
+    <div class="FNCTglBtn" id="PrebootToggleBtn">|||</div>
+    </div>
+    <div>O</div>
+    </div>
+    <div class="col-12 col-md-3">
+    <div class="translatable">חיישני לחץ</div>
+    <div class="note translatable">יפעל רק אם המתג המכני מופעל!</div>
+    </div>
+    <div class="col-12 col-md-3 FNCTTglBox">
+    <div>|</div>
+    <div class="FNCTglHouse" id="PressureToggleHousing">
+    <div class="FNCTglBtn" id="PresuureToggleBtn">|||</div>
+    </div>
+    <div>O</div>
+    </div>
+    </div>
+    </div>
+    <!-- stage 1 -->
+    <div class="functionBox container-fluid">
+    <div class="functionLabel cloapsable row" id="label1">
+    <div class="col translatable">שלב #1 דחיקת בירה החוצה עם אוויר</div>
+    <div class="col TglBtnBox"><img id="Tgl1" src="assets/pics/down.png"/></div>
+    </div>
+    <div class="functionInputs cloapsable row" id="stage1">
+    <div class="col-12 col-md-3 ParamterBox">
+    <label class="translatable" for="FirstAirPurgeRecure">כמות חזרות</label>
+    <input id="FirstAirPurgeRecure" min="1" name="FirstAirPurgeRecure" required="" type="number" value="{{ settings['FirstAirPurgeRecure'] }}"/>
+    <label class="valType translatable">פעמים</label>
+    </div>
+    <div class="col-12 col-md-5 ParamterBox">
+    <label class="translatable" for="FirstAirPurgeTon">משך כניסת אוויר בכל חזרה</label>
+    <input id="FirstAirPurgeTon" min="0.01" name="FirstAirPurgeTon" required="" step="0.01" type="number" value="{{ settings['FirstAirPurgeTon'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    <div class="col-12 col-md-4 ParamterBox">
+    <label class="translatable" for="FirstAirPurgeToff">משך ניקוז ללא אוויר בכל חזרה</label>
+    <input id="FirstAirPurgeToff" min="0.01" name="FirstAirPurgeToff" required="" step="0.01" type="number" value="{{ settings['FirstAirPurgeToff'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    </div>
+    </div>
+    <!-- stage 2-->
+    <div class="functionBox container-fluid">
+    <div class="functionLabel row cloapsable" id="label2">
+    <div class="col translatable">שלב #2 שטיפה ראשונה במים</div>
+    <div class="col TglBtnBox"><img id="Tgl2" src="assets/pics/down.png"/></div>
+    </div>
+    <div class="cloapsable row" id="stage2">
+    <div class="functionInputs row fullborder">
+    <div class="col-12 ParamterBox">
+    <label class="translatable" for="InitialWaterFlud">משך מילוי מים ראשוני</label>
+    <input id="InitialWaterFlud" min="0.01" name="InitialWaterFlud" required="" step="0.01" type="number" value="{{ settings['InitialWaterFlud'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    </div>
+    <div class="functionSubLabel translatable">התזת מים בינונית</div>
+    <div class="functionInputs row fullborder">
+    <div class="col-12 col-md-3 ParamterBox">
+    <label class="translatable" for="recureMedSquirt">כמות חזרות</label>
+    <input id="recureMedSquirt" min="1" name="recureMedSquirt" required="" type="number" value="{{ settings['recureMedSquirt'] }}"/>
+    <label class="valType translatable">פעמים</label>
+    </div>
+    <div class="col-12 col-md-4 ParamterBox">
+    <label class="translatable" for="medSquirtWaterOn">משך כניסת מים בכל חזרה</label>
+    <input id="medSquirtWaterOn" min="0.01" name="medSquirtWaterOn" required="" step="0.01" type="number" value="{{ settings['medSquirtWaterOn'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    <div class="col-12 col-md-5 ParamterBox">
+    <label class="translatable" for="medSquirtWaterOff">משך ניקוז ללא מים בכל חזרה</label>
+    <input id="medSquirtWaterOff" min="0.01" name="medSquirtWaterOff" required="" step="0.01" type="number" value="{{ settings['medSquirtWaterOff'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    </div>
+    <div class="functionSubLabel translatable">התזת מים קצרה</div>
+    <div class="functionInputs row fullborder">
+    <div class="col-12 col-md-3 ParamterBox">
+    <label class="translatable" for="recureShortSquirt">כמות חזרות</label>
+    <input id="recureShortSquirt" min="1" name="recureShortSquirt" required="" type="number" value="{{ settings['recureShortSquirt'] }}"/>
+    <label class="valType translatable">פעמים</label>
+    </div>
+    <div class="col-12 col-md-4 ParamterBox">
+    <label class="translatable" for="ShortSquirtWaterOn">משך כניסת מים בכל חזרה</label>
+    <input id="ShortSquirtWaterOn" min="0.01" name="ShortSquirtWaterOn" required="" step="0.01" type="number" value="{{ settings['ShortSquirtWaterOn'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    <div class="col-12 col-md-5 ParamterBox">
+    <label class="translatable" for="ShortSquirtWaterOff">משך ניקוז ללא מים בכל חזרה</label>
+    <input id="ShortSquirtWaterOff" min="0.01" name="ShortSquirtWaterOff" required="" step="0.01" type="number" value="{{ settings['ShortSquirtWaterOff'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    </div>
+    <div class="functionSubLabel fullborder translatable">התזת מים ארוכה</div>
+    <div class="functionInputs row fullborder">
+    <div class="col-12 col-md-3 ParamterBox">
+    <label class="translatable" for="recureLongSquirt">כמות חזרות</label>
+    <input id="recureLongSquirt" min="1" name="recureLongSquirt" required="" type="number" value="{{ settings['recureLongSquirt'] }}"/>
+    <label class="valType translatable">פעמים</label>
+    </div>
+    <div class="col-12 col-md-4 ParamterBox">
+    <label class="translatable" for="LongSquirtWaterOn">משך כניסת מים בכל חזרה</label>
+    <input id="LongSquirtWaterOn" min="0.01" name="LongSquirtWaterOn" required="" step="0.01" type="number" value="{{ settings['LongSquirtWaterOn'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    <div class="col-12 col-md-5 ParamterBox">
+    <label class="translatable" for="LongSquirtWaterOff">משך ניקוז ללא מים בכל חזרה</label>
+    <input id="LongSquirtWaterOff" min="0.01" name="LongSquirtWaterOff" required="" step="0.01" type="number" value="{{ settings['LongSquirtWaterOff'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    </div>
+    <div class="functionSubLabel fullborder translatable">שטיפה במים יחד עם משאבה לבניית לחץ</div>
+    <div class="functionInputs row">
+    <div class="col-12 ParamterBox">
+    <label class="translatable" for="RinseWaterWithPump">משך שטיפה במים עם משאבה לבניית לחץ</label>
+    <input id="RinseWaterWithPump" min="0.01" name="RinseWaterWithPump" required="" step="0.01" type="number" value="{{ settings['RinseWaterWithPump'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    </div>
+    </div>
+    </div>
+    <!-- stage 3-->
+    <div class="functionBox container-fluid">
+    <div class="functionLabel cloapsable row" id="label3">
+    <div class="col translatable">שלב #3 דחיקת מים לאחר שטיפה ראשונה החוצה עם אוויר</div>
+    <div class="col TglBtnBox"><img id="Tgl3" src="assets/pics/down.png"/></div>
+    </div>
+    <div class="cloapsable row" id="stage3">
+    <div class="functionInputs row">
+    <div class="col-12 col-md-3 ParamterBox">
+    <label class="translatable" for="PostWaterPurgeRecure">כמות חזרות</label>
+    <input id="PostWaterPurgeRecure" min="1" name="PostWaterPurgeRecure" required="" type="number" value="{{ settings['PostWaterPurgeRecure'] }}"/>
+    <label class="valType translatable">פעמים</label>
+    </div>
+    <div class="col-12 col-md-4 ParamterBox">
+    <label class="translatable" for="PostWaterPurgeTon">משך כניסת אוויר בכל חזרה</label>
+    <input id="PostWaterPurgeTon" min="0.01" name="PostWaterPurgeTon" required="" step="0.01" type="number" value="{{ settings['PostWaterPurgeTon'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    <div class="col-12 col-md-5 ParamterBox">
+    <label class="translatable" for="PostWaterPurgeToff">משך ניקוז ללא אוויר בכל חזרה</label>
+    <input id="PostWaterPurgeToff" min="0.01" name="PostWaterPurgeToff" required="" step="0.01" type="number" value="{{ settings['PostWaterPurgeToff'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    </div>
+    </div>
+    </div>
+    <!-- stage 4-->
+    <div class="functionBox container-fluid">
+    <div class="functionLabel cloapsable row" id="label4">
+    <div class="col translatable">שלב #4 ניקוי בסודה קאוסטיק</div>
+    <div class="col TglBtnBox"><img id="Tgl4" src="assets/pics/down.png"/></div>
+    </div>
+    <div class="cloapsable row" id="stage4">
+    <div class="functionInputs row fullborder">
+    <div class="col-12 ParamterBox">
+    <label class="translatable" for="InitialCausticFlud">משך מילוי קאוסטיק ראשוני- ל2 החביות</label>
+    <input id="InitialCausticFlud" min="0.01" name="InitialCausticFlud" required="" step="0.01" type="number" value="{{ settings['InitialCausticFlud'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    </div>
+    <div class="functionInputs row fullborder">
+    <div class="col-12 col-lg-6 ParamterBox">
+    <label class="translatable" for="CausticRinseKeg1">משך רחיצה קאוסטיק חבית ימין</label>
+    <input id="CausticRinseKeg1" min="0.01" name="CausticRinseKeg1" required="" step="0.01" type="number" value="{{ settings['CausticRinseKeg1'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    <div class="col-12 col-lg-6 ParamterBox">
+    <label class="translatable" for="CausticRinseKeg2">משך רחיצה קאוסטיק חבית שמאל</label>
+    <input id="CausticRinseKeg2" min="0.01" name="CausticRinseKeg2" required="" step="0.01" type="number" value="{{ settings['CausticRinseKeg2'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    </div>
+    <div class="functionSubLabel translatable">כניסת קאוסטיק לחבית ללא יציאת הקאוסטיק לבניית לחץ</div>
+    <div class="functionInputs row fullborder">
+    <div class="col-12 col-lg-6 ParamterBox">
+    <label class="translatable" for="pressurizeCausticInKeg">משך דחיסת הקאוסטיק לחבית</label>
+    <input id="pressurizeCausticInKeg" min="0.01" name="pressurizeCausticInKeg" required="" step="0.01" type="number" value="{{ settings['pressurizeCausticInKeg'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    <div class="col-12 col-lg-6 ParamterBox">
+    <label class="translatable" for="causticSoakInKeg">משך השריית קאוסטיק בחבית בלחץ</label>
+    <input id="causticSoakInKeg" min="0.01" name="causticSoakInKeg" required="" step="0.01" type="number" value="{{ settings['causticSoakInKeg'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    </div>
+    <div class="functionInputs row fullborder">
+    <div class="col-12 ParamterBox">
+    <label class="translatable" for="SecondCausticFlud">משך מילוי קאוסטיק שני- ל2 החביות</label>
+    <input id="SecondCausticFlud" min="0.01" name="SecondCausticFlud" required="" step="0.01" type="number" value="{{ settings['SecondCausticFlud'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    </div>
+    <div class="functionSubLabel fullborder translatable">התזת קאוסטיק קצרה</div>
+    <div class="functionInputs row fullborder">
+    <div class="col-12 col-md-6 col-lg-3 ParamterBox">
+    <label class="translatable" for="recureShortCausticSquirt">כמות חזרות</label>
+    <input id="recureShortCausticSquirt" min="1" name="recureShortCausticSquirt" required="" type="number" value="{{ settings['recureShortCausticSquirt'] }}"/>
+    <label class="valType translatable">פעמים</label>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4 ParamterBox">
+    <label class="translatable" for="CausticSquirtPumpOn">משך הפעלת משאבה</label>
+    <input id="CausticSquirtPumpOn" min="0.01" name="CausticSquirtPumpOn" required="" step="0.01" type="number" value="{{ settings['CausticSquirtPumpOn'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    <div class="col-12 col-lg-5 ParamterBox">
+    <label class="translatable" for="CausticSquirtPumpOff">משך כיבוי משאבה</label>
+    <input id="CausticSquirtPumpOff" min="0.01" name="CausticSquirtPumpOff" required="" step="0.01" type="number" value="{{ settings['CausticSquirtPumpOff'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    </div>
+    <div class="functionSubLabel fullborder translatable">התזת קאוסטיק בשילוב אוויר</div>
+    <div class="functionInputs row fullborder">
+    <div class="col-12 col-md-6 ParamterBox">
+    <label class="translatable" for="recurePurgeCausticSquirt">כמות חזרות</label>
+    <input id="recurePurgeCausticSquirt" min="1" name="recureShortCausticSquirt" required="" type="number" value="{{ settings['recureShortCausticSquirt'] }}"/>
+    <label class="valType translatable">פעמים</label>
+    </div>
+    <div class="col-12 col-md-6 ParamterBox">
+    <label class="translatable" for="airAndPumpIntervale">אינטרוול אוויר ומשאבה</label>
+    <input id="airAndPumpIntervale" min="0.01" name="airAndPumpIntervale" required="" step="0.01" type="number" value="{{ settings['airAndPumpIntervale'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    </div>
+    <div class="functionSubLabel fullborder translatable">התזת קאוסטיק ארוכה- לאחר התזה בשילוב אוויר</div>
+    <div class="functionInputs row">
+    <div class="col-12 col-md-3 ParamterBox">
+    <label class="translatable" for="recureLastCausticSquirt">כמות חזרות</label>
+    <input id="recureLastCausticSquirt" min="1" name="recureLastCausticSquirt" required="" type="number" value="{{ settings['recureLastCausticSquirt'] }}"/>
+    <label class="valType translatable">פעמים</label>
+    </div>
+    <div class="col-12 col-md-4 ParamterBox">
+    <label class="translatable" for="CausticLastSquirtPumpOn">משך הפעלת משאבה</label>
+    <input id="CausticLastSquirtPumpOn" min="0.01" name="CausticLastSquirtPumpOn" required="" step="0.01" type="number" value="{{ settings['CausticLastSquirtPumpOn'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    <div class="col-12 col-md-5 ParamterBox">
+    <label class="translatable" for="CausticLastSquirtPumpOff">משך כיבוי משאבה</label>
+    <input id="CausticLastSquirtPumpOff" min="0.01" name="CausticLastSquirtPumpOff" required="" step="0.01" type="number" value="{{ settings['CausticLastSquirtPumpOff'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    </div>
+    </div>
+    </div>
+    <!-- stage 5-->
+    <div class="functionBox container-fluid">
+    <div class="functionLabel cloapsable row" id="label5">
+    <div class="col translatable">שלב #5 דחיקת סודה קאוסטיק החוצה עם אוויר</div>
+    <div class="col TglBtnBox"><img id="Tgl5" src="assets/pics/down.png"/></div>
+    </div>
+    <div class="functionInputs cloapsable row" id="stage5">
+    <div class="col-12 col-md-3 ParamterBox">
+    <label class="translatable" for="PostCausticPurgeRecure">כמות חזרות</label>
+    <input id="PostCausticPurgeRecure" min="1" name="PostCausticPurgeRecure" required="" type="number" value="{{ settings['PostCausticPurgeRecure'] }}"/>
+    <label class="valType translatable">פעמים</label>
+    </div>
+    <div class="col-12 col-md-4 ParamterBox">
+    <label class="translatable" for="PostCausticPurgeTon">משך כניסת אוויר בכל חזרה</label>
+    <input id="PostCausticPurgeTon" min="0.01" name="PostCausticPurgeTon" required="" step="0.01" type="number" value="{{ settings['PostCausticPurgeTon'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    <div class="col-12 col-md-5 ParamterBox">
+    <label class="translatable" for="PostCausticPurgeToff">משך ניקוז ללא אוויר בכל חזרה</label>
+    <input id="PostCausticPurgeToff" min="0.01" name="PostCausticPurgeToff" required="" step="0.01" type="number" value="{{ settings['PostCausticPurgeToff'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    </div>
+    </div>
+    <!-- stage 6-->
+    <div class="functionBox container-fluid">
+    <div class="functionLabel cloapsable row" id="label6">
+    <div class="col translatable">שלב #6 שטיפה במים לאחר ניקוי קאוסטיק</div>
+    <div class="col TglBtnBox"><img id="Tgl6" src="assets/pics/down.png"/></div>
+    </div>
+    <div class="cloapsable row" id="stage6">
+    <div class="functionInputs row fullborder">
+    <div class="col-12 col-md-3 ParamterBox">
+    <label class="translatable" for="postCausticWaterRinseRecure">כמות שטיפות</label>
+    <input id="postCausticWaterRinseRecure" min="1" name="postCausticWaterRinseRecure" required="" type="number" value="{{ settings['postCausticWaterRinseRecure'] }}"/>
+    <label class="valType translatable">פעמים</label>
+    </div>
+    </div>
+    <div class="col-12 functionSubLabel translatable">התזת מים בכל שטיפה</div>
+    <div class="functionInputs row">
+    <div class="col-12 col-md-3 ParamterBox">
+    <label class="translatable" for="postCausticWaterRinseRecureEachRins">כמות חזרות</label>
+    <input id="postCausticWaterRinseRecureEachRins" min="1" name="postCausticWaterRinseRecureEachRins" required="" type="number" value="{{ settings['postCausticWaterRinseRecureEachRins'] }}"/>
+    <label class="valType translatable">פעמים</label>
+    </div>
+    <div class="col-12 col-md-4 ParamterBox">
+    <label class="translatable" for="postCausticWaterRinseOn">משך כניסת מים בכל חזרה</label>
+    <input id="postCausticWaterRinseOn" min="0.01" name="postCausticWaterRinseOn" required="" step="0.01" type="number" value="{{ settings['postCausticWaterRinseOn'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    <div class="col-12 col-md-5 ParamterBox">
+    <label class="translatable" for="postCausticWaterRinseOf">משך ניקוז ללא מים בכל חזרה</label>
+    <input id="postCausticWaterRinseOf" min="0.01" name="postCausticWaterRinseOf" required="" step="0.01" type="number" value="{{ settings['postCausticWaterRinseOf'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    </div>
+    </div>
+    </div>
+    <!-- stage 7-->
+    <div class="functionBox container-fluid">
+    <div class="functionLabel cloapsable row" id="label7">
+    <div class="col translatable">שלב #7 חיטוי בחומצה פראצטית</div>
+    <div class="col TglBtnBox"><img id="Tgl7" src="assets/pics/down.png"/></div>
+    </div>
+    <div class="cloapsable row" id="stage7">
+    <div class="functionInputs row fullborder reduceFont">
+    <div class="col-12 col-md-4 ParamterBox">
+    <label class="translatable" for="SanitizeInitialKeg1">משך מילוי פראצטית חבית ימין</label>
+    <input id="SanitizeInitialKeg1" min="0.01" name="SanitizeInitialKeg1" required="" step="0.01" type="number" value="{{ settings['SanitizeInitialKeg1'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    <div class="col-12 col-md-4 ParamterBox">
+    <label class="translatable" for="SanitizeInitialKeg2">משך מילוי פראצטית חבית שמאל</label>
+    <input id="SanitizeInitialKeg2" min="0.01" name="SanitizeInitialKeg2" required="" step="0.01" type="number" value="{{ settings['SanitizeInitialKeg2'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    <div class="col-12 col-md-4 ParamterBox">
+    <label class="translatable" for="SanitizeInitialBothKegs">משך מילוי פראצטית ל2 החביות</label>
+    <input id="SanitizeInitialBothKegs" min="0.01" name="SanitizeInitialBothKegs" required="" step="0.01" type="number" value="{{ settings['SanitizeInitialBothKegs'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    </div>
+    <div class="functionSubLabel fullborder translatable">התזת פראצטית ראשונה</div>
+    <div class="functionInputs row fullborder">
+    <div class="col-12 col-md-3 ParamterBox">
+    <label class="translatable" for="paaInitialPumpRecure">כמות חזרות</label>
+    <input id="paaInitialPumpRecure" min="1" name="paaInitialPumpRecure" required="" type="number" value="{{ settings['paaInitialPumpRecure'] }}"/>
+    <label class="valType translatable">פעמים</label>
+    </div>
+    <div class="col-12 col-md-4 ParamterBox">
+    <label class="translatable" for="paaInitialPumpOn">משך הפעלת משאבה</label>
+    <input id="paaInitialPumpOn" min="0.01" name="paaInitialPumpOn" required="" step="0.01" type="number" value="{{ settings['paaInitialPumpOn'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    <div class="col-12 col-md-5 ParamterBox">
+    <label class="translatable" for="paaInitialPumpOff">משך כיבוי משאבה</label>
+    <input id="paaInitialPumpOff" min="0.01" name="paaInitialPumpOff" required="" step="0.01" type="number" value="{{ settings['paaInitialPumpOff'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    </div>
+    <div class="functionSubLabel fullborder translatable">התזת פראצטית בשילוב CO2</div>
+    <div class="functionInputs row fullborder">
+    <div class="col-12 col-md-6 ParamterBox">
+    <label class="translatable" for="paaSquirtRecure">כמות חזרות</label>
+    <input id="paaSquirtRecure" min="1" name="paaSquirtRecure" required="" type="number" value="{{ settings['paaSquirtRecure'] }}"/>
+    <label class="valType translatable">פעמים</label>
+    </div>
+    <div class="col-12 col-md-6 ParamterBox">
+    <label class="translatable" for="Co2PumpIntervale">אינטרוול CO2 ומשאבה</label>
+    <input id="Co2PumpIntervale" min="0.01" name="Co2PumpIntervale" required="" step="0.01" type="number" value="{{ settings['Co2PumpIntervale'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    </div>
+    <div class="functionSubLabel fullborder translatable">חיטוי פראצטית ארוך לשני החביות- לאחר התזה בשילוב CO2</div>
+    <div class="functionInputs row">
+    <div class="col-12 ParamterBox">
+    <label class="translatable" for="postSquirtSanitizeBothKegs">משך חיטוי פראצטית ארוך לשני החביות</label>
+    <input id="postSquirtSanitizeBothKegs" min="0.01" name="postSquirtSanitizeBothKegs" required="" step="0.01" type="number" value="{{ settings['postSquirtSanitizeBothKegs'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    </div>
+    </div>
+    </div>
+    <!-- stage 8 -->
+    <div class="functionBox container-fluid">
+    <div class="functionLabel cloapsable row" id="label8">
+    <div class="col translatable">שלב #8 דחיקת חומצה פראצטית החוצה עם CO2</div>
+    <div class="col TglBtnBox"><img id="Tgl8" src="assets/pics/down.png"/></div>
+    </div>
+    <div class="cloapsable row" id="stage8">
+    <div class="functionSubLabel fullborder translatable">חבית ימין</div>
+    <div class="functionInputs row fullborder">
+    <div class="col-12 col-md-3 ParamterBox">
+    <label class="translatable" for="co2PurgeKeg1Recure">כמות חזרות</label>
+    <input id="co2PurgeKeg1Recure" min="1" name="co2PurgeKeg1Recure" required="" type="number" value="{{ settings['co2PurgeKeg1Recure'] }}"/>
+    <label class="valType translatable">פעמים</label>
+    </div>
+    <div class="col-12 col-md-4 ParamterBox">
+    <label class="translatable" for="co2PurgeKeg1Open">משך כניסת CO2 בכל חזרה</label>
+    <input id="co2PurgeKeg1Open" min="0.01" name="co2PurgeKeg1Open" required="" step="0.01" type="number" value="{{ settings['co2PurgeKeg1Open'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    <div class="col-12 col-md-5 ParamterBox">
+    <label class="translatable" for="co2PurgeKeg1Closed">משך ניקוז ללא CO2 בכל חזרה</label>
+    <input id="co2PurgeKeg1Closed" min="0.01" name="co2PurgeKeg1Closed" required="" step="0.01" type="number" value="{{ settings['co2PurgeKeg1Closed'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    </div>
+    <div class="functionSubLabel fullborder translatable">חבית שמאל</div>
+    <div class="functionInputs row fullborder">
+    <div class="col-12 col-md-3 ParamterBox">
+    <label class="translatable" for="co2PurgeKeg2Recure">כמות חזרות</label>
+    <input id="co2PurgeKeg2Recure" min="1" name="co2PurgeKeg2Recure" required="" type="number" value="{{ settings['co2PurgeKeg2Recure'] }}"/>
+    <label class="valType translatable">פעמים</label>
+    </div>
+    <div class="col-12 col-md-4 ParamterBox">
+    <label class="translatable" for="co2PurgeKeg2Open">משך כניסת CO2 בכל חזרה</label>
+    <input id="co2PurgeKeg2Open" min="0.01" name="co2PurgeKeg2Open" required="" step="0.01" type="number" value="{{ settings['co2PurgeKeg2Open'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    <div class="col-12 col-md-5 ParamterBox">
+    <label class="translatable" for="co2PurgeKeg2Closed">משך ניקוז ללא CO2 בכל חזרה</label>
+    <input id="co2PurgeKeg2Closed" min="0.01" name="co2PurgeKeg2Closed" required="" step="0.01" type="number" value="{{ settings['co2PurgeKeg2Closed'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    </div>
+    <div class="functionSubLabel fullborder translatable">חבית ימין ושמאל יחד</div>
+    <div class="functionInputs row">
+    <div class="col-12 col-md-6 ParamterBox">
+    <label class="translatable" for="co2PurgeBothKegsOpen">משך דחיקת פראצטית החוצה עם CO2 ל 2 החביות</label>
+    <input id="co2PurgeBothKegsOpen" min="0.01" name="co2PurgeBothKegsOpen" required="" step="0.01" type="number" value="{{ settings['co2PurgeBothKegsOpen'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    <div class="col-12 col-md-6 ParamterBox">
+    <label class="translatable" for="co2PurgeBothKegsClosed">משך ניקוז פראצטית החוצה ללא CO2 ל 2 החביות</label>
+    <input id="co2PurgeBothKegsClosed" min="0.01" name="co2PurgeBothKegsClosed" required="" step="0.01" type="number" value="{{ settings['co2PurgeBothKegsClosed'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    </div>
+    </div>
+    </div>
+    <!-- stage 9 -->
+    <div class="functionBox container-fluid">
+    <div class="functionLabel row cloapsable" id="label9">
+    <div class="col translatable">שלב #9 בניית לחץ בחבית עם CO2</div>
+    <div class="col TglBtnBox"><img id="Tgl9" src="assets/pics/down.png"/></div>
+    </div>
+    <div class="cloapsable row" id="stage9">
+    <div class="functionInputs row fullborder">
+    <div class="col-12 col-md-6 ParamterBox">
+    <label class="translatable" for="kegPdestination">לחץ יעד</label>
+    <input disabled="" id="kegPdestination" min="0.1" name="kegPdestination" required="" step="0.1" type="number" value="{{ settings['kegPdestination'] }}"/>
+    <label class="valType">PSI</label>
+    </div>
+    <div class="col-12 col-md-6 ParamterBox">
+    <label class="translatable" for="TimeOutPdestination">משך המתנה להגעה ליעד</label>
+    <input disabled="" id="TimeOutPdestination" min="0.01" name="TimeOutPdestination" required="" step="0.01" type="number" value="{{ settings['TimeOutPdestination'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    </div>
+    <div class="functionInputs row">
+    <div class="col-12 col-md-6 ParamterBox">
+    <label class="translatable" for="PostTimeOutBuildP">משך בניית לחץ לאחר המתנה במידה ולא הגיע ללחץ יעד</label>
+    <input disabled="" id="PostTimeOutBuildP" min="0.01" name="PostTimeOutBuildP" required="" step="0.01" type="number" value="{{ settings['PostTimeOutBuildP'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    <div class="col-12 col-md-6 ParamterBox">
+    <label class="translatable" for="PTimeWhenSensorDisabled">משך בניית לחץ במידה ומתג חיישני לחץ כבוי</label>
+    <input id="PTimeWhenSensorDisabled" min="0.01" name="PTimeWhenSensorDisabled" required="" step="0.01" type="number" value="{{ settings['PTimeWhenSensorDisabled'] }}"/>
+    <label class="valType translatable">שניות</label>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="SubmitionBox" id="BottomSubmit">
+    <button class="formBtn translatable" id="send" type="submit">עדכן נתונים</button>
+    <button class="formBtn translatable" id="showDefaults" type="button">הצג נתוני ברירת מחדל</button>
+    <button class="formBtn translatable" id="reset-btn" type="button">איפוס לנתוני ברירת מחדל</button>
+    </div>
+    </div>
+    </form>
+
+    <div class="hiddenBox" id="confirmBox">
+    <div id="conirmContent"></div>
+    <button class="confirmBoxBtn translatable" id="exitConfirm">אישור</button>
+    <button class="confirmBoxBtnHidden translatable" id="Reload">טעינה מחדש</button>
+    <button class="confirmBoxBtnHidden translatable" id="Resend">שליחה מחדש</button>
+    <button class="confirmBoxBtnHidden translatable" id="Reset">איפוס נתונים מחדש</button>
+    <button class="confirmBoxBtnHidden translatable" id="RelogIn">כניסה מחדש</button>
+    </div>
+
+    <div class="hiddenValBox" id="DefValDisplayBox">
+    <div class="col exitBtnBox"><img id="CloseDefaultValBox" src="assets/pics/Close.png"/></div>
+    <div class="DowloadBox" id="topSubmit">
+    <form action="assets/docs/Default_Parameters.pdf" method="get" target="_blank">
+    <button class="formBtn translatable" id="DownloadPdfTop" type="submit">שמור כקובץ PDF</button>
+    </form>
+    </div>
+        <!-- stage 0 -->
+        <div class="row">
+        <div class="col-12 col-md-6 DefeStageRow" id="stage0_1">
+        <div class="DefAtribute translatable">סייקל בדיקה ראשוני</div>
+        <div class="DefVal translatable">דלוק</div>
+        </div>
+        <div class="col-12 col-md-6 DefeStageRow" id="stage0_2">
+        <div class="DefAtribute"><div class="translatable">חיישני לחץ</div>
+            <div class="note translatable">יפעל רק אם המתג המכני מופעל!</div></div>
+        <div class="DefVal translatable">כבוי</div>
+        </div>
+        </div>
+        <div class="DefValBox">
+        <!-- stage 1 -->
+        <div class="col-12 DefeStageLabel" id="label10"><div class="translatable">שלב #1 דחיקת בירה החוצה עם אוויר</div>
+                                <div class="ValDiVTglBtnBox"><img id="Tgl10" src="assets/pics/down.png"/></div></div>
+        <div class="row defStageBox" id="stage10">
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable" for="FirstAirPurgeRecure">כמות חזרות</div>
+        <div class="note translatable">במידה ולאחר סיום- כפתור ההפעלה לחוץ, יפעל שוב- עד לעזיבת הכפתור</div>
+        <div class="DefVal">1</div>
+        <div class="DefSpec translatable">פעמים</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable" for="FirstAirPurgeTon">משך כניסת אוויר בכל חזרה</div>
+        <div class="DefVal">1</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable" for="FirstAirPurgeToff">משך ניקוז ללא אוויר בכל חזרה</div>
+        <div class="DefVal">1.5</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        </div>
+        <!-- stage 2-->
+        <div class="col-12 DefeStageLabel" id="label11"><div class="translatable">שלב #2 שטיפה ראשונה במים</div>
+                                <div class="ValDiVTglBtnBox"><img id="Tgl11" src="assets/pics/down.png"/></div></div>
+        <div class="row defStageBox" id="stage11">
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable" for="InitialWaterFlud">משך מילוי מים ראשוני</div>
+        <div class="DefVal">4</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="d-none d-md-block col-md-8 DefeStageRow"></div>
+        <div class="col-12 DefeStageLabel functionSubLabel translatable">התזת מים בינונית</div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable" for="recureMedSquirt">כמות חזרות</div>
+        <div class="DefVal">6</div>
+        <div class="DefSpec translatable">פעמים</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable" for="medSquirtWaterOn">משך כניסת מים בכל חזרה</div>
+        <div class="DefVal">0.4</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable" for="medSquirtWaterOff">משך ניקוז ללא מים בכל חזרה</div>
+        <div class="DefVal">0.3</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 DefeStageLabel functionSubLabel translatable">התזת מים קצרה</div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">כמות חזרות</div>
+        <div class="DefVal">5</div>
+        <div class="DefSpec translatable">פעמים</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך כניסת מים בכל חזרה</div>
+        <div class="DefVal">0.2</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך ניקוז ללא מים בכל חזרה</div>
+        <div class="DefVal">0.15</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 DefeStageLabel functionSubLabel translatable">התזת מים ארוכה</div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">כמות חזרות</div>
+        <div class="DefVal">5</div>
+        <div class="DefSpec translatable">פעמים</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך כניסת מים בכל חזרה </div>
+        <div class="DefVal">1.6</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך ניקוז ללא מים בכל חזרה </div>
+        <div class="DefVal">1.6</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 DefeStageLabel functionSubLabel translatable">שטיפה במים יחד עם משאבה לבניית לחץ</div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך שטיפה במים עם משאבה לבניית לחץ</div>
+        <div class="DefVal">11</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="d-none d-md-block col-md-8 DefeStageRow"></div>
+        </div>
+        <!-- stage 3-->
+        <div class="col-12 DefeStageLabel" id="label12"><div class="translatable">שלב #3 דחיקת מים לאחר שטיפה ראשונה החוצה עם אוויר</div>
+                                <div class="ValDiVTglBtnBox"><img id="Tgl12" src="assets/pics/down.png"/></div></div>
+        <div class="row defStageBox" id="stage12">
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">כמות חזרות</div>
+        <div class="DefVal">5</div>
+        <div class="DefSpec translatable">פעמים</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך כניסת אוויר בכל חזרה </div>
+        <div class="DefVal">1</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך ניקוז ללא אוויר בכל חזרה </div>
+        <div class="DefVal">2</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        </div>
+        <!-- stage 4-->
+        <div class="col-12 DefeStageLabel" id="label13"><div class="translatable">שלב #4 ניקוי בסודה קאוסטיק</div>
+                                <div class="ValDiVTglBtnBox"><img id="Tgl13" src="assets/pics/down.png"/></div></div>
+        <div class="row defStageBox" id="stage13">
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך מילוי קאוסטיק ראשוני- ל2 החביות </div>
+        <div class="DefVal">5</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך רחיצה קאוסטיק חבית ימין </div>
+        <div class="DefVal">15</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך רחיצה קאוסטיק חבית שמאל </div>
+        <div class="DefVal">15</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 DefeStageLabel functionSubLabel translatable">כניסת קאוסטיק לחבית ללא יציאת הקאוסטיק לבניית לחץ</div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך דחיסת הקאוסטיק לחבית </div>
+        <div class="DefVal">10</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך השריית קאוסטיק בחבית בלחץ </div>
+        <div class="DefVal">15</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך מילוי קאוסטיק שני- ל2 החביות </div>
+        <div class="DefVal">15</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 functionSubLabel translatable">התזת קאוסטיק קצרה</div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">כמות חזרות</div>
+        <div class="DefVal">15</div>
+        <div class="DefSpec translatable">פעמים</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך הפעלת משאבה </div>
+        <div class="DefVal">0.3</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך כיבוי משאבה </div>
+        <div class="DefVal">0.3</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 functionSubLabel translatable">התזת קאוסטיק בשילוב אוויר</div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">כמות חזרות</div>
+        <div class="DefVal">7</div>
+        <div class="DefSpec translatable">פעמים</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">אינטרוול אוויר ומשאבה </div>
+        <div class="DefVal">0.2</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="d-none d-md-block col-md-4 DefeStageRow"></div>
+        <div class="col-12 functionSubLabel translatable">התזת קאוסטיק ארוכה- לאחר התזה בשילוב אוויר</div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">כמות חזרות</div>
+        <div class="DefVal">7</div>
+        <div class="DefSpec translatable">פעמים</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך הפעלת משאבה </div>
+        <div class="DefVal">1.2</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך כיבוי משאבה </div>
+        <div class="DefVal">1.2</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        </div>
+        <!-- stage 5-->
+        <div class="col-12 DefeStageLabel" id="label14"><div class="translatable">שלב #5 דחיקת סודה קאוסטיק החוצה עם אוויר</div>
+                                <div class="ValDiVTglBtnBox"><img id="Tgl14" src="assets/pics/down.png"/></div></div>
+        <div class="row defStageBox" id="stage14">
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">כמות חזרות</div>
+        <div class="DefVal">3</div>
+        <div class="DefSpec translatable">פעמים</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך כניסת אוויר בכל חזרה</div>
+        <div class="DefVal">0.75</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך ניקוז ללא אוויר בכל חזרה</div>
+        <div class="DefVal">1</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        </div>
+        <!-- stage 6-->
+        <div class="col-12 DefeStageLabel" id="label15"><div class="translatable">שלב #6 שטיפה במים לאחר ניקוי קאוסטיק</div>
+                                <div class="ValDiVTglBtnBox"><img id="Tgl15" src="assets/pics/down.png"/></div></div>
+        <div class="row defStageBox" id="stage15">
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">כמות שטיפות</div>
+        <div class="DefVal">3</div>
+        <div class="DefSpec translatable">פעמים</div>
+        </div>
+        <div class="d-none d-md-block col-md-8 DefeStageRow"></div>
+        <div class="col-12 functionSubLabel translatable">התזת מים בכל שטיפה</div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">כמות חזרות</div>
+        <div class="DefVal">5</div>
+        <div class="DefSpec translatable">פעמים</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך כניסת מים בכל חזרה</div>
+        <div class="DefVal">1</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך ניקוז ללא מים בכל חזרה</div>
+        <div class="DefVal">2</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        </div>
+        <!-- stage 7-->
+        <div class="col-12 DefeStageLabel" id="label16"><div class="translatable">שלב #7 חיטוי בחומצה פראצטית</div>
+                                <div class="ValDiVTglBtnBox"><img id="Tgl16" src="assets/pics/down.png"/></div></div>
+        <div class="row defStageBox" id="stage16">
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך מילוי פראצטית חבית ימין</div>
+        <div class="DefVal">35</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך מילוי פראצטית חבית שמאל</div>
+        <div class="DefVal">35</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך מילוי פראצטית ל2 החביות</div>
+        <div class="DefVal">10</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 functionSubLabel translatable">התזת פראצטית ראשונה</div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">כמות חזרות</div>
+        <div class="DefVal">15</div>
+        <div class="DefSpec translatable">פעמים</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך הפעלת משאבה</div>
+        <div class="DefVal">0.3</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך כיבוי משאבה</div>
+        <div class="DefVal">0.3</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 functionSubLabel translatable">התזת פראצטית בשילוב CO2</div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">כמות חזרות</div>
+        <div class="DefVal">7</div>
+        <div class="DefSpec translatable">פעמים</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">אינטרוול CO2 ומשאבה</div>
+        <div class="DefVal">1.2</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="d-none d-md-block col-md-4 DefeStageRow"></div>
+        <div class="col-12 functionSubLabel translatable">חיטוי פראצטית ארוך לשני החביות- לאחר התזה בשילוב CO2</div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך חיטוי פראצטית ארוך לשני החביות</div>
+        <div class="DefVal">10</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="d-none d-md-block col-md-8 DefeStageRow"></div>
+        </div>
+        <!-- stage 8 -->
+        <div class="col-12 DefeStageLabel" id="label17"><div class="translatable">שלב #8 דחיקת חומצה פראצטית החוצה עם CO2</div>
+                                <div class="ValDiVTglBtnBox"><img id="Tgl17" src="assets/pics/down.png"/></div></div>
+        <div class="row defStageBox" id="stage17">
+        <div class="col-12 functionSubLabel translatable">חבית ימין</div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">כמות חזרות</div>
+        <div class="DefVal">9</div>
+        <div class="DefSpec translatable">פעמים</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך כניסת CO2 בכל חזרה</div>
+        <div class="DefVal">0.7</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך ניקוז ללא CO2 בכל חזרה</div>
+        <div class="DefVal">2.4</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 functionSubLabel translatable">חבית שמאל</div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">כמות חזרות</div>
+        <div class="DefVal">9</div>
+        <div class="DefSpec translatable">פעמים</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך כניסת CO2 בכל חזרה</div>
+        <div class="DefVal">0.7</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך ניקוז ללא CO2 בכל חזרה</div>
+        <div class="DefVal">2.4</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 functionSubLabel translatable">חבית ימין ושמאל יחד</div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך דחיקת פראצטית החוצה עם CO2 ל 2 החביות</div>
+        <div class="DefVal">5</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 col-md-4 DefeStageRow">
+        <div class="translatable">משך ניקוז פראצטית החוצה ללא CO2 ל 2 החביות</div>
+        <div class="DefVal">5</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="d-none d-md-block col-md-4 DefeStageRow"></div>
+        </div>
+        <!-- stage 9 -->
+        <div class="col-12 DefeStageLabel" id="label18"><div class="translatable">שלב #9 בניית לחץ בחבית עם CO2</div>
+                                <div class="ValDiVTglBtnBox"><img id="Tgl18" src="assets/pics/down.png"/></div></div>
+        <div class="row defStageBox" id="stage18">
+        <div class="col-12 col-md-6 DefeStageRow">
+        <div class="translatable">לחץ יעד</div>
+        <div class="DefVal">15</div>
+        <div class="DefSpec">PSI</div>
+        </div>
+        <div class="col-12 col-md-6 DefeStageRow">
+        <div class="translatable">משך המתנה להגעה ליעד</div>
+        <div class="DefVal">12</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 col-md-6 DefeStageRow PreLastdefStageRow">
+        <div class="translatable">משך בניית לחץ לאחר המתנה במידה ולא הגיע ללחץ יעד</div>
+        <div class="DefVal">15</div>
+        <div class="DefSpec translatable">שניות</div>
+        </div>
+        <div class="col-12 col-md-6 DefeStageRow LastdefStageRow">
+        <div class="translatable">משך בניית לחץ במידה ומתג חיישני לחץ כבוי</div>
+        <div class="DefVal">35</div>
+        <div class="DefSpec translatable">שניות</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<script>//main script
+        const attributes = [
+    "preboobotMeteg","pressureMeteg","FirstAirPurgeRecure", "FirstAirPurgeTon", "FirstAirPurgeToff", "InitialWaterFlud",
+    "recureMedSquirt", "medSquirtWaterOn", "medSquirtWaterOff", "recureShortSquirt", 
+    "ShortSquirtWaterOn", "ShortSquirtWaterOff", "recureLongSquirt", "LongSquirtWaterOn", 
+    "LongSquirtWaterOff", "RinseWaterWithPump", "PostWaterPurgeRecure", "PostWaterPurgeTon", 
+    "PostWaterPurgeToff", "InitialCausticFlud", "CausticRinseKeg1", "CausticRinseKeg2", 
+    "pressurizeCausticInKeg", "causticSoakInKeg", "SecondCausticFlud", "recureShortCausticSquirt", 
+    "CausticSquirtPumpOn", "CausticSquirtPumpOff", "recurePurgeCausticSquirt", 
+    "airAndPumpIntervale", "recureLastCausticSquirt", "CausticLastSquirtPumpOn", 
+    "CausticLastSquirtPumpOff", "PostCausticPurgeRecure", "PostCausticPurgeTon", 
+    "PostCausticPurgeToff", "postCausticWaterRinseRecure","postCausticWaterRinseRecureEachRins", "postCausticWaterRinseOn", 
+    "postCausticWaterRinseOf", "SanitizeInitialKeg1", "SanitizeInitialKeg2", 
+    "SanitizeInitialBothKegs", "paaInitialPumpRecure", "paaInitialPumpOn", "paaInitialPumpOff", 
+    "paaSquirtRecure", "Co2PumpIntervale", "postSquirtSanitizeBothKegs", "co2PurgeKeg1Recure", 
+    "co2PurgeKeg1Open", "co2PurgeKeg1Closed", "co2PurgeKeg2Recure", "co2PurgeKeg2Open", 
+    "co2PurgeKeg2Closed", "co2PurgeBothKegsOpen", "co2PurgeBothKegsClosed", "kegPdestination", "TimeOutPdestination", 
+    "PostTimeOutBuildP", "PTimeWhenSensorDisabled"
+];
+        
+        const disabledInputs= [
+        "kegPdestination", "TimeOutPdestination", "PostTimeOutBuildP"
+        ]
+
+        const LabelList = [
+        "PrebootToggleHousing",
+        "PressureToggleHousing",
+        "label1",
+        "label2",
+        "label3",
+        "label4",
+        "label5",
+        "label6",
+        "label7",
+        "label8",
+        "label9"
+        ]
+
+        const translationDictionary = {
+    "סגור":"Close",
+    "מחליף משתמש":"Changing user",
+    "מתנתק אוטומטית<br>המושב עבר":"Logging out- TIMEOUT",
+    "שכחתי סיסמא":"I forgot my password",
+    "אחד או שני פרטי הכניסה שגויים" : 'One ore both Details are wrong',
+    "איפוס סיסמא":"Reset Password",
+    "כניסה מחדש":"Retry logging in",
+    "English":"עברית",
+    "פרמטרים למערכת חביות": "Keg Washer Parameters",
+    "הכנס פרטי משתמש": "Enter User Details",
+    "אימייל:": "Email:",
+    "סיסמא:": "Password:",
+    "כניסה": "Login",
+    "© ישראל אטלו":"© Yisrael Atlow",
+    "עדכון פרמטרים במשטף חביות": "Update Parameters in Keg Washer",
+    "עדכון אחרון": "Last Update",
+    "גרסה": "Version",
+    "עדכן נתונים": "Update Data",
+    "הצג נתוני ברירת מחדל": "Show Default Data",
+    "איפוס לנתוני ברירת מחדל": "Reset to Default Data",
+    "החלף משתמש": "Switch User",
+    "לחץ יעד": "Target Pressure",
+    "חיטוי בחומצה פראצטית": "Sanitization with Peracetic Acid",
+    "סייקל בדיקה ראשוני": "Initial Test Cycle",
+    "חיישני לחץ": "Pressure Sensors",
+    "יפעל רק אם המתג המכני מופעל!": "Will only operate if the mechanical switch is activated!",
+    "שלב #1 דחיקת בירה החוצה עם אוויר": "Stage #1 Purging Out Beer with Air",
+    "כמות חזרות": "Number of Repeats",
+    "פעמים": "Times",
+    "משך כניסת אוויר בכל חזרה": "Duration of Air Inflow per Repetition",
+    "שניות": "Seconds",
+    "משך ניקוז ללא אוויר בכל חזרה": "Drain Duration without Air per Repetition",
+    "שלב #2 שטיפה ראשונה במים": "Stage #2 First Water Rinse",
+    "משך מילוי מים ראשוני": "Initial Water Fill Duration",
+    "התזת מים בינונית": "Medium Water Squirt",
+    "משך כניסת מים בכל חזרה": "Water Inflow Duration per Repetition",
+    "משך ניקוז ללא מים בכל חזרה": "Drain Duration without Water per Repetition",
+    "התזת מים קצרה": "Short Water Squirt",
+    "התזת מים ארוכה": "Long Water Squirt",
+    "משך שטיפה במים עם משאבה לבניית לחץ": "Water Rinse with Pressure-Building Pump",
+    "שטיפה במים יחד עם משאבה לבניית לחץ": "Water Rinse with Pressure-Building Pump",
+    "שלב #3 דחיקת מים לאחר שטיפה ראשונה החוצה עם אוויר": "Stage #3 Purging Water with Air after First Rinse",
+    "שלב #4 ניקוי בסודה קאוסטיק": "Stage #4 Caustic Cleaning",
+    "משך מילוי קאוסטיק ראשוני- ל2 החביות": "Initial Caustic Fill Duration - for Both Kegs",
+    "משך מילוי קאוסטיק ראשוני- ל2 החביות": "Initial Caustic Fill Duration - for Both Kegs",
+    "משך רחיצה קאוסטיק חבית ימין": "Caustic Rinse Duration for Right Keg",
+    "משך רחיצה קאוסטיק חבית שמאל": "Caustic Rinse Duration for Left Keg",
+    "כניסת קאוסטיק לחבית ללא יציאת הקאוסטיק לבניית לחץ": "Caustic Inflow to Keg without Caustic Outflow for Pressure Build-up",
+    "משך דחיסת הקאוסטיק לחבית": "Caustic Compression Duration into Keg",
+    "משך השריית קאוסטיק בחבית בלחץ": "Caustic Soak Duration in Keg under Pressure",
+    "משך מילוי קאוסטיק שני- ל2 החביות": "Second Caustic Fill Duration - for Both Kegs",
+    "התזת קאוסטיק קצרה": "Short Caustic Squirt",
+    "משך הפעלת משאבה": "Pump Activation Duration",
+    "משך כיבוי משאבה": "Pump Deactivation Duration",
+    "התזת קאוסטיק בשילוב אוויר": "Caustic Squirt with Air",
+    "אינטרוול אוויר ומשאבה": "Air and Pump Interval",
+    "התזת קאוסטיק ארוכה- לאחר התזה בשילוב אוויר": "Long Caustic Squirt - after Air Squirt",
+    "שלב #5 דחיקת סודה קאוסטיק החוצה עם אוויר": "Stage #5 Purging Caustic with Air",
+    "שלב #6 שטיפה במים לאחר ניקוי קאוסטיק": "Stage #6 Water Rinse after Caustic Cleaning",
+    "כמות שטיפות": "Number of Rinses",
+    "התזת מים בכל שטיפה": "Water Squirt per Rinse",
+    "שלב #7 חיטוי בחומצה פראצטית": "Stage #7 Sanitization with Peracetic Acid",
+    "משך מילוי פראצטית חבית ימין": "Peracetic Fill Duration for Right Keg",
+    "משך מילוי פראצטית חבית שמאל": "Peracetic Fill Duration for Left Keg",
+    "משך מילוי פראצטית ל2 החביות": "Peracetic Fill Duration for Both Kegs",
+    "התזת פראצטית ראשונה": "First Peracetic Squirt",
+    "התזת פראצטית בשילוב CO2": "Peracetic Squirt with CO2",
+    "אינטרוול CO2 ומשאבה": "CO2 and Pump Interval",
+    "חיטוי פראצטית ארוך לשני החביות- לאחר התזה בשילוב CO2": "Long Peracetic Sanitization for Both Kegs - after CO2 Squirt",
+    "שלב #8 דחיקת חומצה פראצטית החוצה עם CO2": "Stage #8 Purging Peracetic Acid with CO2",
+    "חבית ימין": "Right Keg",
+    "משך כניסת CO2 בכל חזרה": "CO2 Inflow Duration per Repetition",
+    "משך ניקוז ללא CO2 בכל חזרה": "Drain Duration without CO2 per Repetition",
+    "חבית שמאל": "Left Keg",
+    "חבית ימין ושמאל יחד": "Both Kegs Together",
+    "משך דחיקת פראצטית החוצה עם CO2 ל 2 החביות": "Peracetic Purging Duration with CO2 for Both Kegs",
+    "משך ניקוז פראצטית החוצה ללא CO2 ל 2 החביות": "Peracetic Drain Duration without CO2 for Both Kegs",
+    "משך חיטוי פראצטית ארוך לשני החביות":"Long Peracetic Sanitization for Both Kegs",
+    "שלב #9 בניית לחץ בחבית עם CO2": "Stage #9 Pressure Build-up in Keg with CO2",
+    "משך המתנה להגעה ליעד": "Wait Duration to Reach Target",
+    "משך בניית לחץ לאחר המתנה במידה ולא הגיע ללחץ יעד": "Pressure Build Duration after Wait if Target Pressure Not Reached",
+    "משך בניית לחץ במידה ומתג חיישני לחץ כבוי": "Pressure Build Duration if Pressure Sensor Switch is Off",
+    "שולח נתונים לשרת": "Sending Data to Server",
+    "ממתין לשרת": "Waiting for Server",
+    "אישור": "Confirm",
+    "טעינה מחדש": "Reload",
+    "שליחה מחדש": "Resend",
+    "איפוס נתונים מחדש": "Reset to default Data",
+    "שמור כקובץ PDF": "Save as PDF",
+    "דלוק": "On",
+    "כבוי": "Off",
+    "במידה ולאחר סיום- כפתור ההפעלה לחוץ, יפעל שוב- עד לעזיבת הכפתור":"If after finishing - the power button is pressed, it will work again - until the button is released",
+};    
+
+        let preboobotMeteg = 1;
+        let pressureMeteg = 1;
+        let escapePressedOnce = 1;  // Flag to track if escape was pressed
+        let closedConfirmBox=0;
+        let secretClick = 0;
+        let LangFlag = 0; //hebrew
+
+        function translateToEnglish(hebrewText) {
+            return translationDictionary[hebrewText] || hebrewText;  // Default to original text if not found
+        }
+
+        function traslateStickListener(){
+            const elementsToTranslate = document.querySelectorAll('.translatable');
+
+            elementsToTranslate.forEach(function(element) {
+                // Store original Hebrew text in a data attribute if it doesn't already have one
+                if (!element.dataset.originalText) {
+                    element.dataset.originalText = element.innerHTML.trim();
+                }
+
+                // Toggle translation based on the language flag
+                if (LangFlag === 0) {
+                    element.innerHTML = translateToEnglish(element.dataset.originalText);  // Translate to English
+                    document.getElementById("bodyBox").classList.add("englishHtml");
+                    document.getElementById("login-email").placeholder= "Email"
+                    document.getElementById("login-password").placeholder= "Password"
+                    document.body.setAttribute('dir', 'ltr');
+                } else {
+                    element.innerHTML = element.dataset.originalText;  // Restore Hebrew text
+                    document.getElementById("bodyBox").classList.remove("englishHtml");
+                    document.getElementById("login-email").placeholder= "אימייל"
+                    document.getElementById("login-password").placeholder= "סיסמא"
+                    document.body.setAttribute('dir', 'rtl');
+                }
+            });
+
+            // Toggle the LangFlag and button text
+            if (LangFlag === 0) {
+                LangFlag = 1; // Switch to English
+                this.innerHTML = "עברית";
+            } else {
+                LangFlag = 0; // Switch back to Hebrew
+                this.innerHTML = "English";
+            }
+            let TglBtn1= document.getElementById("PrebootToggleHousing");
+            let TglBtn2= document.getElementById("PressureToggleHousing");
+            if (TglBtn1.classList.contains("FNCTglHouseOFF")){
+                TglBtn1.classList.remove("FNCTglHouseOFF")
+                TglBtn1.classList.add("FNCTglHouseOFF-ENG")
+            } else if (TglBtn1.classList.contains("FNCTglHouseOFF-ENG")){
+                TglBtn1.classList.remove("FNCTglHouseOFF-ENG")
+                TglBtn1.classList.add("FNCTglHouseOFF")
+            }
+            if (TglBtn2.classList.contains("FNCTglHouseOFF")){
+                TglBtn2.classList.remove("FNCTglHouseOFF")
+                TglBtn2.classList.add("FNCTglHouseOFF-ENG")
+            } else if (TglBtn2.classList.contains("FNCTglHouseOFF-ENG")){
+                TglBtn2.classList.remove("FNCTglHouseOFF-ENG")
+                TglBtn2.classList.add("FNCTglHouseOFF")
+            }
+            document.querySelectorAll('*').forEach(element => {
+                    const style = window.getComputedStyle(element);
+                    if (style.fontFamily.includes('Eng') && style.fontSize === '14px' || style.fontSize === '15px' || element.classList.contains('DefeStageRow')) {
+                        element.classList.add('reduceFontENG')
+                        // element.style.setProperty('font-size', '12px', 'important');
+                    } else if (element.classList.contains('reduceFontENG')){
+                        element.classList.remove('reduceFontENG')
+                        // element.style.setProperty('font-size', '14px', 'important');
+                    }
+                    if (element.classList.contains('note') && style.fontFamily.includes('Eng')){
+                        element.classList.add('noteEng')
+                    }else if (element.classList.contains('noteEng')){
+                        element.classList.remove('noteEng')
+                        // element.style.setProperty('font-size', '14px', 'important');
+                    }
+                });
+        };
+   
+        document.getElementById("hostLangOut").addEventListener("click", function () {
+        traslateStickListener() 
+        });
+        document.getElementById("hostLangIn").addEventListener("click", function () {
+        traslateStickListener() 
+        });
+
+        function showDefaultVals(){
+            document.getElementById("DefValDisplayBox").classList.add("DefValDisplayBox");
+            document.getElementById("DefValDisplayBox").classList.remove("hiddenValBox");
+            document.getElementById("bodyBox").classList.add("disable_scroll");       // Add infoBox class
+            let form = document.getElementById("control-form");
+            let formElements = form.elements;
+            for (let i = 0; i < formElements.length; i++) {
+                formElements[i].disabled = true;  // Disable each form element
+            }
+            let exitBnt= document.getElementById("exitConfirm");
+            exitBnt.disabled = false
+            LabelList.forEach(function(labelId) {
+                let LabelElemnt = form.querySelector(`#${labelId}`);
+                if (LabelElemnt) {
+                    LabelElemnt.classList.add("functionLabelDisable");
+                }
+            });
+        }
+
+        function DisableItems(){
+            let confirmBox = document.getElementById("confirmBox");
+            let body = document.getElementById("bodyBox");
+            document.getElementById("CloseDefaultValBox").classList.add("functionLabelDisable")
+            document.getElementById("DefValDisplayBox").classList.add("functionLabelDisable")
+            document.getElementById("LangIndictor").classList.add("functionLabelDisable")
+            confirmBox.classList.remove("hiddenBox");  // Remove hidden class
+            confirmBox.classList.add("infoBox");       // Add infoBox class
+            body.classList.add("disable_scroll");       // Add infoBox class
+            let form = document.getElementById("control-form");
+            document.getElementById("topSubmit").classList.add("disabledConfirmBtn");
+            document.getElementById("BottomSubmit").classList.add("disabledConfirmBtn");
+            document.getElementById("logout-btn").classList.add("disabledConfirmBtn");
+            let formElements = form.elements;
+            for (let i = 0; i < formElements.length; i++) {
+                formElements[i].disabled = true;  // Disable each form element
+            }
+            let exitBnt= document.getElementById("exitConfirm");
+            exitBnt.disabled = false
+            LabelList.forEach(function(labelId) {
+                let LabelElemnt = form.querySelector(`#${labelId}`);
+                if (LabelElemnt) {
+                    LabelElemnt.classList.add("functionLabelDisable");
+                }
+            });
+        }
+
+        function toggleMeteg(MetegId, MetegVal) {
+            let FNCTglBtn = document.getElementById(MetegId);
+            // console.log(preboobotMeteg);
+            // console.log(pressureMeteg);
+            // If the value is 1, toggle to OFF (set value to 0)
+            let TglLangindicator= LangFlag===0? "FNCTglHouseOFF" : "FNCTglHouseOFF-ENG"
+            if (MetegVal === 1) {
+                FNCTglBtn.classList.remove(TglLangindicator);
+                MetegVal = 0;  // Set the state to OFF (0)
+            } 
+            // If the value is 0, toggle to ON (set value to 1)
+            else if (MetegVal === 0) {
+                FNCTglBtn.classList.add(TglLangindicator);
+                MetegVal = 1;  // Set the state to ON (1)
+            }
+            
+            return MetegVal;  // Return the modified value
+            // console.log(preboobotMeteg);
+            // console.log(pressureMeteg);
+        }
+
+        function update(){
+            var inner = document.getElementById("conirmContent");
+            let dinamicinner= LangFlag===0 ? 'שולח נתונים לשרת' : 'Sending Data to Sever'
+            inner.innerHTML = dinamicinner + '<img src="assets/pics/loading.png" class="loading" id="loading5">';
+            document.getElementById("exitConfirm").innerHTML = LangFlag===0 ? 'ממתין לשרת' : 'Waiting for Server';
+            document.getElementById("exitConfirm").classList.add("disabledConfirmBtn");
+            DisableItems()
+
+            const formData = {};
+            attributes.forEach(attribute => {
+                // Collect value from the form field, fallback to 5 if no value
+                if (attribute === "preboobotMeteg") {
+                    formData[attribute] = preboobotMeteg;
+                }
+                else if (attribute === "pressureMeteg") {
+                    formData[attribute] = pressureMeteg;
+                }
+                else {
+                    formData[attribute] = $('#' + attribute).val() || 5;
+                }
+            });
+
+            // Send data to the Flask backend
+            $.ajax({
+                type: "POST",
+                url: 'https://10.0.0.1:5000/update',
+                data: formData,
+                cache: false,
+                success: function(response) {
+                    if (response.success) {
+                        var inner = document.getElementById("conirmContent");
+                        inner.innerHTML = LangFlag===0? 'נתונים עודכנו בהצלחה בשרת!' : 'Sucssesfully Updated!';
+                        document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
+                        document.getElementById("exitConfirm").innerHTML = LangFlag===0? 'אישור': 'OK';
+                        DisableItems()
+
+                        attributes.forEach(attribute => {
+                            if (response.new_values.hasOwnProperty(attribute)) {
+                                $('#' + attribute).val(response.new_values[attribute]);
+
+                                // Correct handling of special attributes:
+                                if (attribute === "preboobotMeteg") {
+                                    preboobotMeteg = response.new_values[attribute];
+                                    toggleMeteg("PrebootToggleHousing", preboobotMeteg);
+                                } 
+                                else if (attribute === "pressureMeteg") {
+                                    pressureMeteg = response.new_values[attribute];
+                                    toggleMeteg("PressureToggleHousing", pressureMeteg);
+                                }
+                            }
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    const errorMessage = xhr.responseJSON ? xhr.responseJSON.error : 'An unknown error occurred';
+                    var inner = document.getElementById("conirmContent");
+                    let dinamicinner2= LangFlag===0? 'תקלה בתקשורת לשרת<br>וודא שמכונת השטיפה החביות דולקת' : 'Failed to Reach Server<br>Make Sure The keg Washer is on';
+                    inner.innerHTML = dinamicinner2;
+                    document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
+                    document.getElementById("exitConfirm").classList.add("confirmBoxBtnHidden");
+                    document.getElementById("Resend").classList.remove("confirmBoxBtnHidden");
+                    document.getElementById("Resend").classList.add("confirmBoxBtn");
+                    DisableItems()
+                    console.error('Error details:', xhr); // Log error details to the console
+                }
+            });
+        }
+
+        function reset() {
+            var inner = document.getElementById("conirmContent");
+            let dinamicinner= LangFlag===0? 'טוען נתוני ברירת מחדל מהשרת':'Loading Default Values from Server';
+            inner.innerHTML = dinamicinner+'<img src="assets/pics/loading.png" class="loading" id="loading4">';
+            document.getElementById("exitConfirm").innerHTML = LangFlag===0? 'ממתין לשרת': 'Waiting for Server';
+            document.getElementById("exitConfirm").classList.add("disabledConfirmBtn");
+            DisableItems()
+
+            $.ajax({
+                type: "POST",
+                url: 'https://10.0.0.1:5000/reset',
+                success: function(response) {
+                    if (response.success) {
+                        var inner = document.getElementById("conirmContent");
+                        inner.innerHTML = LangFlag===0? 'עודכנו נתוני ברירת מחדל':'Default Values Updated';
+                        document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
+                        document.getElementById("exitConfirm").innerHTML = LangFlag===0?'אישור':'OK';
+                        DisableItems()
+
+                        attributes.forEach(attribute => {
+                            if (response.new_values.hasOwnProperty(attribute)) {
+                                $('#' + attribute).val(response.new_values[attribute]);
+
+                                // Handle special attributes
+                                if (attribute === "preboobotMeteg") {
+                                    preboobotMeteg = response.new_values[attribute];
+                                    toggleMeteg("PrebootToggleHousing", preboobotMeteg);
+                                }
+                                else if (attribute === "pressureMeteg") {
+                                    pressureMeteg = response.new_values[attribute];
+                                    toggleMeteg("PressureToggleHousing", pressureMeteg);
+                                }
+                            }
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    var inner = document.getElementById("conirmContent");
+                    let dinamicinner2= LangFlag===0? 'תקלה בתקשורת לשרת <br>וודא שמכונת השטיפה החביות דולקת' : 'Failed to Reach Server<br>Make Sure The keg Washer is on';
+                    inner.innerHTML = dinamicinner2;
+                    document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
+                    document.getElementById("exitConfirm").classList.add("confirmBoxBtnHidden");
+                    document.getElementById("Reset").classList.remove("confirmBoxBtnHidden");
+                    document.getElementById("Reset").classList.add("confirmBoxBtn");
+                    DisableItems()
+                    console.error("Error in AJAX request:", error);
+                }
+            });
+        }
+
+        document.getElementById("PrebootToggleHousing").addEventListener("click", function (event) {
+            const customToken = localStorage.getItem('customToken');
+                if (!customToken) {
+                    var inner = document.getElementById("conirmContent");
+                    let dinamicinner2= LangFlag===0? 'משתמש אינו מחובר/אינו מורשה' : 'User unauthorized/ unauthenticated';
+                    inner.innerHTML = dinamicinner2;
+                    document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
+                    document.getElementById("exitConfirm").classList.add("confirmBoxBtnHidden");
+                    document.getElementById("RelogIn").classList.remove("confirmBoxBtnHidden")
+                    document.getElementById("RelogIn").classList.add("confirmBoxBtn")
+                    DisableItems()
+                } else{
+                    preboobotMeteg = toggleMeteg("PrebootToggleHousing", preboobotMeteg);
+                    toggleMeteg("PrebootToggleHousing", preboobotMeteg);
+                    update();  // Send the updated state to the server
+                }
+        });
+
+        document.getElementById("PressureToggleHousing").addEventListener("click", function (event) {
+            const customToken = localStorage.getItem('customToken');    
+                if (!customToken) {
+                    var inner = document.getElementById("conirmContent");
+                    let dinamicinner2= LangFlag===0? 'משתמש אינו מחובר/אינו מורשה' : 'User unauthorized/ unauthenticated';
+                    inner.innerHTML = dinamicinner2;
+                    document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
+                    document.getElementById("exitConfirm").classList.add("confirmBoxBtnHidden");
+                    document.getElementById("RelogIn").classList.remove("confirmBoxBtnHidden")
+                    document.getElementById("RelogIn").classList.add("confirmBoxBtn")
+                    DisableItems()
+                } else{
+                    pressureMeteg = toggleMeteg("PressureToggleHousing", pressureMeteg);
+                    toggleMeteg("PressureToggleHousing", pressureMeteg);
+                    update();  // Send the updated state to the server
+
+                    }
+        });
+
+        document.getElementById("Reload").addEventListener("click", function(evet){
+            loadPage();
+        });
+        
+        document.getElementById("Resend").addEventListener("click", function(evet){
+            const customToken = localStorage.getItem('customToken');    
+                if (!customToken) {
+                    var inner = document.getElementById("conirmContent");
+                    let dinamicinner2= LangFlag===0? 'משתמש אינו מחובר/אינו מורשה' : 'User unauthorized/ unauthenticated';
+                    inner.innerHTML = dinamicinner2;
+                    document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
+                    document.getElementById("exitConfirm").classList.add("confirmBoxBtnHidden");
+                    document.getElementById("RelogIn").classList.remove("confirmBoxBtnHidden")
+                    document.getElementById("RelogIn").classList.add("confirmBoxBtn")
+                    DisableItems()
+                } else{
+                        document.getElementById("exitConfirm").classList.remove("confirmBoxBtnHidden");
+                        document.getElementById("Resend").classList.add("confirmBoxBtnHidden")
+                        document.getElementById("Resend").classList.remove("confirmBoxBtn")
+                        update(); 
+                    }
+        });
+
+        document.getElementById("Reset").addEventListener("click", function(evet){
+            const customToken = localStorage.getItem('customToken');    
+                if (!customToken) {
+                    var inner = document.getElementById("conirmContent");
+                    let dinamicinner2= LangFlag===0? 'משתמש אינו מחובר/אינו מורשה' : 'User unauthorized/ unauthenticated';
+                    inner.innerHTML = dinamicinner2;
+                    document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
+                    document.getElementById("exitConfirm").classList.add("confirmBoxBtnHidden");
+                    document.getElementById("RelogIn").classList.remove("confirmBoxBtnHidden")
+                    document.getElementById("RelogIn").classList.add("confirmBoxBtn")
+                    DisableItems()
+                } else{
+                        document.getElementById("exitConfirm").classList.remove("confirmBoxBtnHidden");
+                        document.getElementById("Reset").classList.add("confirmBoxBtnHidden")
+                        document.getElementById("Reset").classList.remove("confirmBoxBtn")
+                        update();
+                    }
+        });
+
+        document.getElementById("RelogIn").addEventListener("click", function(evet){
+            document.getElementById("contenet").classList.remove("ShownMain");
+            document.getElementById("contenet").classList.add("hiddenMain");
+            document.getElementById("login-container").classList.remove("hiddenMain");
+            document.getElementById("username-display").innerText = '';
+            document.getElementById("LangIndictor").classList.add("initial_lang_location");
+        });
+
+        function loadPage(){
+            var inner = document.getElementById("conirmContent");
+            let dinamicinner = LangFlag==0? 'התחברת בהצלחה!<br>טוען נתונים מהשרת':'Sucssesfuly Logged In<br>Loading Data from Server';
+            inner.innerHTML = dinamicinner+ '<img src="assets/pics/loading.png" class="loading" id="loading0">' ;
+            document.getElementById("exitConfirm").innerHTML= LangFlag==0?'ממתין לשרת':'Waiting for Server';
+            document.getElementById("exitConfirm").classList.add("disabledConfirmBtn");
+            document.getElementById("LangIndictor").classList.remove("initial_lang_location");
+            DisableItems();
+            $.ajax({
+                type: "GET",
+                url: 'https://10.0.0.1:5000/get_initial_values', // Ensure this route is set up on the backend
+                success: function(response) {
+                    if (response.success) {
+                        escapeTimeout = setTimeout(function() {
+                            escapePressedOnce = 0;
+                        }, 500);
+                        DisableItems()
+                        var inner = document.getElementById("conirmContent");
+                        inner.innerHTML = LangFlag==0?'נתונים נטענו בהצלחה מהשרת!':'Sucsessfuly Loaded Data from Server';
+                        document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
+                        document.getElementById("exitConfirm").innerHTML= LangFlag==0?'אישור':'OK';
+                        // Populate form fields with initial values
+                        attributes.forEach(attribute => {
+                        // Check if the attribute exists in the response object
+                        if (response.initial_values.hasOwnProperty(attribute)) {
+                        // Set the value of the form field using jQuery
+                            $('#' + attribute).val(response.initial_values[attribute]);
+                            
+                            let StartMetegId1= 0;
+                            let StartMetegId= 0;
+                            if (attribute === "preboobotMeteg"){
+                                // console.log(attribute+":"+response.initial_values[attribute])
+                                StartMetegId="PrebootToggleHousing";
+                                if (response.initial_values[attribute]==1){
+                                    preboobotMeteg = 1;
+                                    preboobotMeteg = toggleMeteg(StartMetegId, preboobotMeteg , preboobotMeteg);
+                                    // console.log("preboot should be on")
+                                }
+                                else if (response.initial_values[attribute]==0){     
+                                    preboobotMeteg = 0;
+                                    preboobotMeteg = toggleMeteg(StartMetegId, preboobotMeteg , preboobotMeteg);
+                                    // console.log("preboot should be off")
+                                }
+                                if (preboobotMeteg==0){
+                                    preboobotMeteg=1;
+                                } else{preboobotMeteg=0}
+                                
+                            }
+                            if (attribute === "pressureMeteg"){
+                                // console.log(attribute+":"+response.initial_values[attribute])
+                                StartMetegId1="PressureToggleHousing";
+                                if (response.initial_values[attribute]==1){
+                                    pressureMeteg = 1;
+                                    pressureMeteg = toggleMeteg(StartMetegId1, pressureMeteg , pressureMeteg);
+                                    // console.log("pressure should be on")
+                                }
+                                else if (response.initial_values[attribute]==0){     
+                                    pressureMeteg = 0;
+                                    pressureMeteg = toggleMeteg(StartMetegId1, pressureMeteg , pressureMeteg);
+                                    // console.log("pressure should be on")
+                                }
+                                if (pressureMeteg==0){
+                                    pressureMeteg=1;
+                                } else (pressureMeteg=0)
+                            }
+                            }
+                        });
+                        }
+                    },
+                error: function(xhr, status, error) {
+                    DisableItems()
+                    var inner = document.getElementById("conirmContent");
+
+                    inner.innerHTML = LangFlag==0?'תקלה בתקשורת לשרת!<br>וודא שמכונת השטיפה החביות דולקת': 'Failed to Connect Server<br>Make Sure The keg Washer is on'
+                    document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
+                    document.getElementById("exitConfirm").classList.add("confirmBoxBtnHidden");
+                    document.getElementById("Reload").classList.remove("confirmBoxBtnHidden")
+                    document.getElementById("Reload").classList.add("confirmBoxBtn")
+                    const errorMessage = xhr.responseJSON ? xhr.responseJSON.error : 'Failed to load initial values';
+                    console.error('Error loading initial values:', errorMessage);
+                    escapeTimeout = setTimeout(function() {
+                        escapePressedOnce = 0;
+                    }, 500);
+                }
+            });
+        };
+        
+        function extiDefaultValBox(){
+            document.getElementById("DefValDisplayBox").classList.remove("DefValDisplayBox");
+            document.getElementById("DefValDisplayBox").classList.add("hiddenValBox");
+            event.preventDefault();  // Prevents form submission (and reload)
+            let body = document.getElementById("bodyBox");
+            body.classList.remove("disable_scroll");
+            let form = document.getElementById("control-form");
+            let formElements = form.elements;
+            for (let i = 0; i < formElements.length; i++) {
+                formElements[i].disabled = false;  // Disable each form element
+            }
+            disabledInputs.forEach(function(inputId) {
+                let inputElement = form.querySelector(`#${inputId}`);
+                if (inputElement) {
+                    inputElement.disabled = true;
+                }
+            });
+            LabelList.forEach(function(labelId) {
+                let LabelElemnt = form.querySelector(`#${labelId}`);
+                if (LabelElemnt) {
+                    LabelElemnt.classList.remove("functionLabelDisable");
+                }
+            });
+        }
+
+        function exitConfirmBox(){
+            let confirmBox = document.getElementById("confirmBox");
+            confirmBox.classList.remove("infoBox");    // Remove infoBox class
+            confirmBox.classList.add("hiddenBox");      // Add hiddenBox class
+            document.getElementById("exitConfirm").classList.remove("confirmBoxBtnHidden");
+            document.getElementById("Resend").classList.add("confirmBoxBtnHidden");
+            document.getElementById("Reload").classList.add("confirmBoxBtnHidden");
+            document.getElementById("Reset").classList.add("confirmBoxBtnHidden");
+            document.getElementById("LangIndictor").classList.remove("functionLabelDisable")
+            document.getElementById("CloseDefaultValBox").classList.remove("functionLabelDisable")
+            document.getElementById("DefValDisplayBox").classList.remove("functionLabelDisable")
+            document.getElementById("topSubmit").classList.remove("disabledConfirmBtn");
+            document.getElementById("logout-btn").classList.remove("disabledConfirmBtn");
+            document.getElementById("BottomSubmit").classList.remove("disabledConfirmBtn");
+            if (document.getElementById("DefValDisplayBox").classList.contains("DefValDisplayBox")== false){
+                let body = document.getElementById("bodyBox");
+                body.classList.remove("disable_scroll");
+                let form = document.getElementById("control-form");
+                let formElements = form.elements;
+                for (let i = 0; i < formElements.length; i++) {
+                    formElements[i].disabled = false;  // Disable each form element
+                }
+                disabledInputs.forEach(function(inputId) {
+                    let inputElement = form.querySelector(`#${inputId}`);
+                    if (inputElement) {
+                        inputElement.disabled = true;
+                    }
+                });
+                LabelList.forEach(function(labelId) {
+                    let LabelElemnt = form.querySelector(`#${labelId}`);
+                    if (LabelElemnt) {
+                        LabelElemnt.classList.remove("functionLabelDisable");
+                    }
+                });
+            }
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.keyCode === 27
+                && document.getElementById("DefValDisplayBox").classList.contains("DefValDisplayBox")
+                && document.getElementById("confirmBox").classList.contains("infoBox")==false) {  // Check if the key is 'Escape'
+                    extiDefaultValBox();
+            }
+        });
+
+        document.getElementById("exitConfirm").addEventListener("click", function(event) {
+            exitConfirmBox();
+        });
+
+        document.getElementById("CloseDefaultValBox").addEventListener("click", function(event) {
+            extiDefaultValBox();
+        });
+
+        document.getElementById("showDefaultsTop").addEventListener("click",function(event){
+            showDefaultVals();
+        });
+        document.getElementById("showDefaults").addEventListener("click",function(event){
+            showDefaultVals();
+        });
+
+        $('#control-form').on('submit', function(e) {
+                e.preventDefault(); // Prevent the default form submission
+                const customToken = localStorage.getItem('customToken');    
+                if (!customToken) {
+                    var inner = document.getElementById("conirmContent");
+                    let dinamicinner2= LangFlag===0? 'משתמש אינו מחובר/אינו מורשה' : 'User unauthorized/ unauthenticated';
+                    inner.innerHTML = dinamicinner2;
+                    document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
+                    document.getElementById("exitConfirm").classList.add("confirmBoxBtnHidden");
+                    document.getElementById("RelogIn").classList.remove("confirmBoxBtnHidden")
+                    document.getElementById("RelogIn").classList.add("confirmBoxBtn")
+                    DisableItems()
+                } else{
+                        update()
+                    }
+            });
+ 
+        $('#reset-btn').on('click', function() {
+            const customToken = localStorage.getItem('customToken');    
+                if (!customToken) {
+                    var inner = document.getElementById("conirmContent");
+                    let dinamicinner2= LangFlag===0? 'משתמש אינו מחובר/אינו מורשה' : 'User unauthorized/ unauthenticated';
+                    inner.innerHTML = dinamicinner2;
+                    document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
+                    document.getElementById("exitConfirm").classList.add("confirmBoxBtnHidden");
+                    document.getElementById("RelogIn").classList.remove("confirmBoxBtnHidden")
+                    document.getElementById("RelogIn").classList.add("confirmBoxBtn")
+                    DisableItems()
+                } else{
+                        reset();
+                    }
+        });
+        
+        $('#reset-btn-top').on('click', function() {
+            const customToken = localStorage.getItem('customToken');    
+                if (!customToken) {
+                    var inner = document.getElementById("conirmContent");
+                    let dinamicinner2= LangFlag===0? 'משתמש אינו מחובר/אינו מורשה' : 'User unauthorized/ unauthenticated';
+                    inner.innerHTML = dinamicinner2;
+                    document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
+                    document.getElementById("exitConfirm").classList.add("confirmBoxBtnHidden");
+                    document.getElementById("RelogIn").classList.remove("confirmBoxBtnHidden")
+                    document.getElementById("RelogIn").classList.add("confirmBoxBtn")
+                    DisableItems()
+                } else{
+                        reset();
+                    }
+        });
+        
+        function toggleStage(labelId, stageId,ImgId) {
+            let clicked = false;
+            document.getElementById(labelId).addEventListener("click", function(event) {
+                let functionInputs = document.getElementById(stageId);
+                let functionLabel = document.getElementById(labelId);
+                let functionImg = document.getElementById(ImgId);
+                if (!clicked) {
+                    functionInputs.classList.add("functionInputsHidden");
+                    functionLabel.classList.add("functionLabelHiddenInput");
+                    functionImg.classList.add("ClosedImg")
+                    clicked = true;
+                } else {
+                    functionInputs.classList.remove("functionInputsHidden");
+                    functionLabel.classList.remove("functionLabelHiddenInput");
+                    functionImg.classList.remove("ClosedImg")
+                    clicked = false;
+                }
+            });
+        }
+
+        function stagetoggler(){
+        toggleStage("label1", "stage1","Tgl1");
+        toggleStage("label2", "stage2","Tgl2");
+        toggleStage("label3", "stage3","Tgl3");
+        toggleStage("label4", "stage4","Tgl4");
+        toggleStage("label5", "stage5","Tgl5");
+        toggleStage("label6", "stage6","Tgl6");
+        toggleStage("label7", "stage7","Tgl7");
+        toggleStage("label8", "stage8","Tgl8");
+        toggleStage("label9", "stage9","Tgl9");
+        toggleStage("label10", "stage10","Tgl10");
+        toggleStage("label11", "stage11","Tgl11");
+        toggleStage("label12", "stage12","Tgl12");
+        toggleStage("label13", "stage13","Tgl13");
+        toggleStage("label14", "stage14","Tgl14");
+        toggleStage("label15", "stage15","Tgl15");
+        toggleStage("label16", "stage16","Tgl16");
+        toggleStage("label17", "stage17","Tgl17");
+        toggleStage("label18", "stage18","Tgl18");
+        }
+
+        function logInPage(){
+            let LoggedInEmail= 0;
+            let servrPort="https://keg-control-1.onrender.com";
+            let idleTimeout;
+            stagetoggler();
+            document.getElementById("ShowPass").addEventListener("click",function(event){
+                document.getElementById("login-password").type="text";
+                setTimeout(()=>{
+                    document.getElementById("login-password").type="password";
+                },3000);
+
+            })
+            DisableItems();
+            document.getElementById("LangIndictor").classList.add("initial_lang_location");
+            document.getElementById("LangIndictor").classList.remove("functionLabelDisable");
+            
+            function SucsessLogin(customToken){
+                exitConfirmBox();
+                document.getElementById("hostLangIn").innerHTML=document.getElementById("hostLangOut").innerHTML;
+                document.getElementById("hostLangOut").innerHTML= "";
+                document.getElementById("LangIndictor").classList.remove("initial_lang_location");
+                document.getElementById("contenet").classList.remove("hiddenMain");
+                document.getElementById("contenet").classList.add("ShownMain");
+                document.getElementById("login-container").classList.add("hiddenMain");
+                document.getElementById("username-display").classList.remove("hiddenMain");
+                document.getElementById("username-display").innerText = LoggedInEmail;
+                loadPage();
+                localStorage.setItem('customToken',customToken)
+            }
+
+            function failedLogin(){
+                document.getElementById("login-error-message").classList.remove("hiddenMain");
+                document.getElementById("login-error-message").innerHTML=LangFlag===0? "אחד או שני פרטי הכניסה שגויים" : 'One ore both Details are wrong';
+            }
+
+            // Handle Login
+            const loginForm = document.getElementById("login-form");
+            const loginEmailInput = document.getElementById("login-email");
+            const loginPasswordInput = document.getElementById("login-password");
+            loginForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+               document.getElementById("loadingUserBox").innerHTML =`${LangFlag==0?'מאמת כתובת מייל וסיסמה':'Verifyng Email and Password'}<img src="assets/pics/loading.png" class="loading" id="loading1">`;
+                const email = loginEmailInput.value;
+                const password = loginPasswordInput.value;
+                // Function for logging in the user and sending the ID token to the backend
+                async function login() {            
+                        const response = await fetch(servrPort+'/login', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ email, password }) // Send email and password in the request body
+                            
+                        });
+                        const result = await response.json();
+
+                        if (result.success === 1) {
+                            // console.log('Login successful');
+                            LoggedInEmail= email;
+                            SucsessLogin(result.success)
+                            // Handle successful login (e.g., redirect to a dashboard)
+                        } else {
+                            // console.log('Login failed');
+                            failedLogin();
+                        }
+                }
+                    await login();
+                    document.getElementById("loadingUserBox").innerHTML='';
+            });
+            
+            async function logout() {            
+                const response = await fetch(servrPort+'/logout', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({LoggedInEmail}) // Send email and password in the request body
+                        
+                    });
+                    const result = await response.json();
+                    
+                    if (result.success === 1) {
+                    document.getElementById("hostLangOut").innerHTML=document.getElementById("hostLangIn").innerHTML;
+                    document.getElementById("hostLangIn").innerHTML= "";
+                    document.getElementById("contenet").classList.add("hiddenMain");
+                    document.getElementById("login-container").classList.remove("hiddenMain");
+                    document.getElementById("username-display").innerText = '';
+                    document.getElementById("LangIndictor").classList.add("initial_lang_location");
+                    document.getElementById("hostLangIn").innerHTML=document.getElementById("hostLangOut").innerHTML;
+                    document.getElementById("contenet").classList.remove("ShownMain");
+                    document.getElementById("username-display").classList.add("hiddenMain");
+                    DisableItems();
+                    document.getElementById("LangIndictor").classList.remove("functionLabelDisable");
+                    localStorage.removeItem('customToken',false)
+                    // Handle successful login (e.g., redirect to a dashboard)
+                } else {
+                    console.log('Logout failed');
+                }
+            }
+            
+            
+            const idleTimeLimit = 15  * 60 * 1000; // e.g., 15 minutes
+            function resetIdleTimer() {
+                clearTimeout(idleTimeout);
+                idleTimeout = setTimeout(()=>{
+                    setTimeout(async() => {
+                        await logout();
+                        logutwindowClose();
+                    }, 3000);
+                    document.getElementById("LogoutMesseag").innerHTML="מתנתק אוטומטית<br>המושב עבר";
+                    logutwindowopen()
+                }, idleTimeLimit);
+            }
+            window.onload = resetIdleTimer;
+            window.addEventListener('mousemove', resetIdleTimer);
+            window.addEventListener('keydown', resetIdleTimer);
+
+            function logutwindowopen(){
+            DisableItems();
+            exitConfirmBox();
+            document.getElementById("LogoutBox").classList.remove("hiddenMain");
+            document.getElementById("LogoutBox").classList.add("resetPasswordBox");
+            }
+
+            function logutwindowClose(){
+                document.getElementById("LogoutBox").classList.add("hiddenMain");
+                document.getElementById("LogoutBox").classList.remove("resetPasswordBox");
+            }
+            
+            
+
+        // Logout functionality LogoutBox  LogoutMesseag
+            const logoutButton = document.getElementById("logout-btn");
+            logoutButton.addEventListener("click",async (e) => {
+            logutwindowopen();
+            setTimeout(async() => {
+                await logout();
+                logutwindowClose()
+            }, 500);
+            });
+            
+            document.getElementById("closeForgtBox").addEventListener("click", function(event){
+                document.getElementById("resetPasswordBox").classList.remove("resetPasswordBox");
+                document.getElementById("resetPasswordBox").classList.add("hiddenMain");
+            });
+            
+            const forgotPasswordBtn = document.getElementById("forgotPassword");
+            forgotPasswordBtn.addEventListener("click",async(e)=>{
+                const email = loginEmailInput.value;
+                document.getElementById("resetPasswordBox").classList.add("resetPasswordBox");
+                document.getElementById("resetPasswordBox").classList.remove("hiddenMain");
+                document.getElementById("resetPassword").classList.add("hiddenMain")
+                document.getElementById("closeForgtBox").classList.remove("hiddenMain")
+                document.getElementById("resetsPassMesseag").innerHTML=`${LangFlag==0?'מאמת מייל':'Verifying email'}<img src="assets/pics/loading.png" class="loading" id="loading2">`;
+                async function forgotPassword(email) {
+                    const response = await 
+                    fetch(servrPort+'/forgotPassowrd', {
+                    method: 'POST',
+                    body: JSON.stringify({ email: email }),
+                    headers: { 'Content-Type': 'application/json' }
+                    })
+                    .then(response => {
+                        return response.text();  // Try reading as plain text
+                    })
+                    .then(text => {
+                        try {
+                            const jsonResponse = JSON.parse(text);
+                            if (jsonResponse.success == 1) {
+                            document.getElementById("resetPassword").classList.remove("hiddenMain")
+                            document.getElementById("resetsPassMesseag").innerHTML=LangFlag==0?'לחץ לקבלת מייל לאיפוס סיסמה':'Press to send password reset button';
+                        } else {
+                            document.getElementById("resetPassword").classList.add("hiddenMain")
+                            document.getElementById("closeForgtBox").classList.remove("hiddenMain")
+                            document.getElementById("resetsPassMesseag").innerHTML=LangFlag==0?'כתובת מייל לא נמצאה, פנה לבעלים לקבלת משתמש':'Email adress was not found, please contact owner to get an account';
+                        }
+                        } catch (error) {
+                            console.error("Error parsing JSON:", error);
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Request failed:", error);
+                    });}
+                await forgotPassword(email)
+            });
+
+            const restPassButton = document.getElementById("resetPassword");
+            restPassButton.addEventListener("click",async (e) => {
+                document.getElementById("resetPasswordBox").classList.remove("resetPasswordBox");
+                document.getElementById("resetPasswordBox").classList.add("hiddenMain");
+                const email = loginEmailInput.value;
+                async function resetPassowrd(email) {            
+                    const response = await fetch(servrPort+'/resetPassowrd', {
+                        // const response = await fetch('http://localhost:10000/resetPassowrd', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({email}) // Send email and password in the request body
+                            
+                        });
+                        const result = await response.json();
+                        
+                        if (result.success === 1) {
+                        // console.log ('rest pasword email sent')
+                    } else {
+                        // console.log('switch pasword failed');
+                    }
+            }
+                await resetPassowrd(email);
+                
+            });
+        }
+
+        logInPage();
+</script>
+
+<script>//devolpment cheet script. to be deleted!
+        // document.getElementById("contenet").classList.remove("hiddenMain");
+        // document.getElementById("contenet").classList.add("ShownMain");
+        // loadPage();
+        document.getElementById("conirmContent").addEventListener("click", function(event){
+            if (secretClick<3){
+                secretClick = secretClick+1;
+            }else{
+                exitConfirmBox();
+                secretClick=0;
+            }
+        });
+    </script>
+</body>
+</html>
