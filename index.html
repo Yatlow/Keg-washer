@@ -1231,6 +1231,73 @@
             // console.log(pressureMeteg);
         }
 
+       function update(){
+            var inner = document.getElementById("conirmContent");
+            let dinamicinner= LangFlag===0 ? 'שולח נתונים לשרת' : 'Sending Data to Sever'
+            inner.innerHTML = dinamicinner + '<img src="assets/pics/loading.png" class="loading" id="loading5">';
+            document.getElementById("exitConfirm").innerHTML = LangFlag===0 ? 'ממתין לשרת' : 'Waiting for Server';
+            document.getElementById("exitConfirm").classList.add("disabledConfirmBtn");
+            DisableItems()
+            const formData = {};
+            attributes.forEach(attribute => {
+                // Collect value from the form field, fallback to 5 if no value
+                if (attribute === "preboobotMeteg") {
+                    formData[attribute] = preboobotMeteg;
+                }
+                else if (attribute === "pressureMeteg") {
+                    formData[attribute] = pressureMeteg;
+                }
+                else {
+                    formData[attribute] = $('#' + attribute).val() || 5;
+                }
+            });
+             fetch('https://keg-control-1.onrender.com/update', {
+                method: 'POST',
+                headers: {
+               'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)     
+             })
+               .then(response => {
+            if (!response.ok) {
+                throw new Error('תקלה בתקשורת לשרת');
+            }
+            return response.json();
+        })
+        
+             .then(data => {
+                        let inner = document.getElementById("conirmContent");
+                        inner.innerHTML = data.message
+                        document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
+                        document.getElementById("exitConfirm").innerHTML = LangFlag===0? 'אישור': 'OK';
+                        DisableItems()
+                        attributes.forEach(attribute => {
+                            if (data.hasOwnProperty(attribute)) {
+                                $('#' + attribute).val(data[attribute]);
+                                // Correct handling of special attributes:
+                                if (attribute === "preboobotMeteg") {
+                                    preboobotMeteg = data[attribute];
+                                    toggleMeteg("PrebootToggleHousing", preboobotMeteg);
+                                } 
+                                else if (attribute === "pressureMeteg") {
+                                    pressureMeteg = data[attribute];
+                                    toggleMeteg("PressureToggleHousing", pressureMeteg);
+                                }
+                            }
+                        });
+              })
+             .catch(error => {
+                    let inner = document.getElementById("conirmContent")
+                    console.error('Error:', error);   
+                    inner.innerHTML = 'תקלה בתקשורת לשרת';
+                    document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
+                    document.getElementById("exitConfirm").classList.add("confirmBoxBtnHidden");
+                    document.getElementById("Resend").classList.remove("confirmBoxBtnHidden");
+                    document.getElementById("Resend").classList.add("confirmBoxBtn");
+                    DisableItems()
+            });
+        } 
+        
         function reset() {
             var inner = document.getElementById("conirmContent");
             let dinamicinner= LangFlag===0? 'טוען נתוני ברירת מחדל מהשרת':'Loading Default Values from Server';
@@ -1646,7 +1713,7 @@
             document.getElementById("LangIndictor").classList.add("initial_lang_location");
             document.getElementById("LangIndictor").classList.remove("functionLabelDisable");
             
-            function SucsessLogin(customToken){
+            function SucsessLogin(){
                 exitConfirmBox();
                 document.getElementById("hostLangIn").innerHTML=document.getElementById("hostLangOut").innerHTML;
                 document.getElementById("hostLangOut").innerHTML= "";
@@ -1689,8 +1756,7 @@
                         if (result.success) {
                             // console.log('Login successful');
                             LoggedInEmail= email;
-                            SucsessLogin(result.token)
-                                document.cookie = `session=${sessionCookie}; Secure; HttpOnly`;
+                            SucsessLogin()
                             // Handle successful login (e.g., redirect to a dashboard)
                         } else {
                             // console.log('Login failed');
