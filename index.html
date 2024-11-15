@@ -1252,50 +1252,48 @@
                     formData[attribute] = $('#' + attribute).val() || 5;
                 }
             });
-
-            // Send data to the Flask backend
-            $.ajax({
-                type: "POST",
-                url: 'https://10.0.0.1:5000/update',
-                data: formData,
-                cache: false,
-                success: function(response) {
-                    if (response.success) {
-                        var inner = document.getElementById("conirmContent");
-                        inner.innerHTML = LangFlag===0? 'נתונים עודכנו בהצלחה בשרת!' : 'Sucssesfully Updated!';
+             const token = localStorage.getItem('customToken');
+             fetch('https://keg-control-1.onrender.com/update', {
+                method: 'POST',
+                headers: {
+               'Content-Type': 'application/json',
+               'Authorization': `Bearer ${token}`
+                },
+                body: formData      
+             })
+             .then(response => response.json())
+             .then(data => {
+                   if (res.data) {
+                        let inner = document.getElementById("conirmContent");
+                        inner.innerHTML = response.message
                         document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
                         document.getElementById("exitConfirm").innerHTML = LangFlag===0? 'אישור': 'OK';
                         DisableItems()
 
                         attributes.forEach(attribute => {
-                            if (response.new_values.hasOwnProperty(attribute)) {
-                                $('#' + attribute).val(response.new_values[attribute]);
+                            if (res.data.hasOwnProperty(attribute)) {
+                                $('#' + attribute).val(res.new_data[attribute]);
 
                                 // Correct handling of special attributes:
                                 if (attribute === "preboobotMeteg") {
-                                    preboobotMeteg = response.new_values[attribute];
+                                    preboobotMeteg = res.data[attribute];
                                     toggleMeteg("PrebootToggleHousing", preboobotMeteg);
                                 } 
                                 else if (attribute === "pressureMeteg") {
-                                    pressureMeteg = response.new_values[attribute];
+                                    pressureMeteg = res.data[attribute];
                                     toggleMeteg("PressureToggleHousing", pressureMeteg);
                                 }
                             }
                         });
-                    }
-                },
-                error: function(xhr, status, error) {
-                    const errorMessage = xhr.responseJSON ? xhr.responseJSON.error : 'An unknown error occurred';
-                    var inner = document.getElementById("conirmContent");
-                    let dinamicinner2= LangFlag===0? 'תקלה בתקשורת לשרת<br>וודא שמכונת השטיפה החביות דולקת' : 'Failed to Reach Server<br>Make Sure The keg Washer is on';
-                    inner.innerHTML = dinamicinner2;
+              })
+             .catch(error => {
+                    console.error('Error:', error));   
+                    inner.innerHTML = res.message;
                     document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
                     document.getElementById("exitConfirm").classList.add("confirmBoxBtnHidden");
                     document.getElementById("Resend").classList.remove("confirmBoxBtnHidden");
                     document.getElementById("Resend").classList.add("confirmBoxBtn");
                     DisableItems()
-                    console.error('Error details:', xhr); // Log error details to the console
-                }
             });
         }
 
