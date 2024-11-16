@@ -1,0 +1,586 @@
+@font-face {
+    font-family: all;
+    src: url(assets/fonts/FbRotonda-Regular.otf);
+}
+@font-face {
+    font-family: Eng;
+    src: url(assets/fonts/Montserrat-Regular.ttf);
+}
+html{
+    height: 100%;
+    box-sizing: border-box;
+    direction: rtl;   
+}
+.englishHtml{
+    direction: ltr;
+}
+.disable_scroll{
+    overflow: hidden;
+    height: 100%;
+}
+.hiddenMain{
+    visibility: hidden;
+    overflow: hidden;
+    opacity: 0;
+    max-height: 0;
+}
+.ShownMain{
+    visibility: visible;
+    overflow: hidden;
+    opacity: 1;
+    max-height: max-content;
+    transition: opacity 1s linear,max-height 200ms linear;
+}
+.MainBox{
+    font-family: all,Eng, Helvetica, sans-serif;
+}
+.headBox{
+    overflow-wrap: normal;
+    padding-top: 10vh;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.HeadinfoBox,.h1Box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+}
+.LangIndictorBox{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.LangIndictor{
+    font-family: all,ENG;
+}
+
+.logo{
+    width: auto;
+    object-fit: scale-down;
+}
+.formBox{
+    width: 80%;
+    margin-inline-start: 10%;
+    padding-bottom: 30px;
+}
+.DefValDisplayBox{
+    display: inline-block;
+    position: fixed;
+    inset-inline-start: 20%;
+    top: 10%;
+    width: 60%;
+    overflow-y: scroll;
+    height: 80%;
+    max-height: none;
+    padding: 2%;
+    opacity: 1;
+    visibility: visible;
+    transition:height 200ms linear, opacity 200ms linear, padding 200ms linear;
+    background-color: #FFE9A4;
+    border: #937002 5px groove;
+    border-radius: 20px;
+}
+.DefValDisplayBox::-webkit-scrollbar{
+    border-radius: 15px 0 0 15px;
+    background-color: #E0C263;
+    width: 30px;
+}
+.DefValDisplayBox::-webkit-scrollbar-thumb {
+    background: #DFB725;
+    border-radius: 10px;
+    width: 28px;
+    /* max-height: 50px; */
+    border-radius: 15px 0 0 15px;
+  }
+.DefValDisplayBox::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 15px 0 0 15px;
+  }
+
+.SubmitionBox,.DowloadBox{
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+.functionBox{
+    border: solid 0.6px rgb(200, 200, 200,0.7);
+    border-radius: 20px;
+    margin-bottom: 30px;
+    padding: 0;
+}   
+.functionLabel{
+    padding: 10px;
+    padding-inline-start: 20px;
+    border-radius: 20px 20px 0 0 ;
+    background-color: #DFB725;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    transition: border-radius 200ms linear;
+}
+.functionLabel:hover,#CloseDefaultValBox:hover,#ShowPass:hover,.LangIndictor:hover,.DefeStageLabel:hover,.clickable{
+    cursor: pointer;   
+}
+#CloseDefaultValBox:hover{
+    transform: scale(1.4);
+    transition: transform 200ms linear;
+}
+.FirstfunctionLabel{
+    border-radius: 20px;
+    text-align: center;
+}
+.FirstfunctionLabel:hover{
+    cursor: default;
+}
+.FNCTTglBox{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.FNCTglHouse{
+    border: 2px solid #937002;
+    background-color: #FFE9A4;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    width: 100px;
+    height: 40px;
+}
+
+.FNCTglHouseOFF{
+    direction: ltr;
+}
+.FNCTglHouseOFF-ENG{
+    direction: rtl;
+}
+.FNCTglHouse:hover, .ValDiVTglBtnBox:hover{
+    cursor: pointer;
+}
+.DefeStageLabel{
+    background-color: #DFB725;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.DefeStageRow{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 10px;
+    border: solid 0.6px rgb(200, 200, 200,0.7); 
+}
+#stage0_1,#stage0_2{
+    border: none;
+}
+.defStageBox{
+    border: solid 0.6px rgb(200, 200, 200,0.7); 
+    overflow: hidden;
+}
+.valType{
+    color: #D34607;
+}
+.DefVal{
+    color: #D34607;
+}
+.DefAtribute{
+    font-style: bolder;
+}
+.FNCTglBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: #D34607;
+    color: #842F00;
+    border-radius: 20px;
+}
+#CloseDefaultValBox{
+    max-height: 30px !important;
+    max-width: 30px !important;
+}
+.TglBtnBox{
+    display: flex;
+    justify-content: end;
+}
+.functionLabel img,.ValDiVTglBtnBox img{
+    height: 20px;
+    width: 25px;
+    transition: transform 200ms linear;
+}
+.ClosedImg{
+    transform: rotate(180deg);
+    transition: transform 200ms linear;
+}
+.cloapsable{
+    max-height: none;
+    opacity: 1;
+    visibility: visible;
+    overflow: hidden;
+    height: max-content;
+    transition: opacity 200ms linear, max-height 200ms linear, height 200ms linear, visibility 0s 0ms linear;
+}
+.functionInputs{
+    display: flex;
+    border-radius: 0 0 20px 20px;
+    padding: 10px 8px 10px 0;
+    background-color: #FFE9A4;
+    max-height: none;
+    opacity: 1;
+    visibility: visible;
+    overflow: hidden;
+    height: max-content;
+    transition: opacity 200ms linear, max-height 200ms linear, height 200ms linear, visibility 0s 0ms linear;
+}
+
+.fullborder{
+    border-radius: 0;
+}
+.functionLabelHiddenInput {
+    border-radius: 20px;
+}
+.functionLabelDisable{
+    cursor: not-allowed;
+    pointer-events: none;
+}
+.functionInputsHidden{
+    padding: 0;
+    max-height: 0;
+    height: 0;
+    opacity: 0;
+    visibility: hidden; 
+    transition: opacity 200ms linear, height 200ms linear, padding 200ms linear, visibility 0ms 200ms linear; /* Add visibility transition with delay */
+}
+.loginErr,.forgotPassword{
+    color: #D34607;
+}
+.hiddenValBox{
+    padding: 0;
+    max-height: 0;
+    height: 0;
+    visibility: hidden;
+    overflow: hidden;
+    opacity: 0.5;
+    transition: opacity 200ms linear, height 200ms linear, padding 200ms linear, visibility 0ms 200ms linear; /* Add visibility transition with delay */
+}
+.functionSubLabel{
+    padding: 10px;
+    padding-inline-start: 20px;
+    background-color: #E0C263;
+}
+.functionInputs input,.login-container input{
+    width: 90px;
+    border: #DFB725 0.5px solid;
+    border-radius: 20px;
+    padding-inline-start: 10px;
+    margin-inline-start: 5px;
+    height: 40px;
+}
+.functionInputs input:focus,.login-container input:focus{
+    outline: #937002 2px solid;
+    border: none;
+}
+.login-container input,#login-password{
+    width: 90%;
+    border: #842F00 0.5px solid;
+}
+.ParamterBox label{
+    overflow-wrap: break-word;
+}
+.hiddenBox {
+    display: none;
+    opacity: 0.2;
+}
+
+.infoBox , .login-container,.resetPasswordBox{
+    display:inline-flex;
+    flex-direction: column;
+    position: fixed;
+    flex-wrap: wrap-reverse;
+    justify-content: space-around;
+    gap: 30px;
+    align-items: center;
+    top: 30%;
+    z-index:10 ;
+    border: #937002 3px groove;
+    background-color: #E0C263;
+    border-radius: 20px;
+}
+.login-container{
+    top: 20%;
+}
+.resetPasswordBox button{
+    background-color: #E0C263;
+}
+.resetPasswordBox{
+    background-color: #FFE9A4;
+    justify-content: space-between;
+    top: 35%;
+    border: #842F00 3px groove;
+    z-index: 15;
+    text-align: center;
+}
+#login-container{
+    font-family: all,Eng, Helvetica, sans-serif;
+    justify-content: space-evenly;
+}
+.login-container-h1{
+    padding-top: 15px;
+}
+#login-form a{
+    color: inherit;
+    text-decoration: none;
+}
+#login-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    justify-content: center;
+    margin-bottom: 0;
+    font-size: 16px;
+    width: 80%;
+}
+.loginInput{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 100%;
+}
+.loginInput>div{
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+}
+#ShowPass{
+    height: 15px;
+    width: auto;
+    margin: 5px;
+}
+#conirmContent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: fit-content;
+}
+#LogoutBox {
+    font-family: all,ENG;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 3%;
+}
+.loginFormBottonsBox{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    justify-content: space-around;
+    align-items: center;
+}
+.loading{
+    margin-inline-start: 10px;
+    width: 30px;
+    height: 30px;
+    animation:load 0.7s infinite steps(10); 
+}
+@keyframes load {to{transform: rotate(1turn)}}
+.confirmBoxBtn{
+    outline: #937002 2px solid;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 15px ;
+    background-color: #FFE9A4;
+    width: max-content;
+    display: inline;
+    color: inherit;
+}
+.confirmBoxBtnHidden{
+    display: none;
+}
+.confirmBoxBtn:hover{
+    background-color: #DFB725;
+}
+.disabledConfirmBtn{
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.6;
+}
+#LoginBtn{
+    font-family: all,Eng, Helvetica, sans-serif;
+    font-size: 16px;
+}
+.formBtn{
+    outline: #937002 2px solid;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 15px ;
+    background-color: #E0C263;
+    color: black;
+}
+.formBtn:hover{
+    background-color: #DFB725;
+}
+.row{
+    width: 100%;
+    margin: 0;
+}
+@media (max-width: 1800px) {/* Medium screens */
+    .formBox{
+        font-size: 14px;
+        margin-top: 10vh;
+    }
+    .reduceFontENG{
+        font-size: 12px;
+    }
+    .exitBtnBox{
+        position: fixed;
+        inset-inline-end: 27%;
+    }
+    .note{
+        font-size: 10px;
+    }
+    .noteEng{
+        font-size: 7px;
+    }
+    .valType{
+        font-size: 11px;
+    }
+    .DefVal{
+        font-size: 25px;
+    }
+    .H1{
+        font-size: 50px;
+        font-weight: bold;
+    }
+    .logo{
+        height: 200px;
+    }
+    .LangIndictorBox{
+        height: 200px;
+    }
+    .infoBox ,.login-container{
+        width: 40%;
+        inset-inline-start: 30%;
+        height: fit-content;
+        padding: 5px;
+    }
+    .resetPasswordBox{
+        width: 30%;
+        inset-inline-start: 35%;
+        height: fit-content;
+        padding: 10px;
+    }
+    .initial_lang_location{
+        position: fixed;
+        inset-inline-end: 63%;
+        text-align: end;
+        top:22%;
+        z-index: 10;
+        color: #D34607;
+    }
+    .FNCTglHouse{
+        width: 100px;
+        height: 40px;
+    }
+    .FNCTglBtn{
+        width: 50px;
+        height: 38px;
+    }
+    .reduceFont{
+        font-size: 15px;
+    }
+}
+@media (max-width: 768px) {/*small screens */
+    #DownloadPdfTop{
+        max-width: 60%;
+    }
+    .exitBtnBox{
+        position: fixed;
+        inset-inline-end: 31%;
+    }
+    .SubmitionBox{
+        flex-direction: column;
+        width: 50%;
+        align-items: center;
+        gap: 15px;
+        margin-inline-start: 25%;
+    }
+    .H1{
+        font-size: 16px;
+        font-weight: bold;
+    }
+    .headBox{
+        div{margin: 1vh;}
+    }
+    .Headinfo{
+        margin: 0;
+        font-size: 15px;
+    }
+    .logo,.LangIndictorBox{
+        height: 100px;
+    }
+    .LangIndictor{
+        /* transform: translate(); */
+        /* /* top:35%; */
+        inset-inline-end: 7%; 
+    }
+    .formBox{
+        margin-top: 5vh;
+        font-size: 12px;
+    }
+    .reduceFontENG{
+        font-size: 8px;
+    }
+    .infoBox,.login-container {
+        width: 80%;
+        inset-inline-start: 10%;
+        height: fit-content;
+        padding: 10px;
+    }
+    .resetPasswordBox{
+        width: 60%;
+        inset-inline-start: 20%;
+        height: fit-content;
+        padding: 10px;
+    }
+    .initial_lang_location{
+        position: fixed;
+        inset-inline-end: 13%;
+        top:21%;
+        z-index: 10;
+        color: #D34607;
+        text-align: end;
+    }
+    .FNCTTglBox{
+        justify-content: center;
+    }
+    .FNCTglHouse{
+        margin: 10px;
+    }
+    .note{
+        font-size: 10px;
+    }
+    .noteEng{
+        font-size: 6px;
+    }
+    .valType{
+        font-size: 11px;
+    }
+    .DefVal{
+        font-size: 25px;
+    }
+    #logout-btn{
+        max-width: max-content;
+    }
+}
