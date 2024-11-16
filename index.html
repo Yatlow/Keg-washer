@@ -1259,9 +1259,6 @@
                 body: JSON.stringify(formData)     
              })
                .then(response => {
-            if (!response.ok) {
-                throw new Error('תקלה בתקשורת לשרת');
-            }
             return response.json();
         })
         
