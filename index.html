@@ -74,12 +74,23 @@
                 </div>
                 <div class="col-12 col-md-2 LangIndictorBox">
                     <img src="assets/pics/user.png" id="userPref">
-                </div>
-            </div>
-            <div id="userPrefBox" class="userPrefBox">
-                <div id="username-display" class="hiddenMain"></div>
-                    <button class="formBtn translatable" id="logout-btn" type="button">החלף משתמש</button>
                     <div id="hostLangIn"></div>
+                    <div id="userPrefBox" class="hiddenMain">
+                        <div id="username-display" class="hiddenMain"></div>
+                        <div class="translatable">חיבור אחרון</div>
+                        <div id="LastLogin">123123</div><!-- to be delt with -->
+                        <button class="formBtn translatable" id="logout-btn" type="button">החלף משתמש</button>
+                        <button class="formBtn translatable" id="ForgotPassword-Upref" type="button">שכחתי סיסמא</button><!-- to be delt with -->
+                        <div class="translatable">שפה מועדפת</div>
+                        <div class="FNCTTglBox"><!-- to be delt with -->
+                            <div>עברית</div>
+                            <div class="LangTglHouse" id="DefaultLanguageHousing">
+                                <div class="LangTglBtn" id="DefaultLanguageBtn">|||</div>
+                            </div>
+                            <div>English</div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div id="LastParamUpdateBox">
                 <a>פרמטרים עודכנו לאחרונה על ידי: </a>
@@ -1087,6 +1098,8 @@
         ]
 
         const translationDictionary = {
+            "שפה מועדפת":"DefaultLanguage",
+            "חיבור אחרון":"Last log in",
             "פרמטרים עודכנו לאחרונה על ידי:": "Parameters were last updated by:",
             "שמור את כל הפרמטרים עכשיו": "Save All Parameters Now",
             "סגור ללא שמירה": "Close Without Saving",
@@ -1304,6 +1317,7 @@
             document.getElementById("bodyBox").classList.add("disable_scroll");
             document.getElementById("logout-btn").disabled=true;
             document.getElementById("logout-btn").classList.add("disabledConfirmBtn");
+            document.getElementById("userPref").classList.add("functionLabelDisable")
             let form = document.getElementById("control-form");
             let formElements = form.elements;
             for (let i = 0; i < formElements.length; i++) {
@@ -1325,13 +1339,13 @@
             document.getElementById("CloseDefaultValBox").classList.add("functionLabelDisable")
             document.getElementById("DefValDisplayBox").classList.add("functionLabelDisable")
             document.getElementById("LangIndictor").classList.add("functionLabelDisable")
+            document.getElementById("userPref").classList.add("functionLabelDisable")
             confirmBox.classList.remove("hiddenBox");  // Remove hidden class
             confirmBox.classList.add("infoBox");       // Add infoBox class
             body.classList.add("disable_scroll");       // Add infoBox class
             let form = document.getElementById("control-form");
             document.getElementById("topSubmit").classList.add("disabledConfirmBtn");
             document.getElementById("BottomSubmit").classList.add("disabledConfirmBtn");
-            document.getElementById("logout-btn").classList.add("disabledConfirmBtn");
             let formElements = form.elements;
             for (let i = 0; i < formElements.length; i++) {
                 formElements[i].disabled = true;  // Disable each form element
@@ -1522,11 +1536,26 @@
             await update()
             exitConfirmBox();
         });
+        
         document.getElementById("CloseWarning").addEventListener("click", function(){
             exitConfirmBox();
             document.getElementById("wariningBox").classList.remove("wariningBox")
             document.getElementById("wariningBox").classList.add("hiddenMain")
             document.getElementById("WarningMesseage").innerHTML= "";
+        });
+
+        let prefboxOpen=false;
+        document.getElementById("userPref").addEventListener("click",function (event){
+            if (!prefboxOpen){
+                document.getElementById("userPrefBox").classList.remove("hiddenMain")
+                document.getElementById("userPrefBox").classList.add("userPrefBox")
+                prefboxOpen=true;
+            }else{
+                document.getElementById("userPrefBox").classList.add("hiddenMain")
+                document.getElementById("userPrefBox").classList.remove("userPrefBox")
+                prefboxOpen=false;
+            }
+            event.stopPropagation();
         });
 
         document.getElementById("PrebootToggleHousing").addEventListener("click", function (event) {
@@ -1725,6 +1754,7 @@
             document.getElementById("DefValDisplayBox").classList.add("hiddenValBox");
             document.getElementById("logout-btn").disabled=false;
             document.getElementById("logout-btn").classList.remove("disabledConfirmBtn");
+            document.getElementById("userPref").classList.remove("functionLabelDisable");
             event.preventDefault();  // Prevents form submission (and reload)
             let body = document.getElementById("bodyBox");
             body.classList.remove("disable_scroll");
@@ -1761,6 +1791,7 @@
             document.getElementById("topSubmit").classList.remove("disabledConfirmBtn");
             document.getElementById("logout-btn").classList.remove("disabledConfirmBtn");
             document.getElementById("BottomSubmit").classList.remove("disabledConfirmBtn");
+            document.getElementById("userPref").classList.remove("functionLabelDisable");
             if (document.getElementById("DefValDisplayBox").classList.contains("DefValDisplayBox") == false) {
                 let body = document.getElementById("bodyBox");
                 body.classList.remove("disable_scroll");
@@ -1790,12 +1821,18 @@
                 && document.getElementById("confirmBox").classList.contains("infoBox") == false) {  // Check if the key is 'Escape'
                 extiDefaultValBox();
             }
-            if (event.keyCode === 27 && wariningBox.classList.contains("wariningBox")
+            if (event.keyCode === 27 && document.getElementById("wariningBox").classList.contains("wariningBox")
             && document.getElementById("confirmBox").classList.contains("infoBox") == false){
                 exitConfirmBox();
                 document.getElementById("wariningBox").classList.remove("wariningBox")
                 document.getElementById("wariningBox").classList.add("hiddenMain")
                 document.getElementById("WarningMesseage").innerHTML= "";
+            }
+            if (event.keyCode === 27 && document.getElementById("userPrefBox").classList.contains("userPrefBox")
+            && document.getElementById("confirmBox").classList.contains("infoBox") == false){
+            document.getElementById("userPrefBox").classList.add("hiddenMain")
+                document.getElementById("userPrefBox").classList.remove("userPrefBox")
+                prefboxOpen=false;
             }
         });
 
@@ -1811,6 +1848,13 @@
                 document.getElementById("wariningBox").classList.add("hiddenMain")
                 document.getElementById("WarningMesseage").innerHTML= "";
             };
+            if ( !document.getElementById("userPrefBox").contains(event.target) && document.getElementById("userPrefBox").classList.contains("userPrefBox")
+            && document.getElementById("confirmBox").classList.contains("infoBox") == false){
+            document.getElementById("userPrefBox").classList.add("hiddenMain")
+                document.getElementById("userPrefBox").classList.remove("userPrefBox")
+                prefboxOpen=false;
+            }
+            
         });
 
         document.getElementById("exitConfirm").addEventListener("click", function (event) {

@@ -50,19 +50,31 @@ html{
     justify-content: center;
     gap: 20px;
 }
+#hostLangIn{
+    position: relative;
+}
 #userPref{
     width: 40px;
+    position: relative;
 }
 .userPrefBox{
-    position: fixed;
+    visibility: visible;
+    max-height: max-content;
+    position: absolute;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    padding: 10px;
+    padding: 30px;
     border-radius: 20px;
     border: #842F00 solid 1px;
+    background-color: #FFE9A4;
+    font-size: 14px;
+    align-items: center;
+    opacity: 1;
+    z-index: 2;
 }
 .LangIndictorBox{
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -90,6 +102,7 @@ html{
     padding-bottom: 30px;
 }
 .DefValDisplayBox{
+    z-index: 5;
     display: inline-block;
     position: fixed;
     inset-inline-start: 20%;
@@ -166,7 +179,7 @@ html{
     align-items: center;
     gap: 5px;
 }
-.FNCTglHouse{
+.FNCTglHouse,.LangTglHouse{
     border: 2px solid #937002;
     background-color: #FFE9A4;
     border-radius: 20px;
@@ -183,7 +196,7 @@ html{
 .FNCTglHouseOFF-ENG{
     direction: rtl;
 }
-.FNCTglHouse:hover, .ValDiVTglBtnBox:hover{
+.FNCTglHouse:hover, .ValDiVTglBtnBox:hover,.LangTglHouse:hover{
     cursor: pointer;
 }
 .DefeStageLabel{
@@ -216,7 +229,7 @@ html{
 .DefAtribute{
     font-style: bolder;
 }
-.FNCTglBtn{
+.FNCTglBtn,.LangTglBtn{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -465,6 +478,11 @@ html{
     margin: 0;
 }
 @media (max-width: 1800px) {/* Medium screens */
+    .userPrefBox{
+        top: 120px;
+        inset-inline-end: 10px;
+        width: 200px;
+    }    
     #LastParamUpdateBox{
         margin-top: 8vh;
         margin-bottom: 3vh;
@@ -525,15 +543,28 @@ html{
         width: 100px;
         height: 40px;
     }
+    .LangTglHouse{
+        width: 60px;
+        height: 24px;
+    }
     .FNCTglBtn{
         width: 50px;
         height: 38px;
+    }
+    .LangTglBtn{
+        width: 32px;
+        height:20px;
     }
     .reduceFont{
         font-size: 15px;
     }
 }
 @media (max-width: 768px) {/*small screens */
+    .userPrefBox{
+        top: -270px;
+        width: 50%;
+        inset-inline-end: 22.5%;
+    }    
     #DownloadPdfTop{
         max-width: 60%;
     }
@@ -566,6 +597,9 @@ html{
         /* transform: translate(); */
         /* /* top:35%; */
         inset-inline-end: 7%; 
+    }
+    .LangTglBtn{
+        margin: 0 !important;
     }
     #LastParamUpdateBox{
         margin-top: 5vh;
