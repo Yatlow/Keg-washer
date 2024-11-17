@@ -23,6 +23,7 @@ html{
     overflow: hidden;
     opacity: 0;
     max-height: 0;
+    padding: 0;
 }
 .ShownMain{
     visibility: visible;
@@ -36,7 +37,7 @@ html{
 }
 .headBox{
     overflow-wrap: normal;
-    padding-top: 10vh;
+    padding-top: 5vh;
     text-align: center;
     display: flex;
     align-items: center;
@@ -48,6 +49,18 @@ html{
     flex-direction: column;
     justify-content: center;
     gap: 20px;
+}
+#userPref{
+    width: 40px;
+}
+.userPrefBox{
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+    border-radius: 20px;
+    border: #842F00 solid 1px;
 }
 .LangIndictorBox{
     display: flex;
@@ -134,10 +147,10 @@ html{
     justify-content: center;
     transition: border-radius 200ms linear;
 }
-.functionLabel:hover,#CloseDefaultValBox:hover,#ShowPass:hover,.LangIndictor:hover,.DefeStageLabel:hover,.clickable{
+.functionLabel:hover,#CloseDefaultValBox:hover,#ShowPass:hover,.LangIndictor:hover,.DefeStageLabel:hover,.clickable,#userPref:hover{
     cursor: pointer;   
 }
-#CloseDefaultValBox:hover{
+#CloseDefaultValBox:hover,#userPref:hover{
     transform: scale(1.4);
     transition: transform 200ms linear;
 }
@@ -308,6 +321,9 @@ html{
     display: none;
     opacity: 0.2;
 }
+.FullyhiddenBox{
+    display: none;
+}
 
 .infoBox , .login-container,.resetPasswordBox, .wariningBox{
     display:inline-flex;
@@ -389,7 +405,6 @@ html{
     display: flex;
     flex-direction: row;
     justify-content: center;
-    padding: 3%;
 }
 .loginFormBottonsBox{
     display: flex;
@@ -496,7 +511,7 @@ html{
         width: 30%;
         inset-inline-start: 35%;
         height: fit-content;
-        padding: 10px;
+        padding: 3%;
     }
     .initial_lang_location{
         position: fixed;
