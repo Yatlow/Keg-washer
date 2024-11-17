@@ -1388,6 +1388,7 @@
             // console.log(preboobotMeteg);
             // console.log(pressureMeteg);
         }
+        
         const idToken = localStorage.getItem('customToken');
         function update() {
             let inner = document.getElementById("conirmContent");
@@ -1874,25 +1875,29 @@
                 document.getElementById("login-container").classList.add("hiddenMain");
                 document.getElementById("username-display").classList.remove("hiddenMain");
                 document.getElementById("username-display").innerText = LoggedInEmail;
+                document.getElementById("LoginBtn").classList.remove("disabledConfirmBtn");
+                LoggedInEmail= localStorage.getItem('LoggedInEmail')
                 loadPage();
-                localStorage.setItem('customToken', 1)
             }
 
             function failedLogin() {
                 document.getElementById("login-error-message").classList.remove("hiddenMain");
                 document.getElementById("login-error-message").innerHTML = LangFlag === 0 ? "אחד או שני פרטי הכניסה שגויים" : 'One ore both Details are wrong';
             }
+            if (localStorage.getItem('customToken')) {
+                document.getElementById("loadingUserBox").innerHTML = '';
+                SucsessLogin()
+            }
 
-            // Handle Login
             const loginForm = document.getElementById("login-form");
             const loginEmailInput = document.getElementById("login-email");
             const loginPasswordInput = document.getElementById("login-password");
             loginForm.addEventListener("submit", async (e) => {
                 e.preventDefault();
+                document.getElementById("LoginBtn").classList.add("disabledConfirmBtn");
                 document.getElementById("loadingUserBox").innerHTML = `${LangFlag == 0 ? 'מאמת כתובת מייל וסיסמה' : 'Verifyng Email and Password'}<img src="assets/pics/loading.png" class="loading" id="loading1">`;
                 const email = loginEmailInput.value;
                 const password = loginPasswordInput.value;
-                // Function for logging in the user and sending the ID token to the backend
                 async function login() {
                     try {
                         const response = await fetch(servrPort + '/login', {
@@ -1905,20 +1910,17 @@
                         });
                         const { token } = await response.json();
 
-                        // Exchange custom token for ID Token and Refresh Token
                         const userCredential = await signInWithCustomToken(auth, token);
-
-                        // Store tokens securely (avoid localStorage for sensitive data)
                         const idToken = await userCredential.user.getIdToken();
-                        //console.log('ID Token:', idToken);
                         localStorage.setItem('customToken', idToken)
+                        localStorage.setItem('LoggedInEmail',email)
+                        SucsessLogin()
                     } catch (error) {
                         console.error('Login failed:', error)
                     }
                 }
-                await login();
                 document.getElementById("loadingUserBox").innerHTML = '';
-                SucsessLogin()
+                await login();  
             });
 
             async function logout() {
@@ -1944,7 +1946,7 @@
                     document.getElementById("username-display").classList.add("hiddenMain");
                     DisableItems();
                     document.getElementById("LangIndictor").classList.remove("functionLabelDisable");
-                    localStorage.removeItem('customToken', false)
+                    localStorage.clear();
                     // Handle successful login (e.g., redirect to a dashboard)
                 } else {
                     console.log('Logout failed');
@@ -1980,9 +1982,6 @@
                 document.getElementById("LogoutBox").classList.remove("resetPasswordBox");
             }
 
-
-
-            // Logout functionality LogoutBox  LogoutMesseag
             const logoutButton = document.getElementById("logout-btn");
             logoutButton.addEventListener("click", async (e) => {
                 logutwindowopen();
