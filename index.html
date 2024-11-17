@@ -51,6 +51,11 @@
             <img src="assets/pics/loading.png" class="loading" id="loading6">
         </div>
     </div>
+    <div id="wariningBox" class="hiddenMain">
+        <button id="aproveWarning" class="confirmBoxBtn translatable">שמור פרמטרים עכשיו</button>
+        <button id="CloseWarning" class="confirmBoxBtn translatable">סגור ללא שמירה</button>
+        <div id="WarningMesseage" class="translatable"></div>
+    </div>
 
     <div class="hiddenMain" id="contenet">
         <div class="container-fluid MainBox">
@@ -73,15 +78,18 @@
                     <div id="hostLangIn"></div>
                 </div>
             </div>
-
+            <div id="LastParamUpdateBox">
+                <a>פרמטרים עודכנו לאחרונה על ידי: </a>
+                <a id="LastUser"></a>
+                <a>ב:</a>
+                <a id="Timestamp"></a>
+            </div>
             <form id="control-form" method="POST">
                 <div class="formBox">
                     <div class="SubmitionBox" id="topSubmit">
                         <button class="formBtn translatable" id="sendTop" type="submit">שמור פרמטרים</button>
-                        <button class="formBtn translatable" id="showDefaultsTop" type="button">הצג נתוני ברירת
-                            מחדל</button>
-                        <button class="formBtn translatable" id="reset-btn-top" type="button">איפוס לנתוני ברירת
-                            מחדל</button>
+                        <button class="formBtn translatable" id="showDefaultsTop" type="button">הצג נתוני ברירת מחדל</button>
+                        <button class="formBtn translatable" id="reset-btn-top" type="button">איפוס לנתוני ברירת מחדל</button>
 
                     </div>
                     <!-- stage 0 -->
@@ -119,7 +127,7 @@
                         <div class="functionInputs cloapsable row" id="stage1">
                             <div class="col-12 col-md-3 ParamterBox">
                                 <label class="translatable" for="FirstAirPurgeRecure">כמות חזרות</label>
-                                <input id="FirstAirPurgeRecure" min="1" name="FirstAirPurgeRecure" required=""
+                                <input id="FirstAirPurgeRecure" min="0" name="FirstAirPurgeRecure" required=""
                                     type="number" value="{{ settings['FirstAirPurgeRecure'] }}" />
                                 <label class="valType translatable">פעמים</label>
                             </div>
@@ -156,7 +164,7 @@
                             <div class="functionInputs row fullborder">
                                 <div class="col-12 col-md-3 ParamterBox">
                                     <label class="translatable" for="recureMedSquirt">כמות חזרות</label>
-                                    <input id="recureMedSquirt" min="1" name="recureMedSquirt" required="" type="number"
+                                    <input id="recureMedSquirt" min="0" name="recureMedSquirt" required="" type="number"
                                         value="{{ settings['recureMedSquirt'] }}" />
                                     <label class="valType translatable">פעמים</label>
                                 </div>
@@ -178,7 +186,7 @@
                             <div class="functionInputs row fullborder">
                                 <div class="col-12 col-md-3 ParamterBox">
                                     <label class="translatable" for="recureShortSquirt">כמות חזרות</label>
-                                    <input id="recureShortSquirt" min="1" name="recureShortSquirt" required=""
+                                    <input id="recureShortSquirt" min="0" name="recureShortSquirt" required=""
                                         type="number" value="{{ settings['recureShortSquirt'] }}" />
                                     <label class="valType translatable">פעמים</label>
                                 </div>
@@ -200,7 +208,7 @@
                             <div class="functionInputs row fullborder">
                                 <div class="col-12 col-md-3 ParamterBox">
                                     <label class="translatable" for="recureLongSquirt">כמות חזרות</label>
-                                    <input id="recureLongSquirt" min="1" name="recureLongSquirt" required=""
+                                    <input id="recureLongSquirt" min="0" name="recureLongSquirt" required=""
                                         type="number" value="{{ settings['recureLongSquirt'] }}" />
                                     <label class="valType translatable">פעמים</label>
                                 </div>
@@ -241,7 +249,7 @@
                             <div class="functionInputs row">
                                 <div class="col-12 col-md-3 ParamterBox">
                                     <label class="translatable" for="PostWaterPurgeRecure">כמות חזרות</label>
-                                    <input id="PostWaterPurgeRecure" min="1" name="PostWaterPurgeRecure" required=""
+                                    <input id="PostWaterPurgeRecure" min="0" name="PostWaterPurgeRecure" required=""
                                         type="number" value="{{ settings['PostWaterPurgeRecure'] }}" />
                                     <label class="valType translatable">פעמים</label>
                                 </div>
@@ -325,7 +333,7 @@
                             <div class="functionInputs row fullborder">
                                 <div class="col-12 col-md-6 col-lg-3 ParamterBox">
                                     <label class="translatable" for="recureShortCausticSquirt">כמות חזרות</label>
-                                    <input id="recureShortCausticSquirt" min="1" name="recureShortCausticSquirt"
+                                    <input id="recureShortCausticSquirt" min="0" name="recureShortCausticSquirt"
                                         required="" type="number" value="{{ settings['recureShortCausticSquirt'] }}" />
                                     <label class="valType translatable">פעמים</label>
                                 </div>
@@ -346,7 +354,7 @@
                             <div class="functionInputs row fullborder">
                                 <div class="col-12 col-md-6 ParamterBox">
                                     <label class="translatable" for="recurePurgeCausticSquirt">כמות חזרות</label>
-                                    <input id="recurePurgeCausticSquirt" min="1" name="recureShortCausticSquirt"
+                                    <input id="recurePurgeCausticSquirt" min="0" name="recureShortCausticSquirt"
                                         required="" type="number" value="{{ settings['recureShortCausticSquirt'] }}" />
                                     <label class="valType translatable">פעמים</label>
                                 </div>
@@ -362,7 +370,7 @@
                             <div class="functionInputs row">
                                 <div class="col-12 col-md-3 ParamterBox">
                                     <label class="translatable" for="recureLastCausticSquirt">כמות חזרות</label>
-                                    <input id="recureLastCausticSquirt" min="1" name="recureLastCausticSquirt"
+                                    <input id="recureLastCausticSquirt" min="0" name="recureLastCausticSquirt"
                                         required="" type="number" value="{{ settings['recureLastCausticSquirt'] }}" />
                                     <label class="valType translatable">פעמים</label>
                                 </div>
@@ -392,7 +400,7 @@
                         <div class="functionInputs cloapsable row" id="stage5">
                             <div class="col-12 col-md-3 ParamterBox">
                                 <label class="translatable" for="PostCausticPurgeRecure">כמות חזרות</label>
-                                <input id="PostCausticPurgeRecure" min="1" name="PostCausticPurgeRecure" required=""
+                                <input id="PostCausticPurgeRecure" min="0" name="PostCausticPurgeRecure" required=""
                                     type="number" value="{{ settings['PostCausticPurgeRecure'] }}" />
                                 <label class="valType translatable">פעמים</label>
                             </div>
@@ -421,7 +429,7 @@
                             <div class="functionInputs row fullborder">
                                 <div class="col-12 col-md-3 ParamterBox">
                                     <label class="translatable" for="postCausticWaterRinseRecure">כמות שטיפות</label>
-                                    <input id="postCausticWaterRinseRecure" min="1" name="postCausticWaterRinseRecure"
+                                    <input id="postCausticWaterRinseRecure" min="0" name="postCausticWaterRinseRecure"
                                         required="" type="number"
                                         value="{{ settings['postCausticWaterRinseRecure'] }}" />
                                     <label class="valType translatable">פעמים</label>
@@ -432,7 +440,7 @@
                                 <div class="col-12 col-md-3 ParamterBox">
                                     <label class="translatable" for="postCausticWaterRinseRecureEachRins">כמות
                                         חזרות</label>
-                                    <input id="postCausticWaterRinseRecureEachRins" min="1"
+                                    <input id="postCausticWaterRinseRecureEachRins" min="0"
                                         name="postCausticWaterRinseRecureEachRins" required="" type="number"
                                         value="{{ settings['postCausticWaterRinseRecureEachRins'] }}" />
                                     <label class="valType translatable">פעמים</label>
@@ -491,7 +499,7 @@
                             <div class="functionInputs row fullborder">
                                 <div class="col-12 col-md-3 ParamterBox">
                                     <label class="translatable" for="paaInitialPumpRecure">כמות חזרות</label>
-                                    <input id="paaInitialPumpRecure" min="1" name="paaInitialPumpRecure" required=""
+                                    <input id="paaInitialPumpRecure" min="0" name="paaInitialPumpRecure" required=""
                                         type="number" value="{{ settings['paaInitialPumpRecure'] }}" />
                                     <label class="valType translatable">פעמים</label>
                                 </div>
@@ -512,7 +520,7 @@
                             <div class="functionInputs row fullborder">
                                 <div class="col-12 col-md-6 ParamterBox">
                                     <label class="translatable" for="paaSquirtRecure">כמות חזרות</label>
-                                    <input id="paaSquirtRecure" min="1" name="paaSquirtRecure" required="" type="number"
+                                    <input id="paaSquirtRecure" min="0" name="paaSquirtRecure" required="" type="number"
                                         value="{{ settings['paaSquirtRecure'] }}" />
                                     <label class="valType translatable">פעמים</label>
                                 </div>
@@ -548,7 +556,7 @@
                             <div class="functionInputs row fullborder">
                                 <div class="col-12 col-md-3 ParamterBox">
                                     <label class="translatable" for="co2PurgeKeg1Recure">כמות חזרות</label>
-                                    <input id="co2PurgeKeg1Recure" min="1" name="co2PurgeKeg1Recure" required=""
+                                    <input id="co2PurgeKeg1Recure" min="0" name="co2PurgeKeg1Recure" required=""
                                         type="number" value="{{ settings['co2PurgeKeg1Recure'] }}" />
                                     <label class="valType translatable">פעמים</label>
                                 </div>
@@ -570,7 +578,7 @@
                             <div class="functionInputs row fullborder">
                                 <div class="col-12 col-md-3 ParamterBox">
                                     <label class="translatable" for="co2PurgeKeg2Recure">כמות חזרות</label>
-                                    <input id="co2PurgeKeg2Recure" min="1" name="co2PurgeKeg2Recure" required=""
+                                    <input id="co2PurgeKeg2Recure" min="0" name="co2PurgeKeg2Recure" required=""
                                         type="number" value="{{ settings['co2PurgeKeg2Recure'] }}" />
                                     <label class="valType translatable">פעמים</label>
                                 </div>
@@ -665,7 +673,7 @@
                 <button class="confirmBoxBtn translatable" id="exitConfirm">אישור</button>
                 <button class="confirmBoxBtnHidden translatable" id="Reload">טעינה מחדש</button>
                 <button class="confirmBoxBtnHidden translatable" id="Resend">שליחה מחדש</button>
-                <button class="confirmBoxBtnHidden translatable" id="Reset">איפוס נתונים מחדש</button>
+                <button class="confirmBoxBtnHidden translatable" id="Reset">איפוס פרמטרים מחדש</button>
                 <button class="confirmBoxBtnHidden translatable" id="RelogIn">כניסה מחדש</button>
             </div>
 
@@ -1122,6 +1130,7 @@
         ]
 
         const translationDictionary = {
+            "נתוני ברירת מחדל!":"Default Value",
             "סגור": "Close",
             "מחליף משתמש": "Changing user",
             "מתנתק אוטומטית<br>המושב עבר": "Logging out- TIMEOUT",
@@ -1204,12 +1213,12 @@
             "משך המתנה להגעה ליעד": "Wait Duration to Reach Target",
             "משך בניית לחץ לאחר המתנה במידה ולא הגיע ללחץ יעד": "Pressure Build Duration after Wait if Target Pressure Not Reached",
             "משך בניית לחץ במידה ומתג חיישני לחץ כבוי": "Pressure Build Duration if Pressure Sensor Switch is Off",
-            "שולח נתונים לשרת": "Sending Data to Server",
+            "שולח פרמטרים לשרת": "Sending Data to Server",
             "ממתין לשרת": "Waiting for Server",
             "אישור": "Confirm",
             "טעינה מחדש": "Reload",
             "שליחה מחדש": "Resend",
-            "איפוס נתונים מחדש": "Reset to default Data",
+            "איפוס פרמטרים מחדש": "Reset to default Data",
             "שמור כקובץ PDF": "Save as PDF",
             "דלוק": "On",
             "כבוי": "Off",
@@ -1248,7 +1257,7 @@
             return translationDictionary[hebrewText] || hebrewText;  // Default to original text if not found
         }
 
-        function traslateStickListener() {
+        function traslateStickListener(hostLang) {
             const elementsToTranslate = document.querySelectorAll('.translatable');
 
             elementsToTranslate.forEach(function (element) {
@@ -1276,10 +1285,10 @@
             // Toggle the LangFlag and button text
             if (LangFlag === 0) {
                 LangFlag = 1; // Switch to English
-                this.innerHTML = "עברית";
+                hostLang.innerHTML =`<div class="LangIndictor translatable" id="LangIndictor">עברית</div>`;
             } else {
                 LangFlag = 0; // Switch back to Hebrew
-                this.innerHTML = "English";
+                hostLang.innerHTML = `<div class="LangIndictor translatable" id="LangIndictor">English</div>`;
             }
             let TglBtn1 = document.getElementById("PrebootToggleHousing");
             let TglBtn2 = document.getElementById("PressureToggleHousing");
@@ -1316,10 +1325,12 @@
         };
 
         document.getElementById("hostLangOut").addEventListener("click", function () {
-            traslateStickListener()
+            let hostLang=document.getElementById("hostLangOut");
+            traslateStickListener(hostLang)
         });
         document.getElementById("hostLangIn").addEventListener("click", function () {
-            traslateStickListener()
+            let hostLang=document.getElementById("hostLangIn");
+            traslateStickListener(hostLang)
         });
 
         function showDefaultVals() {
@@ -1390,123 +1401,166 @@
         }
         
         const idToken = localStorage.getItem('customToken');
-        function update() {
+        async function update() {
             let inner = document.getElementById("conirmContent");
-            let dinamicinner = LangFlag === 0 ? 'שולח נתונים לשרת' : 'Sending Data to Sever'
+            let dinamicinner = LangFlag === 0 ? 'שולח פרמטרים לשרת' : 'Sending Data to Sever'
             inner.innerHTML = dinamicinner + '<img src="assets/pics/loading.png" class="loading" id="loading5">';
             document.getElementById("exitConfirm").innerHTML = LangFlag === 0 ? 'ממתין לשרת' : 'Waiting for Server';
             document.getElementById("exitConfirm").classList.add("disabledConfirmBtn");
             DisableItems()
             const formData = {};
+            formData['LastUser']= localStorage.getItem('LoggedInEmail');
+            let Timestamp= new Date();
+            formData['Timestamp']= Timestamp;
             attributes.forEach(attribute => {
                 if (attribute === "preboobotMeteg") {
-                    formData[attribute] = preboobotMeteg;
+                    formData[attribute] = Number(preboobotMeteg);
                 }
                 else if (attribute === "pressureMeteg") {
-                    formData[attribute] = pressureMeteg;
+                    formData[attribute] = Number (pressureMeteg);
                 }
                 else {
-                    formData[attribute] = $('#' + attribute).val() || 5;
+                    formData[attribute] = Number ($('#' + attribute).val()) || 1;
                 }
             });
-            console.log(docRef);
-
-            // Update fields
-            updateDoc(docRef, formData);
-            //      fetch(`${servrPort}/update`, {
-            //         method: 'POST',
-            //         headers: {
-            //         Authorization: `Bearer ${idToken}`,
-            //         },
-            //         body: JSON.stringify(formData),   
-            //         credentials: 'include' 
-            //      })
-            //        .then(response => {
-            //     return response.json();
-            // })
-
-            //      .then(data => {
-            //                 let inner = document.getElementById("conirmContent");
-            //                 inner.innerHTML = data.message
-            //                 document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
-            //                 document.getElementById("exitConfirm").innerHTML = LangFlag===0? 'אישור': 'OK';
-            //                 DisableItems()
-            //                 attributes.forEach(attribute => {
-            //                     if (data.hasOwnProperty(attribute)) {
-            //                         $('#' + attribute).val(data[attribute]);
-            //                         // Correct handling of special attributes:
-            //                         if (attribute === "preboobotMeteg") {
-            //                             preboobotMeteg = data[attribute];
-            //                             toggleMeteg("PrebootToggleHousing", preboobotMeteg);
-            //                         } 
-            //                         else if (attribute === "pressureMeteg") {
-            //                             pressureMeteg = data[attribute];
-            //                             toggleMeteg("PressureToggleHousing", pressureMeteg);
-            //                         }
-            //                     }
-            //                 });
-            //       })
-            //      .catch(error => {
-            //             let inner = document.getElementById("conirmContent")
-            //             console.error('Error:', error);   
-            //             inner.innerHTML = 'תקלה בתקשורת לשרת';
-            //             document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
-            //             document.getElementById("exitConfirm").classList.add("confirmBoxBtnHidden");
-            //             document.getElementById("Resend").classList.remove("confirmBoxBtnHidden");
-            //             document.getElementById("Resend").classList.add("confirmBoxBtn");
-            //             DisableItems()
-            //     });
+            try{
+            // updateDoc(docRef, formData);
+            await updateDoc(docRef, formData);
+            inner.innerHTML = LangFlag===0? 'פרמטרים נשמרו בשרת': 'Parameters Saved on server';
+            document.getElementById("exitConfirm").innerHTML = LangFlag===0? 'סגור': 'Close';
+            DisableItems()
+            setTimeout(() => {
+                exitConfirmBox()
+            }, 750);
+            document.getElementById('LastUser').innerHTML=formData['LastUser'];
+                const year = Timestamp.getFullYear();
+                const month = String(Timestamp.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+                const day = String(Timestamp.getDate()).padStart(2, '0');
+                const hours = String(Timestamp.getHours()).padStart(2, '0');
+                const minutes = String(Timestamp.getMinutes()).padStart(2, '0');
+                const formattedTimestamp = `${day}/${month}/${year} ${hours}:${minutes}`;
+                document.getElementById('Timestamp').innerHTML=formattedTimestamp;
+            }catch(error) {
+                let inner = document.getElementById("conirmContent")
+                console.error('Error:', error);   
+                inner.innerHTML = LangFlag===0? 'תקלה בתקשורת לשרת': 'Comuinication eror with server';
+                document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
+                document.getElementById("exitConfirm").classList.remove("confirmBoxBtnHidden");
+                document.getElementById("Resend").classList.remove("confirmBoxBtnHidden");
+                document.getElementById("Resend").classList.add("confirmBoxBtn");
+                DisableItems()
+            };
         }
 
-        function reset() {
+        async function reset() {
             let inner = document.getElementById("conirmContent");
             let dinamicinner = LangFlag === 0 ? 'טוען נתוני ברירת מחדל מהשרת' : 'Loading Default Values from Server';
             inner.innerHTML = dinamicinner + '<img src="assets/pics/loading.png" class="loading" id="loading4">';
             document.getElementById("exitConfirm").innerHTML = LangFlag === 0 ? 'ממתין לשרת' : 'Waiting for Server';
             document.getElementById("exitConfirm").classList.add("disabledConfirmBtn");
             DisableItems()
+            try {
+                const DefRef = doc(db, 'parameters', 'Default');
+                const LoadedFromDb = await getDoc(DefRef);
+                const Default_values = LoadedFromDb.data();
+                let escapeTimeout = setTimeout(function () {
+                    escapePressedOnce = 0;
+                }, 500);
+                DisableItems()
+                // Populate form fields with initial values
+                attributes.forEach(attribute => {
+                    // Check if the attribute exists in the response object
+                    if (Default_values.hasOwnProperty(attribute)) {
+                        // Set the value of the form field using jQuery
+                        $('#' + attribute).val(Default_values[attribute]);
 
-            $.ajax({
-                type: "POST",
-                url: 'https://10.0.0.1:5000/reset',
-                success: function (response) {
-                    if (response.success) {
-                        let inner = document.getElementById("conirmContent");
-                        inner.innerHTML = LangFlag === 0 ? 'עודכנו נתוני ברירת מחדל' : 'Default Values Updated';
-                        document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
-                        document.getElementById("exitConfirm").innerHTML = LangFlag === 0 ? 'אישור' : 'OK';
-                        DisableItems()
-
-                        attributes.forEach(attribute => {
-                            if (response.new_values.hasOwnProperty(attribute)) {
-                                $('#' + attribute).val(response.new_values[attribute]);
-
-                                // Handle special attributes
-                                if (attribute === "preboobotMeteg") {
-                                    preboobotMeteg = response.new_values[attribute];
-                                    toggleMeteg("PrebootToggleHousing", preboobotMeteg);
-                                }
-                                else if (attribute === "pressureMeteg") {
-                                    pressureMeteg = response.new_values[attribute];
-                                    toggleMeteg("PressureToggleHousing", pressureMeteg);
-                                }
+                        let StartMetegId1 = 0;
+                        let StartMetegId = 0;
+                        if (attribute === "preboobotMeteg") {
+                            // console.log(attribute+":"+Default_values[attribute])
+                            StartMetegId = "PrebootToggleHousing";
+                            if (Default_values[attribute] == 1) {
+                                preboobotMeteg = 1;
+                                preboobotMeteg = toggleMeteg(StartMetegId, preboobotMeteg, preboobotMeteg);
+                                // console.log("preboot should be on")
                             }
-                        });
+                            else if (Default_values[attribute] == 0) {
+                                preboobotMeteg = 0;
+                                preboobotMeteg = toggleMeteg(StartMetegId, preboobotMeteg, preboobotMeteg);
+                                // console.log("preboot should be off")
+                            }
+                            if (preboobotMeteg == 0) {
+                                preboobotMeteg = 1;
+                            } else { preboobotMeteg = 0 }
+
+                        }
+                        if (attribute === "pressureMeteg") {
+                            // console.log(attribute+":"+Default_values[attribute])
+                            StartMetegId1 = "PressureToggleHousing";
+                            if (Default_values[attribute] == 1) {
+                                pressureMeteg = 1;
+                                pressureMeteg = toggleMeteg(StartMetegId1, pressureMeteg, pressureMeteg);
+                                // console.log("pressure should be on")
+                            }
+                            else if (Default_values[attribute] == 0) {
+                                pressureMeteg = 0;
+                                pressureMeteg = toggleMeteg(StartMetegId1, pressureMeteg, pressureMeteg);
+                                // console.log("pressure should be on")
+                            }
+                            if (pressureMeteg == 0) {
+                                pressureMeteg = 1;
+                            } else (pressureMeteg = 0)
+                        }
                     }
-                },
-                error: function (xhr, status, error) {
-                    let inner = document.getElementById("conirmContent");
-                    let dinamicinner2 = LangFlag === 0 ? 'תקלה בתקשורת לשרת <br>וודא שמכונת השטיפה החביות דולקת' : 'Failed to Reach Server<br>Make Sure The keg Washer is on';
-                    inner.innerHTML = dinamicinner2;
-                    document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
-                    document.getElementById("exitConfirm").classList.add("confirmBoxBtnHidden");
-                    document.getElementById("Reset").classList.remove("confirmBoxBtnHidden");
-                    document.getElementById("Reset").classList.add("confirmBoxBtn");
-                    DisableItems()
-                    console.error("Error in AJAX request:", error);
-                }
-            });
-        }
+                });
+                document.getElementById('LastUser').innerHTML=Default_values['LastUser'];
+                let timestamp = Default_values['Timestamp'];
+                let Timestamp=  new Date(timestamp.seconds * 1000);
+                const year = Timestamp.getFullYear();
+                const month = String(Timestamp.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+                const day = String(Timestamp.getDate()).padStart(2, '0');
+                const hours = String(Timestamp.getHours()).padStart(2, '0');
+                const minutes = String(Timestamp.getMinutes()).padStart(2, '0');
+                const formattedTimestamp = `${day}/${month}/${year} ${hours}:${minutes}`;
+                document.getElementById('Timestamp').innerHTML=formattedTimestamp;
+                await updateDoc(docRef, Default_values);
+                let inner = document.getElementById("conirmContent");
+                inner.innerHTML = LangFlag == 0 ?  'עודכנו נתוני ברירת מחדל' : 'Default Values Updated';
+                document.getElementById("exitConfirm").innerHTML = LangFlag == 0 ? 'סגור' : 'Close';
+                setTimeout(() => {
+                exitConfirmBox()
+                 }, 750);
+            } catch (error) {
+                DisableItems()
+                let inner = document.getElementById("conirmContent");
+                inner.innerHTML = LangFlag == 0 ? 'תקלה בתקשורת לשרת' : 'Failed to Connect Server'
+                document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
+                document.getElementById("exitConfirm").classList.add("confirmBoxBtnHidden");
+                document.getElementById("Reset").classList.remove("confirmBoxBtnHidden")
+                document.getElementById("Reset").classList.add("confirmBoxBtn")
+                console.error('Error loading initial values:', error);
+                let escapeTimeout = setTimeout(function () {
+                    escapePressedOnce = 0;
+                }, 500);
+            }
+        };
+
+        document.getElementById("aproveWarning").addEventListener("click",async function(){
+            let confirmBox = document.getElementById("confirmBox");
+            confirmBox.classList.remove("hiddenBox");  // Remove hidden class
+            confirmBox.classList.add("infoBox");
+            document.getElementById("wariningBox").classList.remove("wariningBox")
+            document.getElementById("wariningBox").classList.add("hiddenMain")
+            document.getElementById("WarningMesseage").innerHTML= "";
+            await update()
+            exitConfirmBox();
+        });
+        document.getElementById("CloseWarning").addEventListener("click", function(){
+            exitConfirmBox();
+            document.getElementById("wariningBox").classList.remove("wariningBox")
+            document.getElementById("wariningBox").classList.add("hiddenMain")
+            document.getElementById("WarningMesseage").innerHTML= "";
+        });
 
         document.getElementById("PrebootToggleHousing").addEventListener("click", function (event) {
             const customToken = localStorage.getItem('customToken');
@@ -1520,9 +1574,15 @@
                 document.getElementById("RelogIn").classList.add("confirmBoxBtn")
                 DisableItems()
             } else {
+                DisableItems()
+                let confirmBox = document.getElementById("confirmBox");
+                confirmBox.classList.add("hiddenBox");  // Remove hidden class
+                confirmBox.classList.remove("infoBox");
                 preboobotMeteg = toggleMeteg("PrebootToggleHousing", preboobotMeteg);
                 toggleMeteg("PrebootToggleHousing", preboobotMeteg);
-                update();  // Send the updated state to the server
+                document.getElementById("wariningBox").classList.remove("hiddenMain")
+                document.getElementById("wariningBox").classList.add("wariningBox")
+                document.getElementById("WarningMesseage").innerHTML= LangFlag==0? 'סייקל בדיקה ראשוני ישתנה רק לאחר שמירת פרמטרים <br>לחיצה על "שמור פרמטים" ישמור את כל הפרמטרים מהדף!':'Initial test cycle will be changed only after saving parameters<br> clicking "Save Parameters" will save all parametrs on page!';
             }
         });
 
@@ -1538,10 +1598,15 @@
                 document.getElementById("RelogIn").classList.add("confirmBoxBtn")
                 DisableItems()
             } else {
+                let confirmBox = document.getElementById("confirmBox");
+                confirmBox.classList.add("hiddenBox");  // Remove hidden class
+                confirmBox.classList.remove("infoBox");
                 pressureMeteg = toggleMeteg("PressureToggleHousing", pressureMeteg);
                 toggleMeteg("PressureToggleHousing", pressureMeteg);
-                update();  // Send the updated state to the server
-
+                document.getElementById("wariningBox").classList.remove("hiddenMain")
+                document.getElementById("wariningBox").classList.add("wariningBox")
+                document.getElementById("WarningMesseage").innerHTML= LangFlag==0? 'חיישני לחץ ישתנו רק לאחר שמירת פרמטרים <br>לחיצה על "שמור פרמטים" ישמור את כל הפרמטרים מהדף!':'Pressure Sensors will be changed only after saving parameters<br> clicking "Save Parameters" will save all parametrs on page!';
+                
             }
         });
 
@@ -1549,7 +1614,7 @@
             loadPage();
         });
 
-        document.getElementById("Resend").addEventListener("click", function (evet) {
+        document.getElementById("Resend").addEventListener("click",function (evet) {
             const customToken = localStorage.getItem('customToken');
             if (!customToken) {
                 let inner = document.getElementById("conirmContent");
@@ -1568,7 +1633,7 @@
             }
         });
 
-        document.getElementById("Reset").addEventListener("click", function (evet) {
+        document.getElementById("Reset").addEventListener("click",function (evet) {
             const customToken = localStorage.getItem('customToken');
             if (!customToken) {
                 let inner = document.getElementById("conirmContent");
@@ -1583,7 +1648,7 @@
                 document.getElementById("exitConfirm").classList.remove("confirmBoxBtnHidden");
                 document.getElementById("Reset").classList.add("confirmBoxBtnHidden")
                 document.getElementById("Reset").classList.remove("confirmBoxBtn")
-                update();
+                reset();
             }
         });
 
@@ -1597,7 +1662,7 @@
 
         async function loadPage() {
             let inner = document.getElementById("conirmContent");
-            let dinamicinner = LangFlag == 0 ? 'התחברת בהצלחה!<br>טוען נתונים מהשרת' : 'Sucssesfuly Logged In<br>Loading Data from Server';
+            let dinamicinner = LangFlag == 0 ? 'התחברת בהצלחה!<br>טוען פרמטרים מהשרת' : 'Sucssesfuly Logged In<br>Loading Data from Server';
             inner.innerHTML = dinamicinner + '<img src="assets/pics/loading.png" class="loading" id="loading0">';
             document.getElementById("exitConfirm").innerHTML = LangFlag == 0 ? 'ממתין לשרת' : 'Waiting for Server';
             document.getElementById("exitConfirm").classList.add("disabledConfirmBtn");
@@ -1611,9 +1676,11 @@
                 }, 500);
                 DisableItems()
                 let inner = document.getElementById("conirmContent");
-                inner.innerHTML = LangFlag == 0 ? 'נתונים נטענו בהצלחה מהשרת!' : 'Sucsessfuly Loaded Data from Server';
-                document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
-                document.getElementById("exitConfirm").innerHTML = LangFlag == 0 ? 'אישור' : 'OK';
+                inner.innerHTML = LangFlag == 0 ? 'פרמטרים נטענו בהצלחה מהשרת!' : 'Sucsessfuly Loaded Data from Server';
+                document.getElementById("exitConfirm").innerHTML = LangFlag == 0 ? 'סגור' : 'close';
+                setTimeout(() => {
+                exitConfirmBox()
+                 }, 750);
                 // Populate form fields with initial values
                 attributes.forEach(attribute => {
                     // Check if the attribute exists in the response object
@@ -1660,12 +1727,22 @@
                         }
                     }
                 });
+                document.getElementById('LastUser').innerHTML=initial_values['LastUser'];
+                let timestamp = initial_values['Timestamp'];
+                let Timestamp=  new Date(timestamp.seconds * 1000);
+                const year = Timestamp.getFullYear();
+                const month = String(Timestamp.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+                const day = String(Timestamp.getDate()).padStart(2, '0');
+                const hours = String(Timestamp.getHours()).padStart(2, '0');
+                const minutes = String(Timestamp.getMinutes()).padStart(2, '0');
+                const formattedTimestamp = `${day}/${month}/${year} ${hours}:${minutes}`;
+                document.getElementById('Timestamp').innerHTML=formattedTimestamp;
             } catch (error) {
                 DisableItems()
                 let inner = document.getElementById("conirmContent");
                 inner.innerHTML = LangFlag == 0 ? 'תקלה בתקשורת לשרת' : 'Failed to Connect Server'
                 document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
-                document.getElementById("exitConfirm").classList.add("confirmBoxBtnHidden");
+                document.getElementById("exitConfirm").classList.remove("confirmBoxBtnHidden");
                 document.getElementById("Reload").classList.remove("confirmBoxBtnHidden")
                 document.getElementById("Reload").classList.add("confirmBoxBtn")
                 console.error('Error loading initial values:', error);
@@ -1674,6 +1751,7 @@
                 }, 500);
             }
         };
+        
         function extiDefaultValBox() {
             document.getElementById("DefValDisplayBox").classList.remove("DefValDisplayBox");
             document.getElementById("DefValDisplayBox").classList.add("hiddenValBox");
@@ -1759,7 +1837,7 @@
             showDefaultVals();
         });
 
-        $('#control-form').on('submit', function (e) {
+        $('#control-form').on('submit',async function (e) {
             e.preventDefault(); // Prevent the default form submission
             const customToken = localStorage.getItem('customToken');
             if (!customToken) {
@@ -1772,7 +1850,7 @@
                 document.getElementById("RelogIn").classList.add("confirmBoxBtn")
                 DisableItems()
             } else {
-                update()
+                await update()
             }
         });
 
@@ -1849,7 +1927,6 @@
             toggleStage("label18", "stage18", "Tgl18");
         }
 
-
         function logInPage() {
             let LoggedInEmail = 0;
             let idleTimeout;
@@ -1867,6 +1944,7 @@
 
             function SucsessLogin() {
                 exitConfirmBox();
+                LoggedInEmail= localStorage.getItem('LoggedInEmail')
                 document.getElementById("hostLangIn").innerHTML = document.getElementById("hostLangOut").innerHTML;
                 document.getElementById("hostLangOut").innerHTML = "";
                 document.getElementById("LangIndictor").classList.remove("initial_lang_location");
@@ -1876,7 +1954,6 @@
                 document.getElementById("username-display").classList.remove("hiddenMain");
                 document.getElementById("username-display").innerText = LoggedInEmail;
                 document.getElementById("LoginBtn").classList.remove("disabledConfirmBtn");
-                LoggedInEmail= localStorage.getItem('LoggedInEmail')
                 loadPage();
             }
 
@@ -1912,15 +1989,15 @@
 
                         const userCredential = await signInWithCustomToken(auth, token);
                         const idToken = await userCredential.user.getIdToken();
-                        localStorage.setItem('customToken', idToken)
-                        localStorage.setItem('LoggedInEmail',email)
+                        await localStorage.setItem('customToken', idToken)
+                        await localStorage.setItem('LoggedInEmail',email)
                         SucsessLogin()
                     } catch (error) {
                         console.error('Login failed:', error)
                     }
                 }
-                document.getElementById("loadingUserBox").innerHTML = '';
                 await login();  
+                document.getElementById("loadingUserBox").innerHTML = '';
             });
 
             async function logout() {
@@ -1952,7 +2029,6 @@
                     console.log('Logout failed');
                 }
             }
-
 
             const idleTimeLimit = 15 * 60 * 1000; // e.g., 15 minutes
             function resetIdleTimer() {
@@ -2065,18 +2141,6 @@
         }
 
         logInPage();
-        //devolpment cheet script. to be deleted!
-        // document.getElementById("contenet").classList.remove("hiddenMain");
-        // document.getElementById("contenet").classList.add("ShownMain");
-        // loadPage();
-        document.getElementById("conirmContent").addEventListener("click", function (event) {
-            if (secretClick < 3) {
-                secretClick = secretClick + 1;
-            } else {
-                exitConfirmBox();
-                secretClick = 0;
-            }
-        });
     </script>
 </body>
 

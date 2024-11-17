@@ -63,6 +63,14 @@ html{
     width: auto;
     object-fit: scale-down;
 }
+#LastParamUpdateBox{
+    width: 100%;
+    text-align: center;
+    /* margin-inline-start: auto; */
+}
+#LastParamUpdateBox> a{
+ margin: 5px;
+}
 .formBox{
     width: 80%;
     margin-inline-start: 10%;
@@ -301,7 +309,7 @@ html{
     opacity: 0.2;
 }
 
-.infoBox , .login-container,.resetPasswordBox{
+.infoBox , .login-container,.resetPasswordBox, .wariningBox{
     display:inline-flex;
     flex-direction: column;
     position: fixed;
@@ -321,7 +329,10 @@ html{
 .resetPasswordBox button{
     background-color: #E0C263;
 }
-.resetPasswordBox{
+.wariningBox button{
+    background-color: #DFB725;
+}
+.resetPasswordBox, .wariningBox{
     background-color: #FFE9A4;
     justify-content: space-between;
     top: 35%;
@@ -373,7 +384,7 @@ html{
     text-align: center;
     min-height: fit-content;
 }
-#LogoutBox {
+#LogoutBox,#wariningBox {
     font-family: all,ENG;
     display: flex;
     flex-direction: row;
@@ -411,6 +422,9 @@ html{
 .confirmBoxBtn:hover{
     background-color: #DFB725;
 }
+.wariningBox button:hover{
+    background-color: #E0C263;
+}
 .disabledConfirmBtn{
     pointer-events: none;
     cursor: default;
@@ -436,9 +450,12 @@ html{
     margin: 0;
 }
 @media (max-width: 1800px) {/* Medium screens */
+    #LastParamUpdateBox{
+        margin-top: 8vh;
+        margin-bottom: 3vh;
+    }
     .formBox{
         font-size: 14px;
-        margin-top: 10vh;
     }
     .reduceFontENG{
         font-size: 12px;
@@ -475,7 +492,7 @@ html{
         height: fit-content;
         padding: 5px;
     }
-    .resetPasswordBox{
+    .resetPasswordBox, .wariningBox{
         width: 30%;
         inset-inline-start: 35%;
         height: fit-content;
@@ -535,8 +552,11 @@ html{
         /* /* top:35%; */
         inset-inline-end: 7%; 
     }
-    .formBox{
+    #LastParamUpdateBox{
         margin-top: 5vh;
+        margin-bottom: 3vh;
+    }
+    .formBox{
         font-size: 12px;
     }
     .reduceFontENG{
@@ -548,7 +568,7 @@ html{
         height: fit-content;
         padding: 10px;
     }
-    .resetPasswordBox{
+    .resetPasswordBox, .wariningBox{
         width: 60%;
         inset-inline-start: 20%;
         height: fit-content;
