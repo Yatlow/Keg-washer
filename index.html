@@ -51,6 +51,7 @@
             <img src="assets/pics/loading.png" class="loading" id="loading6">
         </div>
     </div>
+
     <div id="wariningBox" class="hiddenMain">
         <button id="aproveWarning" class="confirmBoxBtn translatable">שמור את כל הפרמטרים עכשיו</button>
         <button id="CloseWarning" class="confirmBoxBtn translatable">סגור ללא שמירה</button>
@@ -1061,7 +1062,6 @@
         </div>
     </div>
 
-
     <script type="module">//main script
         const attributes = [
             "preboobotMeteg", "pressureMeteg", "FirstAirPurgeRecure", "FirstAirPurgeTon", "FirstAirPurgeToff", "InitialWaterFlud",
@@ -1735,6 +1735,7 @@
             try {
                 readKegWasherConnect()
                 let LoggedInEmail= localStorage.getItem('LoggedInEmail');
+                document.getElementById("username-display").innerText = LoggedInEmail;
                 const userConectTime = doc(db, 'users', LoggedInEmail);
                 const UserDoc= await getDoc(userConectTime);
                 const UserLastConnect= convertTime(UserDoc.data()["last-connection"]);
@@ -2092,7 +2093,6 @@
                 document.getElementById("contenet").classList.add("ShownMain");
                 document.getElementById("login-container").classList.add("hiddenMain");
                 document.getElementById("username-display").classList.remove("hiddenMain");
-                document.getElementById("username-display").innerText = LoggedInEmail;
                 document.getElementById("LoginBtn").classList.remove("disabledConfirmBtn");
                 document.getElementById("loadingUserBox").innerHTML = '';
                 loadPage();
