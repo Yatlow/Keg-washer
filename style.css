@@ -494,7 +494,7 @@ html{
     .userPrefBox{
         top: 120px;
         inset-inline-end: 10px;
-        width: 200px;
+        width: 300px;
     }    
     #LastParamUpdateBox{
         margin-top: 8vh;
