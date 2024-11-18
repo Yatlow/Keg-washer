@@ -96,7 +96,9 @@ html{
     margin-top: 10px;
 }
 #LastParamUpdateBox a{
- margin: 5px;
+    color: inherit;
+    text-decoration: inherit;
+    margin: 5px;
 }
 .formBox{
     width: 80%;

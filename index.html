@@ -67,23 +67,22 @@
                     <img class="logo img-fluid" src="assets/pics/hatch_logoblack_clear_Background.png" />
                 </div>
                 <div class="col-12 col-md-2 HeadinfoBox">
-                    <div class="Headinfo translatable">עדכון אחרון </div>
+                    <div class="Headinfo translatable">עדכון אחרון</div>
                     <div class="Headinfo">17/11/2024 11:37</div>
                     <div class="Headinfo">V 5.1.5</div>
                     <div class="Headinfo translatable">© ישראל אטלו</div>
                 </div>
                 <div class="col-12 col-md-2 LangIndictorBox">
-                    <div id="username-display" class="hiddenMain"></div>
-                    <button class="formBtn translatable" id="logout-btn" type="button">החלף משתמש</button>
                     <img src="assets/pics/user.png" id="userPref">
                     <div id="hostLangIn"></div>
                     <div id="userPrefBox" class="hiddenMain">
+                        <div id="username-display" class="hiddenMain"></div>
                         <div class="translatable">חיבור אחרון</div>
                         <div id="LastLogin"></div>
                         <button class="formBtn translatable" id="logout-btn" type="button">החלף משתמש</button>
                         <button class="formBtn translatable" id="ForgotPassword-Upref" type="button">שכחתי סיסמא</button>
                         <div class="translatable">שפה מועדפת</div>
-                        <div class="FNCTTglBox">
+                        <div class="FNCTTglBox"><!-- to be delt with -->
                             <div>עברית</div>
                             <div class="LangTglHouse" id="DefaultLanguageHousing">
                                 <div class="LangTglBtn LangMetgHebrew" id="DefaultLanguageBtn">|||</div>
@@ -95,13 +94,13 @@
             </div>
             <div id="LastParamUpdateBox">
                 <div>
-                    <a>פרמטרים עודכנו לאחרונה על ידי: </a>
+                    <a class="translatable">פרמטרים עודכנו לאחרונה על ידי:</a>
                     <a id="LastUser"></a>
-                    <a>ב:</a>
+                    <a class="translatable">ב:</a>
                     <a id="Timestamp"></a>
                 </div>
                 <div>
-                    <a>משטף חביות התחבר לאחרונה ב:</a>
+                    <a class="translatable">משטף חביות התחבר לאחרונה ב:</a>
                     <a id="KegWasherLastConnected"></a>
                 </div>
             </div>
@@ -638,10 +637,8 @@
                     </div>
                     <div class="SubmitionBox" id="BottomSubmit">
                         <button class="formBtn translatable" id="send" type="submit">שמור פרמטרים</button>
-                        <button class="formBtn translatable" id="showDefaults" type="button">הצג נתוני ברירת
-                            מחדל</button>
-                        <button class="formBtn translatable" id="reset-btn" type="button">איפוס לנתוני ברירת
-                            מחדל</button>
+                        <button class="formBtn translatable" id="showDefaults" type="button">הצג נתוני ברירת מחדל</button>
+                        <button class="formBtn translatable" id="reset-btn" type="button">איפוס לנתוני ברירת מחדל</button>
                     </div>
                 </div>
             </form>
@@ -761,8 +758,7 @@
                         <div class="DefVal">1.6</div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
-                    <div class="col-12 DefeStageLabel functionSubLabel translatable">שטיפה במים יחד עם משאבה לבניית
-                        לחץ</div>
+                    <div class="col-12 DefeStageLabel functionSubLabel translatable">שטיפה במים יחד עם משאבה לבניית לחץ</div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך שטיפה במים עם משאבה לבניית לחץ</div>
                         <div class="DefVal">11</div>
@@ -1105,10 +1101,10 @@
         ]
 
         const translationDictionary = {
-            "משטף חביות התחבר לאחרונה ב:":"Keg washer last connected at:",
+            "משטף חביות התחבר לאחרונה ב:": 'Keg washer last connected at:',
             "שפה מועדפת":"DefaultLanguage",
             "חיבור אחרון":"Last log in",
-            "פרמטרים עודכנו לאחרונה על ידי:": "Parameters were last updated by:",
+            "פרמטרים עודכנו לאחרונה על ידי:": 'Parameters were last updated by:',
             "שמור את כל הפרמטרים עכשיו": "Save All Parameters Now",
             "סגור ללא שמירה": "Close Without Saving",
             'סייקל בדיקה ראשוני ישתנה רק לאחר שמירת פרמטרים <br>לחיצה על "שמור פרמטים" ישמור את כל הפרמטרים מהדף!':'Initial test cycle will be changed only after saving parameters<br> clicking "Save Parameters" will save all parametrs on page!',
