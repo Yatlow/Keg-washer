@@ -91,9 +91,11 @@ html{
 #LastParamUpdateBox{
     width: 100%;
     text-align: center;
-    /* margin-inline-start: auto; */
 }
-#LastParamUpdateBox> a{
+#LastParamUpdateBox div{
+    margin-top: 10px;
+}
+#LastParamUpdateBox a{
  margin: 5px;
 }
 .formBox{
@@ -230,6 +232,7 @@ html{
     font-style: bolder;
 }
 .FNCTglBtn,.LangTglBtn{
+    /* position: relative; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -237,6 +240,14 @@ html{
     background-color: #D34607;
     color: #842F00;
     border-radius: 20px;
+}
+.LangMetgHebrew{
+    position: relative;
+    inset-inline-start: 1%;
+}
+.LangMetgEng{
+    position: relative;
+    inset-inline-start: 43%;
 }
 #CloseDefaultValBox{
     max-height: 30px !important;
@@ -561,9 +572,9 @@ html{
 }
 @media (max-width: 768px) {/*small screens */
     .userPrefBox{
-        top: -270px;
-        width: 50%;
-        inset-inline-end: 22.5%;
+        top: -170px;
+        width: 70%;
+        inset-inline-end: 15%;
     }    
     #DownloadPdfTop{
         max-width: 60%;

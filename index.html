@@ -32,13 +32,13 @@
                 <button type="submit" class="confirmBoxBtn translatable" id="LoginBtn">כניסה</button>
             </div>
             <div id="loadingUserBox"></div>
-            <div id="resetPasswordBox" class="hiddenMain">
-                <div id="resetsPassMesseag"></div>
-                <button type="button" id="resetPassword" class="translatable confirmBoxBtn">איפוס סיסמא</button>
-                <button type="button" id="closeForgtBox" class="confirmBoxBtn translatable">סגור</button>
-            </div>
         </form>
         <div id="login-error-message" class="hiddenMain loginErr translatable"></div>
+    </div>
+    <div id="resetPasswordBox" class="hiddenMain">
+        <div id="resetsPassMesseag"></div>
+        <button type="button" id="resetPassword" class="translatable confirmBoxBtn">איפוס סיסמא</button>
+        <button type="button" id="closeForgtBox" class="confirmBoxBtn translatable">סגור</button>
     </div>
 
     <div id="hostLangOut">
@@ -75,17 +75,18 @@
                 <div class="col-12 col-md-2 LangIndictorBox">
                     <div id="username-display" class="hiddenMain"></div>
                     <button class="formBtn translatable" id="logout-btn" type="button">החלף משתמש</button>
+                    <img src="assets/pics/user.png" id="userPref">
                     <div id="hostLangIn"></div>
                     <div id="userPrefBox" class="hiddenMain">
-                        <img src="assets/pics/user.png" id="userPref">
                         <div class="translatable">חיבור אחרון</div>
-                        <div id="LastLogin">123123</div><!-- to be delt with -->
-                        <button class="formBtn translatable" id="ForgotPassword-Upref" type="button">שכחתי סיסמא</button><!-- to be delt with -->
+                        <div id="LastLogin"></div>
+                        <button class="formBtn translatable" id="logout-btn" type="button">החלף משתמש</button>
+                        <button class="formBtn translatable" id="ForgotPassword-Upref" type="button">שכחתי סיסמא</button>
                         <div class="translatable">שפה מועדפת</div>
-                        <div class="FNCTTglBox"><!-- to be delt with -->
+                        <div class="FNCTTglBox">
                             <div>עברית</div>
                             <div class="LangTglHouse" id="DefaultLanguageHousing">
-                                <div class="LangTglBtn" id="DefaultLanguageBtn">|||</div>
+                                <div class="LangTglBtn LangMetgHebrew" id="DefaultLanguageBtn">|||</div>
                             </div>
                             <div>English</div>
                         </div>
@@ -93,10 +94,16 @@
                 </div>
             </div>
             <div id="LastParamUpdateBox">
-                <a>פרמטרים עודכנו לאחרונה על ידי: </a>
-                <a id="LastUser"></a>
-                <a>ב:</a>
-                <a id="Timestamp"></a>
+                <div>
+                    <a>פרמטרים עודכנו לאחרונה על ידי: </a>
+                    <a id="LastUser"></a>
+                    <a>ב:</a>
+                    <a id="Timestamp"></a>
+                </div>
+                <div>
+                    <a>משטף חביות התחבר לאחרונה ב:</a>
+                    <a id="KegWasherLastConnected"></a>
+                </div>
             </div>
             <form id="control-form" method="POST">
                 <div class="formBox">
@@ -1098,6 +1105,7 @@
         ]
 
         const translationDictionary = {
+            "משטף חביות התחבר לאחרונה ב:":"Keg washer last connected at:",
             "שפה מועדפת":"DefaultLanguage",
             "חיבור אחרון":"Last log in",
             "פרמטרים עודכנו לאחרונה על ידי:": "Parameters were last updated by:",
@@ -1229,6 +1237,8 @@
         let closedConfirmBox = 0;
         let secretClick = 0;
         let LangFlag = 0; //hebrew
+        let resetPassBoxOpen=false;
+        let prefboxOpen=false;
 
         function translateToEnglish(hebrewText) {
             return translationDictionary[hebrewText] || hebrewText;  // Default to original text if not found
@@ -1236,7 +1246,6 @@
 
         function traslateStickListener(hostLang) {
             const elementsToTranslate = document.querySelectorAll('.translatable');
-
             elementsToTranslate.forEach(function (element) {
                 // Store original Hebrew text in a data attribute if it doesn't already have one
                 if (!element.dataset.originalText) {
@@ -1338,7 +1347,7 @@
             let body = document.getElementById("bodyBox");
             document.getElementById("CloseDefaultValBox").classList.add("functionLabelDisable")
             document.getElementById("DefValDisplayBox").classList.add("functionLabelDisable")
-            document.getElementById("LangIndictor").classList.add("functionLabelDisable")
+            document.getElementById("LangIndictor")?document.getElementById("LangIndictor").classList.add("functionLabelDisable"):"";
             document.getElementById("userPref").classList.add("functionLabelDisable")
             confirmBox.classList.remove("hiddenBox");  // Remove hidden class
             confirmBox.classList.add("infoBox");       // Add infoBox class
@@ -1362,9 +1371,6 @@
 
         function toggleMeteg(MetegId, MetegVal) {
             let FNCTglBtn = document.getElementById(MetegId);
-            // console.log(preboobotMeteg);
-            // console.log(pressureMeteg);
-            // If the value is 1, toggle to OFF (set value to 0)
             let TglLangindicator = LangFlag === 0 ? "FNCTglHouseOFF" : "FNCTglHouseOFF-ENG"
             if (MetegVal === 1) {
                 FNCTglBtn.classList.remove(TglLangindicator);
@@ -1544,7 +1550,6 @@
             document.getElementById("WarningMesseage").innerHTML= "";
         });
 
-        let prefboxOpen=false;
         document.getElementById("userPref").addEventListener("click",function (event){
             if (!prefboxOpen){
                 document.getElementById("userPrefBox").classList.remove("hiddenMain")
@@ -1607,6 +1612,38 @@
             }
         });
 
+        document.getElementById("DefaultLanguageHousing").addEventListener("click", function (event) {
+            const customToken = localStorage.getItem('customToken');
+            if (!customToken) {
+                let inner = document.getElementById("conirmContent");
+                let dinamicinner2 = LangFlag === 0 ? 'משתמש אינו מחובר/אינו מורשה' : 'User unauthorized/ unauthenticated';
+                inner.innerHTML = dinamicinner2;
+                document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
+                document.getElementById("exitConfirm").classList.add("confirmBoxBtnHidden");
+                document.getElementById("RelogIn").classList.remove("confirmBoxBtnHidden")
+                document.getElementById("RelogIn").classList.add("confirmBoxBtn")
+                DisableItems()
+            } else {
+                let LoggedInEmail= localStorage.getItem('LoggedInEmail');
+                const userConectTime = doc(db, 'users', LoggedInEmail);
+                let hostLang=document.getElementById("hostLangIn");
+                traslateStickListener(hostLang)
+                let userLang={
+                    "lang-flag":LangFlag
+                }
+                updateDoc(userConectTime,userLang);
+                let LanngMeteg = document.getElementById("DefaultLanguageBtn");
+                if (LangFlag===0){
+                    LanngMeteg.classList.add("LangMetgHebrew")
+                    LanngMeteg.classList.remove("LangMetgEng")
+                }else if (LangFlag===1){
+                    LanngMeteg.classList.remove("LangMetgHebrew")
+                    LanngMeteg.classList.add("LangMetgEng")
+                }  
+                event.stopPropagation();
+            }
+        });
+
         document.getElementById("Reload").addEventListener("click", function (evet) {
             loadPage();
         });
@@ -1657,15 +1694,39 @@
             document.getElementById("LangIndictor").classList.add("initial_lang_location");
         });
 
+        async function readKegWasherConnect() {
+            const washerConectTime = doc(db, 'users', 'keg-washer');
+            let keepPolling =true
+            while (keepPolling ){
+                try{
+                        const kegWaherDoc= await getDoc(washerConectTime);
+                        const washerLastConnect= kegWaherDoc.data()["last-connection"];
+                        let Timestamp=  new Date(washerLastConnect.seconds * 1000);
+                        const year = Timestamp.getFullYear();
+                        const month = String(Timestamp.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+                        const day = String(Timestamp.getDate()).padStart(2, '0');
+                        const hours = String(Timestamp.getHours()).padStart(2, '0');
+                        const minutes = String(Timestamp.getMinutes()).padStart(2, '0');
+                        const formattedTimestamp = `${day}/${month}/${year} ${hours}:${minutes}`;
+                        document.getElementById('KegWasherLastConnected').innerHTML=formattedTimestamp;
+
+                }catch(eror){
+                    console.log("error getting washerLastConnect",eror)
+                }
+                await new Promise((resolve) => setTimeout(resolve, 5000));
+            }
+        }
+
         async function loadPage() {
             let inner = document.getElementById("conirmContent");
             let dinamicinner = LangFlag == 0 ? 'התחברת בהצלחה!<br>טוען פרמטרים מהשרת' : 'Sucssesfuly Logged In<br>Loading Data from Server';
             inner.innerHTML = dinamicinner + '<img src="assets/pics/loading.png" class="loading" id="loading0">';
             document.getElementById("exitConfirm").innerHTML = LangFlag == 0 ? 'ממתין לשרת' : 'Waiting for Server';
             document.getElementById("exitConfirm").classList.add("disabledConfirmBtn");
-            document.getElementById("LangIndictor").classList.remove("initial_lang_location");
+            document.getElementById("LangIndictor")?document.getElementById("LangIndictor").classList.remove("initial_lang_location"):"";
             DisableItems();
             try {
+                readKegWasherConnect()
                 const LoadedFromDb = await getDoc(docRef);
                 const initial_values = LoadedFromDb.data();
                 let escapeTimeout = setTimeout(function () {
@@ -1829,10 +1890,17 @@
                 document.getElementById("WarningMesseage").innerHTML= "";
             }
             if (event.keyCode === 27 && document.getElementById("userPrefBox").classList.contains("userPrefBox")
-            && document.getElementById("confirmBox").classList.contains("infoBox") == false){
+            && document.getElementById("confirmBox").classList.contains("infoBox") == false && !document.getElementById("resetPasswordBox").classList.contains("resetPasswordBox")){
             document.getElementById("userPrefBox").classList.add("hiddenMain")
                 document.getElementById("userPrefBox").classList.remove("userPrefBox")
                 prefboxOpen=false;
+            }
+            if (event.keyCode === 27 && document.getElementById("resetPasswordBox").classList.contains("resetPasswordBox")
+            && document.getElementById("confirmBox").classList.contains("infoBox") == false && resetPassBoxOpen===true){
+                document.getElementById("resetPasswordBox").classList.add("hiddenMain")
+                document.getElementById("resetPasswordBox").classList.remove("resetPasswordBox")
+                resetPassBoxOpen=false;
+                exitConfirmBox();
             }
         });
 
@@ -1849,12 +1917,18 @@
                 document.getElementById("WarningMesseage").innerHTML= "";
             };
             if ( !document.getElementById("userPrefBox").contains(event.target) && document.getElementById("userPrefBox").classList.contains("userPrefBox")
-            && document.getElementById("confirmBox").classList.contains("infoBox") == false){
-            document.getElementById("userPrefBox").classList.add("hiddenMain")
+            && document.getElementById("confirmBox").classList.contains("infoBox") == false && !document.getElementById("resetPasswordBox").classList.contains("resetPasswordBox")){
+                document.getElementById("userPrefBox").classList.add("hiddenMain")
                 document.getElementById("userPrefBox").classList.remove("userPrefBox")
                 prefboxOpen=false;
             }
-            
+            if (!document.getElementById("resetPasswordBox").contains(event.target) && document.getElementById("resetPasswordBox").classList.contains("resetPasswordBox")
+            && document.getElementById("confirmBox").classList.contains("infoBox") == false && resetPassBoxOpen===true){
+                document.getElementById("resetPasswordBox").classList.add("hiddenMain")
+                document.getElementById("resetPasswordBox").classList.remove("resetPasswordBox")
+                resetPassBoxOpen=false;
+                exitConfirmBox();
+            }
         });
 
         document.getElementById("exitConfirm").addEventListener("click", function (event) {
@@ -1979,12 +2053,46 @@
             document.getElementById("LangIndictor").classList.add("initial_lang_location");
             document.getElementById("LangIndictor").classList.remove("functionLabelDisable");
 
-            function SucsessLogin() {
+            function convertTime(time){
+                let Timestamp=  new Date(time.seconds * 1000);
+                const year = Timestamp.getFullYear();
+                const month = String(Timestamp.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+                const day = String(Timestamp.getDate()).padStart(2, '0');
+                const hours = String(Timestamp.getHours()).padStart(2, '0');
+                const minutes = String(Timestamp.getMinutes()).padStart(2, '0');
+                const formattedTimestamp = `${day}/${month}/${year} ${hours}:${minutes}`;
+                return formattedTimestamp;
+            }
+
+            async function SucsessLogin() {
+                LoggedInEmail= localStorage.getItem('LoggedInEmail');
+                const userConectTime = doc(db, 'users', LoggedInEmail);
+                const UserDoc= await getDoc(userConectTime);
+                const UserLastConnect= convertTime(UserDoc.data()["last-connection"]);
+                const userPrefLang =UserDoc.data()["lang-flag"]
+                LangFlag = userPrefLang===0?1:0;
+                let hostLang=document.getElementById("hostLangIn");
+                traslateStickListener(hostLang)
+                const UserCurrentConnect= new Date()
+                const userlogs={
+                   "last-connection": UserCurrentConnect,
+                   "Current-connection":UserCurrentConnect
+                }
+                await updateDoc(userConectTime,userlogs);
+                let LanngMeteg = document.getElementById("DefaultLanguageBtn");
+                if (LangFlag===0){
+                    LanngMeteg.classList.add("LangMetgHebrew")
+                    LanngMeteg.classList.remove("LangMetgEng")
+                }else if (LangFlag===1){
+                    LanngMeteg.classList.remove("LangMetgHebrew")
+                    LanngMeteg.classList.add("LangMetgEng")
+                }
+                document.getElementById("loadingUserBox").innerHTML = '';
+                document.getElementById('LastLogin').innerHTML=UserLastConnect;
                 exitConfirmBox();
-                LoggedInEmail= localStorage.getItem('LoggedInEmail')
+                document.getElementById("LangIndictor").classList.remove("initial_lang_location");
                 document.getElementById("hostLangIn").innerHTML = document.getElementById("hostLangOut").innerHTML;
                 document.getElementById("hostLangOut").innerHTML = "";
-                document.getElementById("LangIndictor").classList.remove("initial_lang_location");
                 document.getElementById("contenet").classList.remove("hiddenMain");
                 document.getElementById("contenet").classList.add("ShownMain");
                 document.getElementById("login-container").classList.add("hiddenMain");
@@ -1999,8 +2107,8 @@
                 document.getElementById("login-error-message").innerHTML = LangFlag === 0 ? "אחד או שני פרטי הכניסה שגויים" : 'One ore both Details are wrong';
             }
             if (localStorage.getItem('customToken')) {
-                document.getElementById("loadingUserBox").innerHTML = '';
                 SucsessLogin()
+                document.getElementById("loadingUserBox").innerHTML = `${LangFlag == 0 ? 'מאמת כתובת מייל וסיסמה' : 'Verifyng Email and Password'}<img src="assets/pics/loading.png" class="loading" id="loading1">`;
             }
 
             const loginForm = document.getElementById("login-form");
@@ -2111,6 +2219,8 @@
             document.getElementById("closeForgtBox").addEventListener("click", function (event) {
                 document.getElementById("resetPasswordBox").classList.remove("resetPasswordBox");
                 document.getElementById("resetPasswordBox").classList.add("hiddenMain");
+                resetPassBoxOpen=false;
+                exitConfirmBox();
             });
 
             const forgotPasswordBtn = document.getElementById("forgotPassword");
@@ -2120,7 +2230,57 @@
                 document.getElementById("resetPasswordBox").classList.remove("hiddenMain");
                 document.getElementById("resetPassword").classList.add("hiddenMain")
                 document.getElementById("closeForgtBox").classList.remove("hiddenMain")
+                setTimeout(() => {
+                    resetPassBoxOpen=true;
+                }, 500);
                 document.getElementById("resetsPassMesseag").innerHTML = `${LangFlag == 0 ? 'מאמת מייל' : 'Verifying email'}<img src="assets/pics/loading.png" class="loading" id="loading2">`;
+                async function forgotPassword(email) {
+                    const response = await
+                        fetch(servrPort + '/forgotPassowrd', {
+                            method: 'POST',
+                            body: JSON.stringify({ email: email }),
+                            headers: { 'Content-Type': 'application/json' }
+                        })
+                            .then(response => {
+                                return response.text();  // Try reading as plain text
+                            })
+                            .then(text => {
+                                try {
+                                    const jsonResponse = JSON.parse(text);
+                                    if (jsonResponse.success == 1) {
+                                        document.getElementById("resetPassword").classList.remove("hiddenMain")
+                                        document.getElementById("resetsPassMesseag").innerHTML = LangFlag == 0 ? 'לחץ לקבלת מייל לאיפוס סיסמה' : 'Press to send password reset button';
+                                    } else {
+                                        document.getElementById("resetPassword").classList.add("hiddenMain")
+                                        document.getElementById("closeForgtBox").classList.remove("hiddenMain")
+                                        document.getElementById("resetsPassMesseag").innerHTML = LangFlag == 0 ? 'כתובת מייל לא נמצאה, פנה לבעלים לקבלת משתמש' : 'Email adress was not found, please contact owner to get an account';
+                                    }
+                                } catch (error) {
+                                    console.error("Error parsing JSON:", error);
+                                }
+                            })
+                            .catch(error => {
+                                console.error("Request failed:", error);
+                            });
+                }
+                await forgotPassword(email)
+            });
+
+            const forgotPasswordBtnInner = document.getElementById("ForgotPassword-Upref");
+            forgotPasswordBtnInner.addEventListener("click", async (e) => {
+                const email = localStorage.getItem('LoggedInEmail');
+                document.getElementById("resetPasswordBox").classList.add("resetPasswordBox");
+                document.getElementById("resetPasswordBox").classList.remove("hiddenMain");
+                document.getElementById("resetPassword").classList.add("hiddenMain")
+                document.getElementById("closeForgtBox").classList.remove("hiddenMain");
+                setTimeout(() => {
+                    resetPassBoxOpen=true;
+                }, 500);
+                document.getElementById("resetsPassMesseag").innerHTML = `${LangFlag == 0 ? 'מאמת מייל' : 'Verifying email'}<img src="assets/pics/loading.png" class="loading" id="loading2">`;
+                DisableItems();
+                let confirmBox = document.getElementById("confirmBox");
+                confirmBox.classList.remove("infoBox");    // Remove infoBox class
+                confirmBox.classList.add("hiddenBox"); 
                 async function forgotPassword(email) {
                     const response = await
                         fetch(servrPort + '/forgotPassowrd', {
@@ -2157,6 +2317,8 @@
             restPassButton.addEventListener("click", async (e) => {
                 document.getElementById("resetPasswordBox").classList.remove("resetPasswordBox");
                 document.getElementById("resetPasswordBox").classList.add("hiddenMain");
+                resetPassBoxOpen=false;
+                exitConfirmBox()
                 const email = loginEmailInput.value;
                 async function resetPassowrd(email) {
                     const response = await fetch(servrPort + '/resetPassowrd', {
