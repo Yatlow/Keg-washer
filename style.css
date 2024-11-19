@@ -404,7 +404,8 @@ html{
     width: 80%;
 }
 .Bnote{
-    font-size: 12px;
+    font-size: 6px;
+    color: #D34607;
 }
 .loginInput{
     display: flex;
