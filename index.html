@@ -2099,6 +2099,7 @@
             }
 
             function failedLogin() {
+                document.getElementById("LoginBtn").classList.remove("disabledConfirmBtn");
                 document.getElementById("login-error-message").classList.remove("hiddenMain");
                 document.getElementById("login-error-message").innerHTML = LangFlag === 0 ? "אחד או שני פרטי הכניסה שגויים" : 'One ore both Details are wrong';
             }
@@ -2114,6 +2115,7 @@
             const loginPasswordInput = document.getElementById("login-password");
             loginForm.addEventListener("submit", async (e) => {
                 e.preventDefault();
+                document.getElementById("login-error-message").classList.add("hiddenMain");
                 document.getElementById("LoginBtn").classList.add("disabledConfirmBtn");
                 document.getElementById("loadingUserBox").innerHTML = `${LangFlag == 0 ? 'מאמת כתובת מייל וסיסמה' : 'Verifyng Email and Password'}<img src="assets/pics/loading.png" class="loading" id="loading1">`;
                 const email = loginEmailInput.value;
@@ -2137,6 +2139,7 @@
                         SucsessLogin()
                     } catch (error) {
                         console.error('Login failed:', error)
+                        failedLogin()
                     }
                 }
                 await login();  
