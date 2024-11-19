@@ -169,13 +169,9 @@
                     <!-- stage 2-->
                     <div class="functionBox container-fluid">
                         <div class="functionLabel row cloapsable" id="label2">
-                            <div class="col-10 translatable">
-                                <div class="translatable">
-                                    שלב #2 שטיפה ראשונה במים
-                                </div>
-                                <div class="Bnote translatable">
-                                    פרמטרים אלו ישפיעו גם על שלב #6
-                                </div>
+                            <div class="col-10">
+                                <div class="translatable">שלב #2 שטיפה ראשונה במים</div>
+                                <div class="Bnote translatable">פרמטרים אלו ישפיעו גם על שלב #6</div>
                             </div>
                             <div class="col-2 TglBtnBox"><img id="Tgl2" src="assets/pics/down.png" /></div>
                         </div>
@@ -432,18 +428,14 @@
                     <!-- stage 6-->
                     <div class="functionBox container-fluid">
                         <div class="functionLabel cloapsable row" id="label6">
-                            <div class="col-10 translatable">
-                                <div class="translatable">
-                                    שלב #6 שטיפה במים לאחר ניקוי קאוסטיק
-                                </div>
-                                <div class="Bnote translatable">
-                                    הפרמטרים של כל שטיפה מוגדרים בשלב #2
-                                </div>
+                            <div class="col-10">
+                                <div class="translatable">שלב #6 שטיפה במים לאחר ניקוי קאוסטיק</div>
+                                <div class="Bnote translatable">הפרמטרים של כל שטיפה מוגדרים בשלב #2</div>
                             </div>
                             <div class="col-2 TglBtnBox"><img id="Tgl6" src="assets/pics/down.png" /></div>
                         </div>
                         <div class="cloapsable row" id="stage6">
-                            <div class="functionInputs row">
+                            <div class="functionInputs fullborder row">
                                 <div class="col-12 ParamterBox">
                                     <label class="translatable" for="postCausticWaterRinseRecure">כמות שטיפות</label>
                                     <input id="postCausticWaterRinseRecure" min="0" name="postCausticWaterRinseRecure"
@@ -451,7 +443,7 @@
                                     <label class="valType translatable">פעמים</label>
                                 </div>
                             </div>
-                            <!-- <div class="col-12 functionSubLabel translatable">התזת מים בכל שטיפה</div>
+                            <div class="col-12 functionSubLabel translatable">דחיקת מים החוצה עם אוויר בין כל שטיפה</div>
                             <div class="functionInputs row">
                                 <div class="col-12 col-md-3 ParamterBox">
                                     <label class="translatable" for="postCausticWaterRinseRecureEachRins">כמות חזרות</label>
@@ -460,18 +452,18 @@
                                     <label class="valType translatable">פעמים</label>
                                 </div>
                                 <div class="col-12 col-md-4 ParamterBox">
-                                    <label class="translatable" for="postCausticWaterRinseOn">משך כניסת מים בכל חזרה</label>
+                                    <label class="translatable" for="postCausticWaterRinseOn">משך כניסת אוויר בכל חזרה</label>
                                     <input id="postCausticWaterRinseOn" min="0.01" name="postCausticWaterRinseOn"
                                         required="" step="0.01" type="number"/>
                                     <label class="valType translatable">שניות</label>
                                 </div>
                                 <div class="col-12 col-md-5 ParamterBox">
-                                    <label class="translatable" for="postCausticWaterRinseOf">משך ניקוז ללא מים בכל חזרה</label>
+                                    <label class="translatable" for="postCausticWaterRinseOf">משך ניקוז ללא אוויר בכל חזרה</label>
                                     <input id="postCausticWaterRinseOf" min="0.01" name="postCausticWaterRinseOf"
                                         required="" step="0.01" type="number" />
                                     <label class="valType translatable">שניות</label>
                                 </div>
-                            </div> -->
+                            </div>
                         </div>
                     </div>
                     <!-- stage 7-->
@@ -920,7 +912,7 @@
                         <div class="DefSpec translatable">פעמים</div>
                     </div>
                     <div class="d-none d-md-block col-md-8 DefeStageRow"></div>
-                    <div class="col-12 functionSubLabel translatable">התזת מים בכל שטיפה</div>
+                    <div class="col-12 functionSubLabel translatable">דחיקת מים החוצה עם אוויר בין כל שטיפה</div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">כמות חזרות</div>
                         <div class="DefVal">5</div>
@@ -1078,6 +1070,7 @@
 
     <script type="module">//main script
         const attributes = [
+            "postCausticWaterRinseRecureEachRins","postCausticWaterRinseOn","postCausticWaterRinseOf",
             "preboobotMeteg", "pressureMeteg", "FirstAirPurgeRecure", "FirstAirPurgeTon", "FirstAirPurgeToff", "InitialWaterFlud",
             "recureMedSquirt", "medSquirtWaterOn", "medSquirtWaterOff", "recureShortSquirt",
             "ShortSquirtWaterOn", "ShortSquirtWaterOff", "recureLongSquirt", "LongSquirtWaterOn",
@@ -1188,6 +1181,7 @@
             "שלב #5 דחיקת סודה קאוסטיק החוצה עם אוויר": "Stage #5 Purging Caustic with Air",
             "שלב #6 שטיפה במים לאחר ניקוי קאוסטיק": "Stage #6 Water Rinse after Caustic Cleaning",
             "כמות שטיפות": "Number of Rinses",
+            "דחיקת מים החוצה עם אוויר בין כל שטיפה":"Purging water between each rinse",
             "התזת מים בכל שטיפה": "Water Squirt per Rinse",
             "שלב #7 חיטוי בחומצה פראצטית": "Stage #7 Sanitization with Peracetic Acid",
             "משך מילוי פראצטית חבית ימין": "Peracetic Fill Duration for Right Keg",
@@ -1419,7 +1413,8 @@
                     formData[attribute] = Number (pressureMeteg);
                 }
                 else {
-                    formData[attribute] = Number ($('#' + attribute).val()) || 1;
+                    let inputValue = Number($('#' + attribute).val());
+                    formData[attribute] = isNaN(inputValue) ? 1 : inputValue;
                 }
             });
             try{
@@ -2097,6 +2092,7 @@
 
             })
             DisableItems();
+            document.getElementById("bodyBox").classList.remove("disable_scroll");
             document.getElementById("LangIndictor").classList.add("initial_lang_location");
             document.getElementById("LangIndictor").classList.remove("functionLabelDisable");
 
@@ -2147,11 +2143,25 @@
 
                         });
                         const { token } = await response.json();
-
                         const userCredential = await signInWithCustomToken(auth, token);
                         const idToken = await userCredential.user.getIdToken();
                         await localStorage.setItem('customToken', idToken)
                         await localStorage.setItem('LoggedInEmail',email)
+                        function refreshIdToken() {
+                        if (auth.currentUser) {
+                            auth.currentUser.getIdToken(true)
+                            .then((newIdToken) => {
+                                localStorage.setItem("customToken", newIdToken);
+                            })
+                            .catch((error) => {
+                                console.error("Error refreshing ID token:", error);
+                            });
+                        } else {
+                            console.log("No user is logged in.");
+                        }
+                        }
+                        // setInterval(refreshIdToken, 1 * 1 * 1000);
+                        setInterval(refreshIdToken, 59 * 60 * 1000);
                         SucsessLogin()
                     } catch (error) {
                         console.error('Login failed:', error)
