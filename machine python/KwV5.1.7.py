@@ -140,7 +140,7 @@ shared_values = manager.list([
     ('paaInitialPumpOff', 0.3),
     ('paaSquirtRecure', 7),
     ('Co2PumpIntervale', 1.2),
-    ('postSquirtSanitizeBothKegs', 100),
+    ('postSquirtSanitizeBothKegs', 10),
     ('co2PurgeKeg1Recure', 9),
     ('co2PurgeKeg1Open', 0.7),
     ('co2PurgeKeg1Closed', 2.4),
@@ -152,19 +152,25 @@ shared_values = manager.list([
     ('kegPdestination', 15),
     ('TimeOutPdestination', 12),
     ('PostTimeOutBuildP', 15),
-    ('PTimeWhenSensorDisabled', 35)
+    ('PTimeWhenSensorDisabled', 7),
+])
+buttons= manager.list([
+    ('green',0),
+    ('red',0)
 ])
 
 previous_values = {key: value for key, value in shared_values}
 
 def get_current_settings():
     doc_ref = db.collection("parameters").document("updated")
+    btn_ref =db.collection("buttons").document("butons")
     while True:
         db.collection("users").document("keg-washer").update({
             "`last-connection`": datetime.now(local_tz)
         })
         try:
             doc = doc_ref.get()
+            btn = btn_ref.get()
         except Exception as e:
             print(f"Error fetching Firestore document: {e}")
             sleep(1)
@@ -178,6 +184,15 @@ def get_current_settings():
                         with lock:
                             shared_values[i] = (key, new_value)  # Update shared_values
                         print(f"Updated {key}: {value} -> {new_value}")
+        if btn.exists:
+            btn_data = btn.to_dict()
+            for i, (key, value) in enumerate(buttons):
+                if key in btn_data:
+                    btn_value = btn_data[key]
+                    if btn_value != value:  # Check if the value has changed
+                        with lock:
+                            buttons[i] = (key, btn_value)  # Update shared_values
+                        print(f"Updated {key}: {value} -> {btn_value}")
         else:
             print("No such document!")
         sleep(1)
@@ -243,7 +258,7 @@ def checkpruessurecanceled():
         x=1
         print ("pressuer meteg off from online")
     else:
-        print ("pressuer meteg onn from online checking Pressure")
+        print ("pressuer meteg on from online checking Pressure")
 
     while i<10:
         if GPIO.input(pressure_cancel) == GPIO.HIGH:
@@ -422,7 +437,8 @@ def WaterSquirt():
         sleep(0.01)
         t=t+1
     GPIO.output(Water_In, GPIO.HIGH)
-    while t<(next(val for key, val in shared_values if key == 'InitialWaterFlud')*100):
+    A=(next(val for key, val in shared_values if key == 'InitialWaterFlud')*100)
+    while t<A:
         sleep(0.01)
         t=t+1
     GPIO.output(keg1, GPIO.LOW)
@@ -434,43 +450,52 @@ def WaterSquirt():
     i = 1
     GPIO.output(keg1, GPIO.HIGH)
     GPIO.output(keg2, GPIO.HIGH)
-    while i < (next(val for key, val in shared_values if key == 'recureMedSquirt')) :
+    B=(next(val for key, val in shared_values if key == 'recureMedSquirt')) 
+    medSquirtWaterOn= (next(val for key, val in shared_values if key == 'medSquirtWaterOn')*100)
+    medSquirtWaterOff=(next(val for key, val in shared_values if key == 'medSquirtWaterOff')*100)
+    while i <B:
         GPIO.output(Water_In, GPIO.HIGH)
         t=0
-        while t<(next(val for key, val in shared_values if key == 'medSquirtWaterOn')*100):
+        while t<medSquirtWaterOn:
             sleep(0.01)
             t=t+1
         GPIO.output(Water_In, GPIO.LOW)
         t=0
-        while t<(next(val for key, val in shared_values if key == 'medSquirtWaterOff')*100): 
+        while t<medSquirtWaterOff: 
             sleep(0.01)
             t=t+1
         i= i+1
     i = 1
-    while i < (next(val for key, val in shared_values if key == 'recureShortSquirt')) : 
+    C=(next(val for key, val in shared_values if key == 'recureShortSquirt')) 
+    while i < C:
         GPIO.output(Water_In, GPIO.HIGH)
         t=0
-        while t<(next(val for key, val in shared_values if key == 'ShortSquirtWaterOn')*100):
+        D=(next(val for key, val in shared_values if key == 'ShortSquirtWaterOn')*100)
+        while t<D:
             sleep(0.01)
             t=t+1
         GPIO.output(Water_In, GPIO.LOW)
         t=0
-        while t<(next(val for key, val in shared_values if key == 'ShortSquirtWaterOff')*100):
+        E=(next(val for key, val in shared_values if key == 'ShortSquirtWaterOff')*100)
+        while t<E:
             sleep(0.01)
             t=t+1
         i= i+1
     i = 1
-    while i < (next(val for key, val in shared_values if key == 'recureLongSquirt')) : 
+    E=(next(val for key, val in shared_values if key == 'recureLongSquirt'))
+    F=(next(val for key, val in shared_values if key == 'LongSquirtWaterOn')*100)
+    G=(next(val for key, val in shared_values if key == 'LongSquirtWaterOff')*100)
+    while i < E: 
         GPIO.output(Water_In, GPIO.HIGH)
         GPIO.output(Air_In, GPIO.HIGH)
         t=0
-        while t<(next(val for key, val in shared_values if key == 'LongSquirtWaterOn')*100): 
+        while t<F: 
             sleep(0.01)
             t=t+1
         GPIO.output(Water_In, GPIO.LOW)
         GPIO.output(Air_In, GPIO.LOW)
         t=0
-        while t<(next(val for key, val in shared_values if key == 'LongSquirtWaterOff')*100): 
+        while t<G: 
             sleep(0.01)
             t=t+1
         i= i+1  
@@ -481,7 +506,8 @@ def WaterSquirt():
         t=t+1
     GPIO.output(Pump, GPIO.HIGH)
     t=0
-    while t<(next(val for key, val in shared_values if key == 'RinseWaterWithPump')*100): 
+    H=(next(val for key, val in shared_values if key == 'RinseWaterWithPump')*100)
+    while t<H: 
         sleep(0.01)
         t=t+1
     GPIO.output(Pump, GPIO.LOW)
@@ -507,11 +533,15 @@ def PumpSquirt(Purge): # - changeble vars
         pumpRecure=PaaPumpuRecure
         pumpOn=PaaPumpOn
         pumpOff=PaaPumpOff
+        string="CO2"
     if Purge==Air_In:
         pumpRecure=CausticPumpuRecure
         pumpOn=CausticPumpOn
         pumpOff=CausticPumpOff
+        string="Air"
     i = 0
+
+    print(f"squirting {string} for {pumpRecure} Times, pumpOn for {pumpOn/100} seconds, pumpOff for {pumpOff/100} seconds")
     while i < pumpRecure : 
         GPIO.output(Pump, GPIO.HIGH)
         t=0
@@ -532,18 +562,20 @@ def PumpSquirt(Purge): # - changeble vars
         rcurePumpAndAirSquirt=withCo2
     if Purge==Air_In: 
         rcurePumpAndAirSquirt=withAir
+    I=(next(val for key, val in shared_values if key == 'Co2PumpIntervale')*100)
+    J=(next(val for key, val in shared_values if key == 'airAndPumpIntervale')*100)
     while i < rcurePumpAndAirSquirt : 
         GPIO.output(Pump, GPIO.HIGH)
         GPIO.output(Purge, GPIO.HIGH)
         if Purge==Co2_In:
             GPIO.output(Purge, GPIO.HIGH)
             t=0
-            while t<(next(val for key, val in shared_values if key == 'Co2PumpIntervale')*100): 
+            while t<I: 
                 sleep(0.01)
                 t=t+1
         if Purge==Air_In:
             t=0
-            while t<(next(val for key, val in shared_values if key == 'airAndPumpIntervale')*100):
+            while t<J:
                 sleep(0.01)
                 t=t+1
             GPIO.output(Purge, GPIO.LOW)
@@ -561,19 +593,23 @@ def PumpSquirt(Purge): # - changeble vars
         while t<40:
             sleep(0.01)
             t=t+1
-    while i < (next(val for key, val in shared_values if key == 'recureLastCausticSquirt')):
+    K= (next(val for key, val in shared_values if key == 'recureLastCausticSquirt'))
+    L= (next(val for key, val in shared_values if key == 'CausticLastSquirtPumpOn')*100)
+    M= (next(val for key, val in shared_values if key == 'CausticLastSquirtPumpOff')*100)
+    while i < K:
         GPIO.output(Pump, GPIO.HIGH)
         t=0
-        while t<(next(val for key, val in shared_values if key == 'CausticLastSquirtPumpOn')*100):
+        while t<L:
             sleep(0.01)
             t=t+1
         GPIO.output(Pump, GPIO.LOW)
         t=0
-        while t<(next(val for key, val in shared_values if key == 'CausticLastSquirtPumpOff')*100): 
+        while t<M: 
             sleep(0.01)
             t=t+1
         i= i+1
     GPIO.output(Pump, GPIO.LOW)
+    print("squirt done")
 
 def causticrinse():
     global ErrNmbr
@@ -614,25 +650,29 @@ def causticrinse():
     GPIO.output(keg1, GPIO.HIGH)
     GPIO.output(keg2, GPIO.HIGH)
     t=0
-    while t<(next(val for key, val in shared_values if key == 'InitialCausticFlud')*100):
+    InitialCausticFlud=(next(val for key, val in shared_values if key == 'InitialCausticFlud')*100)
+    while t<InitialCausticFlud:
         sleep(0.01)
         t=t+1
     GPIO.output(keg1, GPIO.HIGH)
     GPIO.output(keg2, GPIO.LOW)
     t=0
-    while t<(next(val for key, val in shared_values if key == 'CausticRinseKeg1')*100):
+    CausticRinseKeg1=(next(val for key, val in shared_values if key == 'CausticRinseKeg1')*100)
+    while t<CausticRinseKeg1:
         sleep(0.01)
         t=t+1
     GPIO.output(keg1, GPIO.LOW)
     GPIO.output(keg2, GPIO.HIGH)
     t=0
-    while t<(next(val for key, val in shared_values if key == 'CausticRinseKeg2')*100): 
+    CausticRinseKeg2=(next(val for key, val in shared_values if key == 'CausticRinseKeg2')*100)
+    while t<CausticRinseKeg2: 
         sleep(0.01)
         t=t+1
     GPIO.output(keg1, GPIO.HIGH)
     GPIO.output(Caustic_Out, GPIO.LOW)
     t=0
-    while t<(next(val for key, val in shared_values if key == 'pressurizeCausticInKeg')*100): 
+    pressurizeCausticInKeg=(next(val for key, val in shared_values if key == 'pressurizeCausticInKeg')*100)
+    while t<pressurizeCausticInKeg: 
         sleep(0.01)
         t=t+1
     GPIO.output(Caustic_Out, GPIO.HIGH)
@@ -653,13 +693,15 @@ def causticrinse():
     GPIO.output(Caustic_In, GPIO.HIGH)
     GPIO.output(Caustic_Out, GPIO.HIGH)
     t=0
-    while t<(next(val for key, val in shared_values if key == 'SecondCausticFlud')*100):
+    SecondCausticFlud=(next(val for key, val in shared_values if key == 'SecondCausticFlud')*100)
+    while t<SecondCausticFlud:
         sleep(0.01)
         t=t+1
     t=0
     GPIO.output(Caustic_Out, GPIO.LOW)
     GPIO.output(Pump, GPIO.LOW)
-    while t<(next(val for key, val in shared_values if key == 'causticSoakInKeg')*100):
+    causticSoakInKeg=(next(val for key, val in shared_values if key == 'causticSoakInKeg')*100)
+    while t<causticSoakInKeg:
         sleep(0.01)
         t=t+1
     GPIO.output(Caustic_In, GPIO.LOW)
@@ -699,28 +741,33 @@ def paasanitize():
     GPIO.output(keg2, GPIO.LOW)
     GPIO.output(keg1, GPIO.HIGH)
     t=0
-    while t<(next(val for key, val in shared_values if key == 'SanitizeInitialKeg1')*100): 
+    A=(next(val for key, val in shared_values if key == 'SanitizeInitialKeg1')*100)
+    B=(next(val for key, val in shared_values if key == 'SanitizeInitialKeg2')*100)
+    C=(next(val for key, val in shared_values if key == 'SanitizeInitialBothKegs')*100)
+    D=(next(val for key, val in shared_values if key == 'postSquirtSanitizeBothKegs')*100)
+    while t<A: 
         sleep(0.01)
         t=t+1
     GPIO.output(keg1, GPIO.LOW)
     GPIO.output(keg2, GPIO.HIGH)
     t=0
-    while t<(next(val for key, val in shared_values if key == 'SanitizeInitialKeg2')*100):
+    while t<B:
         sleep(0.01)
         t=t+1
     GPIO.output(keg1, GPIO.HIGH)
     GPIO.output(Paa_Out, GPIO.LOW)
     t=0
-    while t<(next(val for key, val in shared_values if key == 'SanitizeInitialBothKegs')*100):
+    while t<C:
         sleep(0.01)
         t=t+1
     GPIO.output(Paa_Out, GPIO.HIGH)
     PumpSquirt(Co2_In) 
     t=0
-    while t<(next(val for key, val in shared_values if key == 'postSquirtSanitizeBothKegs')*100):
+    while t<D:
         sleep(0.01)
         t=t+1
-    GPIO.output(Pump, GPIO.LOW) 
+    GPIO.output(Pump, GPIO.LOW)
+    print("asintainion over")
 
 def Co2purge():
     global ErrNmbr
@@ -744,42 +791,52 @@ def Co2purge():
     GPIO.output(keg1, GPIO.HIGH)
     GPIO.output(keg2, GPIO.LOW)
     c=0
-    while c <(next(val for key, val in shared_values if key == 'co2PurgeKeg1Recure')):
+    recure=(next(val for key, val in shared_values if key == 'co2PurgeKeg1Recure'))
+    co2Open=(next(val for key, val in shared_values if key == 'co2PurgeKeg1Open')*100)
+    co2Closed=(next(val for key, val in shared_values if key == 'co2PurgeKeg1Closed')*100)
+    print(f"purging with co2 {recure} times co2 open for {co2Open/100} seconds co2 closed for {co2Closed/100} seconds")
+    
+    while c <recure:
         GPIO.output(Co2_In, GPIO.HIGH)
         t=0
-        while t<(next(val for key, val in shared_values if key == 'co2PurgeKeg1Open')*100):
+        while t<co2Open:
             sleep(0.01)
             t=t+1
         GPIO.output(Co2_In, GPIO.LOW)
         t=0
-        while t<(next(val for key, val in shared_values if key == 'co2PurgeKeg1Closed')*100):
+        while t<co2Closed:
             sleep(0.01)
             t=t+1
         c= c+1
     GPIO.output(keg1, GPIO.LOW)
     GPIO.output(keg2, GPIO.HIGH)
     c = 0
-    while c<(next(val for key, val in shared_values if key == 'co2PurgeKeg2Recure')):
+    co2PurgeKeg2Recure=(next(val for key, val in shared_values if key == 'co2PurgeKeg2Recure'))
+    co2PurgeKeg2Open=(next(val for key, val in shared_values if key == 'co2PurgeKeg2Open')*100)
+    co2PurgeKeg2Closed=(next(val for key, val in shared_values if key == 'co2PurgeKeg2Closed')*100)
+    co2PurgeBothKegsOpen=(next(val for key, val in shared_values if key == 'co2PurgeBothKegsOpen')*100)
+    while c<co2PurgeKeg2Recure:
         GPIO.output(Co2_In, GPIO.HIGH)
         t=0
-        while t<(next(val for key, val in shared_values if key == 'co2PurgeKeg2Open')*100):
+        while t<co2PurgeKeg2Open:
             sleep(0.01)
             t=t+1
         GPIO.output(Co2_In, GPIO.LOW)
         t=0
-        while t<(next(val for key, val in shared_values if key == 'co2PurgeKeg2Closed')*100): 
+        while t<co2PurgeKeg2Closed: 
             sleep(0.01)
             t=t+1
         c= c+1
     GPIO.output(keg1, GPIO.HIGH)
     GPIO.output(Co2_In, GPIO.HIGH)
     t=0
-    while t<(next(val for key, val in shared_values if key == 'co2PurgeBothKegsOpen')*100): 
+    while t<co2PurgeBothKegsOpen: 
         sleep(0.01)
         t=t+1
     GPIO.output(Co2_In, GPIO.LOW)
     t=0
-    while t<(next(val for key, val in shared_values if key == 'co2PurgeBothKegsClosed')*100): #let paa come out after closing co2
+    co2PurgeBothKegsClosed=(next(val for key, val in shared_values if key == 'co2PurgeBothKegsClosed')*100)
+    while t<co2PurgeBothKegsClosed: #let paa come out after closing co2
         sleep(0.01)
         t=t+1
     GPIO.output(Paa_Out, GPIO.LOW)
@@ -806,14 +863,16 @@ def kegprssurize():
     GPIO.output(keg2, GPIO.HIGH)
     checkpruessurecanceled()
     kegpresuuredest= next(val for key, val in shared_values if key == 'kegPdestination')
+    TimeOutPdestination=next(val for key, val in shared_values if key == 'TimeOutPdestination')
+    PTimeWhenSensorDisabled= next(val for key, val in shared_values if key == 'PTimeWhenSensorDisabled')
     while Pressureout<kegpresuuredest:
         sleep(0.2)
         checkpruessurecanceled()
         TO= time.time()
         TT=TO-TK
-        if TT>next(val for key, val in shared_values if key == 'TimeOutPdestination'): 
+        if TT>TimeOutPdestination: 
             print('Timed Out building Pressure- pressure is',Pressureout,'PSI, building pressure for 15 s') 
-            sleep(next(val for key, val in shared_values if key == 'PTimeWhenSensorDisabled'))
+            sleep(PTimeWhenSensorDisabled)
             Pressureout= Pressuroutthresh+1
     if TT<7 and GPIO.input(pressure_cancel) == GPIO.LOW:
         TS=7-TT
@@ -823,7 +882,6 @@ def kegprssurize():
         sleep(TS)
     if GPIO.input(pressure_cancel) == GPIO.HIGH:
         t=0
-        PTimeWhenSensorDisabled= next(val for key, val in shared_values if key == 'PTimeWhenSensorDisabled')
         print(f'pressure detect is off, building pressure for {PTimeWhenSensorDisabled} s') 
         while t<PTimeWhenSensorDisabled:
             sleep(0.01)
@@ -921,13 +979,17 @@ def checkbtn():
     global Btnstatus
     Btnstatus = 0
     if GPIO.input(ErrBTN) == GPIO.HIGH:
-        Btnstatus=3
+        Btnstatus=3#err butoon
     if GPIO.input(GBTN) == GPIO.HIGH and GPIO.input(RBTN) == GPIO.LOW:
-        Btnstatus=2
+        Btnstatus=2#red buton
     if GPIO.input(RBTN) == GPIO.HIGH and GPIO.input(GBTN) == GPIO.LOW:
-        Btnstatus=1
+        Btnstatus=1#gree btn
     if GPIO.input(RBTN) == GPIO.LOW and GPIO.input(GBTN) == GPIO.LOW:
-        Btnstatus=4
+        Btnstatus=4#green and red
+    if (next(val for key, val in buttons if key == 'green'))== 1:
+        Btnstatus=1
+    if (next(val for key, val in buttons if key == 'red'))== 1:
+        Btnstatus=2
 
 def shutdown():
     shutStarted = 0
@@ -1191,9 +1253,10 @@ async def boot():
     def fetcing_signal():
         GPIO.output(Outputs, GPIO.LOW)
         GPIO.output(InProceslight, GPIO.HIGH)
-        while True:
+        z=0
+        while z==0:
             GPIO.output(Errlight, GPIO.HIGH)
-            sleep(0.25)
+            sleep(0.3)
             GPIO.output(Errlight, GPIO.LOW)
     
     prefetch_signal=Process(target=fetcing_signal)
@@ -1205,19 +1268,20 @@ async def boot():
     GPIO.output(Outputs, GPIO.LOW)
     
     def preboot():
-    GPIO.output(Outputs, GPIO.LOW)
-    x=0
-    while x<3:
-        a=statuslights[x]
-        GPIO.output(statuslights, GPIO.LOW)
-        GPIO.output(a, GPIO.HIGH)
-        x=x+1
-        sleep(0.5)
-        if x==3:
-            x=0
+        GPIO.output(Outputs, GPIO.LOW)
+        x=0
+        while x<3:
+            a=statuslights[x]
             GPIO.output(statuslights, GPIO.LOW)
-    if GPIO.input(pressure_cancel) == GPIO.LOW:
-        print('Launching test cycle')
+            GPIO.output(a, GPIO.HIGH)
+            x=x+1
+            sleep(0.5)
+            if x==3:
+                x=0
+                GPIO.output(statuslights, GPIO.LOW)
+        if GPIO.input(pressure_cancel) == GPIO.LOW:
+            print('Launching test cycle')
+            
     prebootproc = Process(target=preboot)
     prebootproc.start()
 
@@ -1233,6 +1297,7 @@ async def boot():
     elif (B==0):
         print("skipng the preboot")
         prebootproc.terminate()
+        testsucsess=1
     while B>0:
         ErrNmbr=0
         if pressed==0:
@@ -1296,6 +1361,8 @@ async def boot():
             if GPIO.input(pressure_cancel) == GPIO.LOW:
                 global Pressurein
                 global Pressureout
+                GPIO.output(statuslights, GPIO.HIGH)
+                GPIO.output(Errlight, GPIO.LOW)
                 testsucsess=0
                 print('testing water input')
                 GPIO.output(Water_In, GPIO.HIGH)
