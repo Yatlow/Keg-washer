@@ -1524,6 +1524,11 @@ async def boot():
     checkbtn()
     main()
 
-if __name__ == "__main__":
+
+
+def launch():
     import asyncio
-    asyncio.run(boot())  
+    asyncio.run(boot()) 
+     
+#if __name__ == "__main__":    
+launch()

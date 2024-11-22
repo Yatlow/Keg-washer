@@ -64,16 +64,16 @@
                 <div class="h1Box col-12 col-md-5">
                     <div class="H1 translatable">עדכון פרמטרים במשטף חביות</div>
                 </div>
-                <div class="col-12 col-md-3">
+                <div class="col-6 col-md-3">
                     <img class="logo img-fluid" src="assets/pics/hatch_logoblack_clear_Background.png" />
                 </div>
-                <div class="col-12 col-md-2 HeadinfoBox">
+                <div class="col-6 col-md-2 HeadinfoBox">
                     <div class="Headinfo translatable">עדכון אחרון</div>
                     <div class="Headinfo">17/11/2024 11:37</div>
                     <div class="Headinfo">V 5.1.5</div>
                     <div class="Headinfo translatable">© ישראל אטלו</div>
                 </div>
-                <div class="col-12 col-md-2 LangIndictorBox">
+                <div class="col-6 col-md-2 LangIndictorBox">
                     <img src="assets/pics/user.png" id="userPref">
                     <div id="hostLangIn"></div>
                     <div id="userPrefBox" class="hiddenMain">
@@ -91,6 +91,9 @@
                             <div>English</div>
                         </div>
                     </div>
+                </div>
+                <div class="col-6 col-md-12" id="Haburgerbox">
+                    <img src="assets/pics/Hamburger.png" id="Hamburger">
                 </div>
             </div>
             <div id="LastParamUpdateBox">
@@ -2041,22 +2044,26 @@
 
         function toggleStage(labelId, stageId, ImgId) {
             let clicked = false;
-            document.getElementById(labelId).addEventListener("click", function (event) {
+            function toogle(){
                 let functionInputs = document.getElementById(stageId);
                 let functionLabel = document.getElementById(labelId);
                 let functionImg = document.getElementById(ImgId);
-                if (!clicked) {
-                    functionInputs.classList.add("functionInputsHidden");
-                    functionLabel.classList.add("functionLabelHiddenInput");
-                    functionImg.classList.add("ClosedImg")
-                    clicked = true;
-                } else {
-                    functionInputs.classList.remove("functionInputsHidden");
-                    functionLabel.classList.remove("functionLabelHiddenInput");
-                    functionImg.classList.remove("ClosedImg")
-                    clicked = false;
+                    if (!clicked) {
+                        functionInputs.classList.add("functionInputsHidden");
+                        functionLabel.classList.add("functionLabelHiddenInput");
+                        functionImg.classList.add("ClosedImg")
+                        clicked = true;
+                    } else {
+                        functionInputs.classList.remove("functionInputsHidden");
+                        functionLabel.classList.remove("functionLabelHiddenInput");
+                        functionImg.classList.remove("ClosedImg")
+                        clicked = false;
+                    }
+            }
+                document.getElementById(labelId).addEventListener("click", toogle);
+                if (window.matchMedia("(max-width: 768px)").matches) {
+                    toogle();
                 }
-            });
         }
 
         function stagetoggler() {

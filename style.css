@@ -48,14 +48,16 @@ html{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 20px;
 }
 #hostLangIn{
     position: relative;
 }
-#userPref{
+#userPref,#Hamburger{
     width: 40px;
     position: relative;
+}
+#Hamburger{
+    height: 30px;
 }
 .userPrefBox{
     visibility: visible;
@@ -164,7 +166,7 @@ html{
     justify-content: center;
     transition: border-radius 200ms linear;
 }
-.functionLabel:hover,#CloseDefaultValBox:hover,#ShowPass:hover,.LangIndictor:hover,.DefeStageLabel:hover,.clickable,#userPref:hover{
+.functionLabel:hover,#CloseDefaultValBox:hover,#ShowPass:hover,.LangIndictor:hover,.DefeStageLabel:hover,.clickable,#userPref:hover,#Hamburger:hover{
     cursor: pointer;   
 }
 #CloseDefaultValBox:hover,#userPref:hover{
@@ -495,11 +497,19 @@ html{
     margin: 0;
 }
 @media (max-width: 1800px) {/* Medium screens */
+    .HeadinfoBox,.h1Box{
+        gap: 20px;
+    }
     .userPrefBox{
         top: 120px;
         inset-inline-end: 10px;
         width: 300px;
-    }    
+    } 
+    #Haburgerbox{
+        text-align: start;
+        margin-inline-start: 3%;
+        margin-top: 2%;
+    }
     #LastParamUpdateBox{
         margin-top: 8vh;
         margin-bottom: 3vh;
@@ -532,6 +542,9 @@ html{
     }
     .logo{
         height: 200px;
+    }
+    #userPref{
+        margin-top: 5vh;
     }
     .LangIndictorBox{
         height: 200px;
@@ -577,11 +590,24 @@ html{
     }
 }
 @media (max-width: 768px) {/*small screens */
+    .HeadinfoBox,.h1Box{
+        gap: 0;
+    }
     .userPrefBox{
         top: -170px;
         width: 70%;
         inset-inline-end: 15%;
-    }    
+    } 
+    #userPref{
+        margin-top: 2vh;
+    } 
+    #Haburgerbox{
+        text-align: center;
+        margin: 0;
+        position: relative;
+        inset-inline-start: 0;
+        transform: translate(100%, 0);
+    }  
     #DownloadPdfTop{
         max-width: 60%;
     }
@@ -601,7 +627,9 @@ html{
         font-weight: bold;
     }
     .headBox{
-        div{margin: 1vh;}
+        div{
+            margin-top: 1vh;
+            margin-bottom: 1vh;}
     }
     .Headinfo{
         margin: 0;
@@ -610,17 +638,18 @@ html{
     .logo,.LangIndictorBox{
         height: 100px;
     }
+    .LangIndictorBox{
+        transform: translate(-100%,0);
+    }
     .LangIndictor{
-        /* transform: translate(); */
-        /* /* top:35%; */
         inset-inline-end: 7%; 
     }
     .LangTglBtn{
         margin: 0 !important;
     }
     #LastParamUpdateBox{
-        margin-top: 5vh;
-        margin-bottom: 3vh;
+        margin-top: 1vh;
+        margin-bottom: 2vh;
     }
     .formBox{
         font-size: 12px;

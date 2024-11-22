@@ -197,10 +197,16 @@ The Python script for the keg washer system is highly modular, with each functio
    - Err #7: PAA input failure.
 
 By using visual indicators (red error light) and controlling relevant outputs, the function provides clear feedback to the operator, helping to identify and resolve problems efficiently.
+
 2. **fetch_settings_once()**: This function works similarly to `get_current_settings()` but runs only once. It is used to initialize key parameters before the system begins a cycle. By fetching the settings only once, it ensures that the keg washer starts with the correct initial configuration. This setup is essential for configuring operational parameters, such as timing for each cycle phase or pressure limits, providing a stable starting point before entering the main operation loop.
+
 3. **Stdby()**: The `Stdby()` function resets the keg washer system to standby mode. It clears all outputs and sets up the GPIO pins for input and output, preparing the system for a new cycle. It also turns on the green standby light, signaling that the system is ready and waiting for user input to begin a cleaning cycle. This function is crucial for ensuring that all components are in a known state before initiating a new operation, reducing the risk of unexpected behavior.
+
 4. **boot()**: The `boot()` function initializes critical services and prepares the system for normal operation. It starts necessary safety processes like heat element protection and shutdown monitoring, then runs a series of initial checks to ensure all components are functioning properly. If successful, it calls the `main()` function to start the regular operational flow. This boot process is crucial for ensuring the system is in a stable and ready state before initiating any keg cleaning operations.
 5. **main()**: The `main()` function acts as the primary operational loop for the keg washer system. It continuously checks the button inputs, handles process flow, manages different cleaning cycles, and controls how the system responds to user inputs. It also manages the transition between different states, such as pausing, resuming, or stopping cycles, and starts appropriate processes based on button interactions. This function is essential for orchestrating the various subprocesses and ensuring the entire system operates as intended.
+
+
+
 
 In summary, the keg washer Python script is meticulously designed to manage the complete automation of keg cleaning and sanitization, ensuring safety, efficiency, and proper functionality at each stage. Each function plays a specific role, from monitoring inputs and handling errors to controlling valves, pumps, and indicators, all while maintaining real-time synchronization with the Firebase database for dynamic operation control.
 
