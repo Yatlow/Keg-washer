@@ -24,6 +24,7 @@ html{
     opacity: 0;
     max-height: 0;
     padding: 0;
+    /* width: 0; */
 }
 .ShownMain{
     visibility: visible;
@@ -43,7 +44,6 @@ html{
     align-items: center;
     justify-content: center;
 }
-
 .HeadinfoBox,.h1Box{
     display: flex;
     flex-direction: column;
@@ -75,17 +75,14 @@ html{
     opacity: 1;
     z-index: 2;
 }
-.LangIndictorBox{
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
+.exitBtnBoxTop{
+    position: absolute;
+    top: 1.5vh;
+    inset-inline-start: 1.5vw;
 }
 .LangIndictor{
     font-family: all,ENG;
 }
-
 .logo{
     width: auto;
     object-fit: scale-down;
@@ -136,13 +133,15 @@ html{
     width: 28px;
     /* max-height: 50px; */
     border-radius: 15px 0 0 15px;
-  }
+}
 .DefValDisplayBox::-webkit-scrollbar-track {
     box-shadow: inset 0 0 5px grey;
     border-radius: 15px 0 0 15px;
-  }
-
-.SubmitionBox,.DowloadBox{
+}
+#sendTop{
+      margin: auto;
+}
+.DowloadBox,#sendTop{
     margin-bottom: 30px;
     display: flex;
     justify-content: center;
@@ -166,7 +165,7 @@ html{
     justify-content: center;
     transition: border-radius 200ms linear;
 }
-.functionLabel:hover,#CloseDefaultValBox:hover,#ShowPass:hover,.LangIndictor:hover,.DefeStageLabel:hover,.clickable,#userPref:hover,#Hamburger:hover{
+.functionLabel:hover,#CloseDefaultValBox:hover,#CloseuserPrefBox:hover,#ShowPass:hover,.LangIndictor:hover,.DefeStageLabel:hover,.clickable,#userPref:hover,#Hamburger:hover{
     cursor: pointer;   
 }
 #CloseDefaultValBox:hover,#userPref:hover{
@@ -195,7 +194,6 @@ html{
     width: 100px;
     height: 40px;
 }
-
 .FNCTglHouseOFF{
     direction: ltr;
 }
@@ -253,7 +251,7 @@ html{
     position: relative;
     inset-inline-start: 43%;
 }
-#CloseDefaultValBox{
+#CloseDefaultValBox,#CloseuserPrefBox{
     max-height: 30px !important;
     max-width: 30px !important;
 }
@@ -290,7 +288,6 @@ html{
     height: max-content;
     transition: opacity 200ms linear, max-height 200ms linear, height 200ms linear, visibility 0s 0ms linear;
 }
-
 .fullborder{
     border-radius: 0;
 }
@@ -352,7 +349,6 @@ html{
 .FullyhiddenBox{
     display: none;
 }
-
 .infoBox , .login-container,.resetPasswordBox, .wariningBox{
     display:inline-flex;
     flex-direction: column;
@@ -496,23 +492,85 @@ html{
     width: 100%;
     margin: 0;
 }
+.menu{
+    display: flex;
+    min-height: 100px ;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+}
+.hiddenMenItems{
+    max-height: 0;
+    height: 0;
+    visibility: hidden;
+    overflow: hidden;
+    opacity: 0.1;
+    transition: opacity 200ms linear, height 200ms linear,visibility 0ms 200ms linear; 
+}
+.menuItems{
+    min-height: 100px;
+    visibility: visible;
+    overflow: visible;
+    opacity: 1;
+    font-size: 12px;
+}
+.ShownItemsAlways{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+}
+/* .ShownItemsAlwaysBox{
+    width: 15%;
+    border: #842F00 1px solid;
+    div{
+        border: #842F00 1px solid;
+
+    }
+} */
 @media (max-width: 1800px) {/* Medium screens */
     .HeadinfoBox,.h1Box{
         gap: 20px;
     }
+    .menu{
+        flex-direction: row;
+    }
+    #Haburgerbox{
+        width: 10%;
+    }
+    .hiddenMenItems{
+        width: 70%;
+    }
+    .ShownItemsAlwaysBox{
+        width: 20%;
+    }
+    .menuItems{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 70%;
+        justify-content: center;
+    }
+    .menuBack{
+        background-color: #FFE9A4;
+    }
+    .menuItemsRow{
+        flex-direction: row;
+        justify-content:center;
+        gap: 3%;
+        display: flex;
+        width: 100%;
+        /* height: 25px; */
+    }
     .userPrefBox{
-        top: 120px;
+        position: absolute;
+        top: 80%;
         inset-inline-end: 10px;
         width: 300px;
     } 
-    #Haburgerbox{
-        text-align: start;
-        margin-inline-start: 3%;
-        margin-top: 2%;
-    }
     #LastParamUpdateBox{
-        margin-top: 8vh;
-        margin-bottom: 3vh;
+        margin-bottom: 2vh;
     }
     .formBox{
         font-size: 14px;
@@ -541,12 +599,6 @@ html{
         font-weight: bold;
     }
     .logo{
-        height: 200px;
-    }
-    #userPref{
-        margin-top: 5vh;
-    }
-    .LangIndictorBox{
         height: 200px;
     }
     .infoBox ,.login-container{
@@ -593,34 +645,51 @@ html{
     .HeadinfoBox,.h1Box{
         gap: 0;
     }
+    .menu{
+        flex-direction: column;
+        position: relative;
+    }
+    #Haburgerbox{
+        width: 100%;
+    }
+    .menuItems{
+        flex-direction: column;
+        gap: 0;
+        width: 80%;
+        position: absolute;
+        align-items: center;
+        top: 50%;
+        z-index: 2;
+        border: #937002 1px groove;
+        padding: 3%;
+        border-radius: 20px;
+        background-color: #FFE9A4;
+    }
+    .menuItemsRow{
+        flex-direction: column;
+        display: inline-flex;
+        gap: 2vh;
+        width: 80%;
+        align-items: center;
+    }
+    .ShownItemsAlwaysBox{
+        width: 100%;
+        justify-content: space-evenly;
+    }
     .userPrefBox{
-        top: -170px;
+        top: 85%;
         width: 70%;
         inset-inline-end: 15%;
-    } 
-    #userPref{
-        margin-top: 2vh;
-    } 
-    #Haburgerbox{
-        text-align: center;
-        margin: 0;
-        position: relative;
-        inset-inline-start: 0;
-        transform: translate(100%, 0);
-    }  
+    }
+    .exitBtnBoxTop{
+        inset-inline-start:3vw;
+    }
     #DownloadPdfTop{
         max-width: 60%;
     }
     .exitBtnBox{
         position: fixed;
         inset-inline-end: 31%;
-    }
-    .SubmitionBox{
-        flex-direction: column;
-        width: 50%;
-        align-items: center;
-        gap: 15px;
-        margin-inline-start: 25%;
     }
     .H1{
         font-size: 16px;
@@ -635,11 +704,8 @@ html{
         margin: 0;
         font-size: 15px;
     }
-    .logo,.LangIndictorBox{
+    .logo{
         height: 100px;
-    }
-    .LangIndictorBox{
-        transform: translate(-100%,0);
     }
     .LangIndictor{
         inset-inline-end: 7%; 
