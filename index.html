@@ -1616,6 +1616,9 @@
                 const formattedTimestamp = `${day}/${month}/${year} ${hours}:${minutes}`;
                 document.getElementById('Timestamp').innerHTML=formattedTimestamp;
                 await updateDoc(docRef, Default_values);
+                const stringedTimestamp= Timestamp.toISOString();
+                const LogDoc = doc(db, 'Saved-Parameters', stringedTimestamp);
+                await setDoc(LogDoc, formData);
                 let inner = document.getElementById("conirmContent");
                 inner.innerHTML = LangFlag == 0 ?  'עודכנו נתוני ברירת מחדל' : 'Default Values Updated';
                 document.getElementById("exitConfirm").innerHTML = LangFlag == 0 ? 'סגור' : 'Close';
