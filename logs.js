@@ -67,10 +67,10 @@ async function LiveLog(){
     const LiveLog = doc(db, 'users', 'keg-washer');
     const LogPrint =document.getElementById("Logs");
     let previosLog= false;
-    let delay = 0;
     let rowCount= 1;
-
+    
     const appendWithDelay = (text, charDelay,Tag) => {
+        let delay = 0;
         text.split('').forEach((char,index) => {
             setTimeout(() => {
                 Tag.innerHTML += char;
@@ -78,8 +78,6 @@ async function LiveLog(){
             delay += charDelay;
         });
     };
-
-    
     async function fetchAndUpdateLog() {
         try{
             let UserDoc= await getDoc(LiveLog);

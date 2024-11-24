@@ -2164,7 +2164,7 @@
 
         function logInPage() {
             let LoggedInEmail = 0;
-            let idleTimeout;
+            let idleTimeout=0;
             stagetoggler();
             document.getElementById("ShowPass").addEventListener("click", function (event) {
                 document.getElementById("login-password").type = "text";
@@ -2242,7 +2242,6 @@
                             console.log("No user is logged in.");
                         }
                         }
-                        // setInterval(refreshIdToken, 1 * 1 * 1000);
                         setInterval(refreshIdToken, 59 * 60 * 1000);
                         SucsessLogin()
                     } catch (error) {
@@ -2288,7 +2287,7 @@
                 }
             }
 
-            const idleTimeLimit = 15 * 60 * 1000; // e.g., 15 minutes
+            const idleTimeLimit = 59 * 60 * 1000; 
             function resetIdleTimer() {
                 clearTimeout(idleTimeout);
                 idleTimeout = setTimeout(() => {
