@@ -664,6 +664,9 @@ html{
     .HeadinfoBox,.h1Box{
         gap: 0;
     }
+    #LiveLogHeader{
+        font-size: 20px;
+    }
     .menu{
         flex-direction: column;
         position: relative;
