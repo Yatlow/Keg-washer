@@ -87,7 +87,7 @@ async function LiveLog(){
                 const currentLog = UserDoc.data()["current-log"];
                 if( previosLog!=currentLog){
                     LogPrint.innerHTML += `\n${rowCount}\t`
-                    appendWithDelay(currentLog,3,LogPrint);
+                    appendWithDelay(currentLog,10,LogPrint);
                     rowCount++;
                     previosLog=currentLog;
                 }} else {

@@ -1080,7 +1080,7 @@
         </div>
         <div class="hiddenValBox" id="LiveLogDisplayBox">
             <a>apc</a>
-            <iframe src="live-log.html" class="live-log"></iframe>
+            <iframe src="live-log.html" class="live-log" id="live-log"></iframe>
         </div>
     </div>
 
@@ -1360,17 +1360,33 @@
         });
 
         document.getElementById("WasherConsole").addEventListener("click", function(){
+            const consoleBox=document.getElementById("LiveLogDisplayBox");
+            const console=document.getElementById("live-log");
+            const confirmBox = document.getElementById("confirmBox");
+            let lastScroll=0;
             if (!LiveLogsOpen){
-                document.getElementById("LiveLogDisplayBox").classList.remove("hiddenValBox")
-                document.getElementById("LiveLogDisplayBox").classList.add("DefValDisplayBox")
+                consoleBox.classList.remove("hiddenValBox")
+                consoleBox.classList.add("DefValDisplayBox")
                 LiveLogsOpen=true
                 DisableItems()
-                let confirmBox = document.getElementById("confirmBox");
                 confirmBox.classList.add("hiddenBox");  // Remove hidden class
                 confirmBox.classList.remove("infoBox");
+                function scrollToBottom(){
+                    const iframeContenet= console.contentWindow?.document || console.contentDocument;
+                    if (iframeContenet.document){
+                        const currentScroll= iframeContenet.body.scrollHeight
+                        if (currentScroll>lastScroll){
+                            iframeContenet.contentWindow.scrollTo(0, currentScroll)
+                            lastScroll=currentScroll
+                        }
+                }
+            }
+                setInterval(() => {
+                    scrollToBottom();
+                }, 3000);
             }else{
-                document.getElementById("LiveLogDisplayBox").classList.add("hiddenValBox")
-                document.getElementById("LiveLogDisplayBox").classList.remove("DefValDisplayBox")
+                consoleBox.classList.add("hiddenValBox")
+                consoleBox.classList.remove("DefValDisplayBox")
                 LiveLogsOpen=false
                 exitConfirmBox()
             }
