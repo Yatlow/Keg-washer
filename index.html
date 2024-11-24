@@ -1079,7 +1079,11 @@
             </div>
         </div>
         <div class="hiddenValBox" id="LiveLogDisplayBox">
-            <a>apc</a>
+            <div id="LiveLogHeader">
+                <div class="translatable LiveLogHeaderH1">קונסולת משטף חביות</div>
+                <div class="col exitLog dontShut"><img id="RefrshConsole" src="assets/pics/refresh.png" /></div>
+                <div class="col exitLog dontShut"><img id="CloseConsole" src="assets/pics/Close.png" /></div>
+            </div>
             <iframe src="live-log.html" class="live-log" id="live-log"></iframe>
         </div>
     </div>
@@ -1234,7 +1238,7 @@
 
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js';
         import { getAuth, signInWithEmailAndPassword, signInWithCustomToken, signOut } from 'https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js';
-        import { getFirestore, doc, updateDoc, getDoc } from 'https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js';
+        import { getFirestore, doc, updateDoc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js';
         const firebaseConfig = {
             apiKey: "AIzaSyAIg4_DSXJH1nIjarnTHaYG7Z8ydNJEBZM",
             authDomain: "keg-washer.firebaseapp.com",
@@ -1373,17 +1377,18 @@
                 confirmBox.classList.remove("infoBox");
                 function scrollToBottom(){
                     const iframeContenet= console.contentWindow?.document || console.contentDocument;
-                    if (iframeContenet.document){
+                    if (iframeContenet){
                         const currentScroll= iframeContenet.body.scrollHeight
                         if (currentScroll>lastScroll){
-                            iframeContenet.contentWindow.scrollTo(0, currentScroll)
+                            console.contentWindow.scrollTo(0, currentScroll)
                             lastScroll=currentScroll
                         }
-                }
-            }
+                    }
+                }   
                 setInterval(() => {
                     scrollToBottom();
                 }, 300);
+            event.stopPropagation();
             }else{
                 consoleBox.classList.add("hiddenValBox")
                 consoleBox.classList.remove("DefValDisplayBox")
@@ -1391,6 +1396,21 @@
                 exitConfirmBox()
             }
         })
+        
+        document.getElementById("RefrshConsole").addEventListener("click",function(){
+            const console=document.getElementById("live-log");
+            console.src=console.src;
+        });
+
+        document.getElementById("CloseConsole").addEventListener("click",function(){
+            if (LiveLogsOpen){
+                const consoleBox=document.getElementById("LiveLogDisplayBox");
+                consoleBox.classList.add("hiddenValBox")
+                consoleBox.classList.remove("DefValDisplayBox")
+                LiveLogsOpen=false
+                exitConfirmBox()
+            }
+        });
 
         document.getElementById("CloseuserPrefBox").addEventListener("click",function(){
             if (prefboxOpen){
@@ -1494,21 +1514,23 @@
                 }
             });
             try{
-            // updateDoc(docRef, formData);
-            await updateDoc(docRef, formData);
-            inner.innerHTML = LangFlag===0? 'פרמטרים נשמרו בשרת': 'Parameters Saved on server';
-            document.getElementById("exitConfirm").innerHTML = LangFlag===0? 'סגור': 'Close';
-            DisableItems()
-            setTimeout(() => {
-                exitConfirmBox()
-            }, 750);
-            document.getElementById('LastUser').innerHTML=formData['LastUser'];
                 const year = Timestamp.getFullYear();
                 const month = String(Timestamp.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
                 const day = String(Timestamp.getDate()).padStart(2, '0');
                 const hours = String(Timestamp.getHours()).padStart(2, '0');
                 const minutes = String(Timestamp.getMinutes()).padStart(2, '0');
                 const formattedTimestamp = `${day}/${month}/${year} ${hours}:${minutes}`;
+                const stringedTimestamp= Timestamp.toISOString();
+                await updateDoc(docRef, formData);
+                const LogDoc = doc(db, 'Saved-Parameters', stringedTimestamp);
+                await setDoc(LogDoc, formData);
+                inner.innerHTML = LangFlag===0? 'פרמטרים נשמרו בשרת': 'Parameters Saved on server';
+                document.getElementById("exitConfirm").innerHTML = LangFlag===0? 'סגור': 'Close';
+                DisableItems()
+                setTimeout(() => {
+                    exitConfirmBox()
+                }, 750);
+                document.getElementById('LastUser').innerHTML=formData['LastUser'];
                 document.getElementById('Timestamp').innerHTML=formattedTimestamp;
             }catch(error) {
                 let inner = document.getElementById("conirmContent")
@@ -2021,6 +2043,14 @@
                 document.getElementById("resetPasswordBox").classList.remove("resetPasswordBox")
                 resetPassBoxOpen=false;
                 exitConfirmBox();
+            } 
+            const consoleBox=document.getElementById("LiveLogDisplayBox");
+            if (event.keyCode ===27 && consoleBox.classList.contains("DefValDisplayBox")
+            && document.getElementById("confirmBox").classList.contains("infoBox") == false && LiveLogsOpen===true){
+                consoleBox.classList.add("hiddenValBox")
+                consoleBox.classList.remove("DefValDisplayBox")
+                LiveLogsOpen=false
+                exitConfirmBox()
             }
         });
 
@@ -2047,6 +2077,13 @@
                 document.getElementById("resetPasswordBox").classList.add("hiddenMain")
                 document.getElementById("resetPasswordBox").classList.remove("resetPasswordBox")
                 resetPassBoxOpen=false;
+                exitConfirmBox();
+            }
+            if (!document.getElementById("LiveLogDisplayBox").contains(event.target) && document.getElementById("LiveLogDisplayBox").classList.contains("DefValDisplayBox")
+            && document.getElementById("confirmBox").classList.contains("infoBox") == false && LiveLogsOpen===true){
+                document.getElementById("LiveLogDisplayBox").classList.add("hiddenValBox")
+                document.getElementById("LiveLogDisplayBox").classList.remove("DefValDisplayBox")
+                LiveLogsOpen=false;
                 exitConfirmBox();
             }
         });

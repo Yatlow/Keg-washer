@@ -138,6 +138,14 @@ html{
     box-shadow: inset 0 0 5px grey;
     border-radius: 15px 0 0 15px;
 }
+#LiveLogDisplayBox{
+    width: 82%;
+    height: 82%;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
 #sendTop{
       margin: auto;
 }
@@ -165,10 +173,10 @@ html{
     justify-content: center;
     transition: border-radius 200ms linear;
 }
-.functionLabel:hover,#CloseDefaultValBox:hover,#CloseuserPrefBox:hover,#ShowPass:hover,.LangIndictor:hover,.DefeStageLabel:hover,.clickable,#userPref:hover,#Hamburger:hover{
+.functionLabel:hover,#RefrshConsole:hover,#CloseConsole:hover,#CloseDefaultValBox:hover,#CloseuserPrefBox:hover,#ShowPass:hover,.LangIndictor:hover,.DefeStageLabel:hover,.clickable,#userPref:hover,#Hamburger:hover{
     cursor: pointer;   
 }
-#CloseDefaultValBox:hover,#userPref:hover{
+#CloseDefaultValBox:hover,#userPref:hover,#CloseConsole:hover,#RefrshConsole:hover{
     transform: scale(1.4);
     transition: transform 200ms linear;
 }
@@ -251,7 +259,7 @@ html{
     position: relative;
     inset-inline-start: 43%;
 }
-#CloseDefaultValBox,#CloseuserPrefBox{
+#CloseDefaultValBox,#CloseuserPrefBox,#CloseConsole,#RefrshConsole{
     max-height: 30px !important;
     max-width: 30px !important;
 }
@@ -521,12 +529,24 @@ html{
     align-items: center;
     width: 100%;
 }
-#LiveLogDisplayBox{
-    display: flex;
-    flex-direction: column;
-}
 .live-log{
     height: 90%;
+}
+#LiveLogHeader{
+    font-family: all;
+    padding-inline-start: 2%;
+    font-size: 30px;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    padding-bottom: 2%;
+}
+.LiveLogHeaderH1{
+    width: 86%;
+}
+.exitLog{
+    width: 6%;
 }
 @media (max-width: 1800px) {/* Medium screens */
     .HeadinfoBox,.h1Box{
@@ -650,6 +670,8 @@ html{
     }
     #Haburgerbox{
         width: 100%;
+        text-align: start;
+        padding-inline-start: 5%;
     }
     .menuItems{
         flex-direction: column;
