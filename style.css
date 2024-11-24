@@ -542,13 +542,13 @@ html{
     text-align: center;
     padding-bottom: 2%;
 }
-.LiveLogHeaderH1{
-    width: 86%;
-}
-.exitLog{
-    width: 6%;
-}
 @media (max-width: 1800px) {/* Medium screens */
+    .LiveLogHeaderH1{
+        width: 86%;
+    }
+    .exitLog{
+        width: 6%;
+    }
     .HeadinfoBox,.h1Box{
         gap: 20px;
     }
@@ -666,6 +666,12 @@ html{
     }
     #LiveLogHeader{
         font-size: 20px;
+    }
+    .LiveLogHeaderH1{
+        width: 69%;
+    }
+    .exitLog{
+        width: 5%;
     }
     .menu{
         flex-direction: column;
