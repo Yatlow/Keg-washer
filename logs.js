@@ -87,7 +87,7 @@ async function LiveLog(){
                 const currentLog = UserDoc.data()["current-log"];
                 if( previosLog!=currentLog){
                     LogPrint.innerHTML += `\n${rowCount}\t`
-                    appendWithDelay(currentLog,40,LogPrint);
+                    appendWithDelay(currentLog,3,LogPrint);
                     rowCount++;
                     previosLog=currentLog;
                 }} else {
@@ -96,7 +96,7 @@ async function LiveLog(){
         } catch (error) {
                 console.error("Error fetching document:", error);
         }   
-        setTimeout(fetchAndUpdateLog, 500);  
+        setTimeout(fetchAndUpdateLog, 50);  
     };
     fetchAndUpdateLog();
 };

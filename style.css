@@ -108,9 +108,9 @@ html{
     z-index: 5;
     display: inline-block;
     position: fixed;
-    inset-inline-start: 20%;
+    inset-inline-start: 10%;
     top: 10%;
-    width: 60%;
+    width: 80%;
     overflow-y: scroll;
     height: 80%;
     max-height: none;
@@ -521,14 +521,13 @@ html{
     align-items: center;
     width: 100%;
 }
-/* .ShownItemsAlwaysBox{
-    width: 15%;
-    border: #842F00 1px solid;
-    div{
-        border: #842F00 1px solid;
-
-    }
-} */
+#LiveLogDisplayBox{
+    display: flex;
+    flex-direction: column;
+}
+.live-log{
+    height: 90%;
+}
 @media (max-width: 1800px) {/* Medium screens */
     .HeadinfoBox,.h1Box{
         gap: 20px;

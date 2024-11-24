@@ -7,10 +7,10 @@ body{
     font-family: code;
     color: #DFB725;
     white-space: pre;
+    font-size: 12px;
 }
 #logoHatch{
-    line-height: 0.6;
-    
+    line-height: 0.6;   
 }
 #logoHatch, #Logs,#loadingLog,#loaded{
     padding-inline-start: 5%;
