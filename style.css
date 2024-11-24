@@ -260,8 +260,8 @@ html{
     inset-inline-start: 43%;
 }
 #CloseDefaultValBox,#CloseuserPrefBox,#CloseConsole,#RefrshConsole{
-    max-height: 30px !important;
-    max-width: 30px !important;
+    max-height: 30px;
+    max-width: 30px;
 }
 .TglBtnBox{
     display: flex;
@@ -669,6 +669,10 @@ html{
     }
     .LiveLogHeaderH1{
         width: 69%;
+    }
+    #CloseDefaultValBox,#CloseuserPrefBox,#CloseConsole,#RefrshConsole{
+        max-height: 15px;
+        max-width: 15px;
     }
     .exitLog{
         width: 5%;
