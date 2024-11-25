@@ -1440,7 +1440,7 @@
                 const LoadedFromDb = await getDoc(DefRef);
                 const Values = LoadedFromDb.data();
                 document.getElementById("appendSpecificValues").addEventListener("click",function(){
-                    reset(collection,collection);
+                    reset(collection,DocR);
                     extiDefaultValBox
                 });
                 let escapeTimeout = setTimeout(function () {
@@ -1647,6 +1647,7 @@
             document.getElementById("exitConfirm").classList.add("disabledConfirmBtn");
             DisableItems()
             try {
+                console.log(collection,DocR)
                 const DefRef = doc(db, collection, DocR);
                 const LoadedFromDb = await getDoc(DefRef);
                 const Default_values = LoadedFromDb.data();
