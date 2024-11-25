@@ -678,19 +678,26 @@
                 <form action="assets/docs/Default_Parameters.pdf" method="get" target="_blank">
                     <button class="formBtn translatable" id="DownloadPdfTop" type="submit">שמור כקובץ PDF</button>
                 </form>
+                <button id="appendSpecificValues" class="formBtn" type="button">טען נתונים אלו למשטף</button>
+            </div>
+            <div id="DefValDisplayBoxHeader" class="DefValDisplayBoxHeader">
+                <div class="translatable">פרמטרים אלו עודכנו על ידי:</div>
+                <div id="SpecificValuesAutherId"></div>
+                <div class="translatable">ב:</div>
+                <div id="SpecificValuesTime"></div>
             </div>
             <!-- stage 0 -->
             <div class="row">
                 <div class="col-12 col-md-6 DefeStageRow" id="stage0_1">
                     <div class="DefAtribute translatable">סייקל בדיקה ראשוני</div>
-                    <div class="DefVal translatable">דלוק</div>
+                    <div class="DefVal translatable" id="preboobotMetegVal"></div>
                 </div>
                 <div class="col-12 col-md-6 DefeStageRow" id="stage0_2">
                     <div class="DefAtribute">
                         <div class="translatable">חיישני לחץ</div>
                         <div class="note translatable">יפעל רק אם המתג המכני מופעל!</div>
                     </div>
-                    <div class="DefVal translatable">כבוי</div>
+                    <div class="DefVal translatable" id="pressureMetegVal"></div>
                 </div>
             </div>
             <div class="DefValBox">
@@ -703,17 +710,17 @@
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable" for="FirstAirPurgeRecure">כמות חזרות</div>
                         <div class="note translatable">במידה ולאחר סיום- כפתור ההפעלה לחוץ, יפעל שוב- עד לעזיבת הכפתור</div>
-                        <div class="DefVal">1</div>
+                        <div class="DefVal" id="FirstAirPurgeRecureVal"></div>
                         <div class="DefSpec translatable">פעמים</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable" for="FirstAirPurgeTon">משך כניסת אוויר בכל חזרה</div>
-                        <div class="DefVal">1</div>
+                        <div class="DefVal" id="FirstAirPurgeTonVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable" for="FirstAirPurgeToff">משך ניקוז ללא אוויר בכל חזרה</div>
-                        <div class="DefVal">1.5</div>
+                        <div class="DefVal" id="FirstAirPurgeToffVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                 </div>
@@ -725,62 +732,62 @@
                 <div class="row defStageBox" id="stage11">
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable" for="InitialWaterFlud">משך מילוי מים ראשוני</div>
-                        <div class="DefVal">4</div>
+                        <div class="DefVal" id="InitialWaterFludVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="d-none d-md-block col-md-8 DefeStageRow"></div>
                     <div class="col-12 DefeStageLabel functionSubLabel translatable">התזת מים בינונית</div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable" for="recureMedSquirt">כמות חזרות</div>
-                        <div class="DefVal">6</div>
+                        <div class="DefVal" id="recureMedSquirtVal"></div>
                         <div class="DefSpec translatable">פעמים</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable" for="medSquirtWaterOn">משך כניסת מים בכל חזרה</div>
-                        <div class="DefVal">0.4</div>
+                        <div class="DefVal" id="medSquirtWaterOnVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable" for="medSquirtWaterOff">משך ניקוז ללא מים בכל חזרה</div>
-                        <div class="DefVal">0.3</div>
+                        <div class="DefVal" id="medSquirtWaterOffVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 DefeStageLabel functionSubLabel translatable">התזת מים קצרה</div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">כמות חזרות</div>
-                        <div class="DefVal">5</div>
+                        <div class="DefVal" id="recureShortSquirtVal"></div>
                         <div class="DefSpec translatable">פעמים</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך כניסת מים בכל חזרה</div>
-                        <div class="DefVal">0.2</div>
+                        <div class="DefVal" id="ShortSquirtWaterOnVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך ניקוז ללא מים בכל חזרה</div>
-                        <div class="DefVal">0.15</div>
+                        <div class="DefVal" id="ShortSquirtWaterOffVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 DefeStageLabel functionSubLabel translatable">התזת מים ארוכה</div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">כמות חזרות</div>
-                        <div class="DefVal">5</div>
+                        <div class="DefVal" id="recureLongSquirtVal"></div>
                         <div class="DefSpec translatable">פעמים</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך כניסת מים בכל חזרה </div>
-                        <div class="DefVal">1.6</div>
+                        <div class="DefVal" id="LongSquirtWaterOnVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך ניקוז ללא מים בכל חזרה </div>
-                        <div class="DefVal">1.6</div>
+                        <div class="DefVal" id="LongSquirtWaterOffVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 DefeStageLabel functionSubLabel translatable">שטיפה במים יחד עם משאבה לבניית לחץ</div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך שטיפה במים עם משאבה לבניית לחץ</div>
-                        <div class="DefVal">11</div>
+                        <div class="DefVal" id="RinseWaterWithPumpVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="d-none d-md-block col-md-8 DefeStageRow"></div>
@@ -793,17 +800,17 @@
                 <div class="row defStageBox" id="stage12">
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">כמות חזרות</div>
-                        <div class="DefVal">5</div>
+                        <div class="DefVal" id="PostWaterPurgeRecureVal"></div>
                         <div class="DefSpec translatable">פעמים</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך כניסת אוויר בכל חזרה </div>
-                        <div class="DefVal">1</div>
+                        <div class="DefVal" id="PostWaterPurgeTonVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך ניקוז ללא אוויר בכל חזרה </div>
-                        <div class="DefVal">2</div>
+                        <div class="DefVal" id="PostWaterPurgeToffVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                 </div>
@@ -815,60 +822,60 @@
                 <div class="row defStageBox" id="stage13">
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך מילוי קאוסטיק ראשוני- ל2 החביות </div>
-                        <div class="DefVal">5</div>
+                        <div class="DefVal" id="InitialCausticFludVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך רחיצה קאוסטיק חבית ימין </div>
-                        <div class="DefVal">15</div>
+                        <div class="DefVal" id="CausticRinseKeg1Val"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך רחיצה קאוסטיק חבית שמאל </div>
-                        <div class="DefVal">15</div>
+                        <div class="DefVal" id="CausticRinseKeg2Val"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 DefeStageLabel functionSubLabel translatable">כניסת קאוסטיק לחבית ללא יציאת הקאוסטיק לבניית לחץ</div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך דחיסת הקאוסטיק לחבית </div>
-                        <div class="DefVal">10</div>
+                        <div class="DefVal" id="pressurizeCausticInKegVal">10</div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך השריית קאוסטיק בחבית בלחץ </div>
-                        <div class="DefVal">15</div>
+                        <div class="DefVal" id="causticSoakInKegVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך מילוי קאוסטיק שני- ל2 החביות </div>
-                        <div class="DefVal">15</div>
+                        <div class="DefVal" id="SecondCausticFludVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 functionSubLabel translatable">התזת קאוסטיק קצרה</div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">כמות חזרות</div>
-                        <div class="DefVal">15</div>
+                        <div class="DefVal" id="recureShortCausticSquirtVal"></div>
                         <div class="DefSpec translatable">פעמים</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך הפעלת משאבה </div>
-                        <div class="DefVal">0.3</div>
+                        <div class="DefVal" id="CausticSquirtPumpOnVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך כיבוי משאבה </div>
-                        <div class="DefVal">0.3</div>
+                        <div class="DefVal" id="CausticSquirtPumpOffVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 functionSubLabel translatable">התזת קאוסטיק בשילוב אוויר</div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">כמות חזרות</div>
-                        <div class="DefVal">7</div>
+                        <div class="DefVal" id="recurePurgeCausticSquirtVal"></div>
                         <div class="DefSpec translatable">פעמים</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">אינטרוול אוויר ומשאבה </div>
-                        <div class="DefVal">0.2</div>
+                        <div class="DefVal" id="airAndPumpIntervaleVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="d-none d-md-block col-md-4 DefeStageRow"></div>
@@ -876,17 +883,17 @@
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">כמות חזרות</div>
-                        <div class="DefVal">7</div>
+                        <div class="DefVal" id="recureLastCausticSquirtVal"></div>
                         <div class="DefSpec translatable">פעמים</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך הפעלת משאבה </div>
-                        <div class="DefVal">1.2</div>
+                        <div class="DefVal" id="CausticLastSquirtPumpOnVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך כיבוי משאבה </div>
-                        <div class="DefVal">1.2</div>
+                        <div class="DefVal" id="CausticLastSquirtPumpOffVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                 </div>
@@ -898,17 +905,17 @@
                 <div class="row defStageBox" id="stage14">
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">כמות חזרות</div>
-                        <div class="DefVal">3</div>
+                        <div class="DefVal" id="PostCausticPurgeRecureVal"></div>
                         <div class="DefSpec translatable">פעמים</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך כניסת אוויר בכל חזרה</div>
-                        <div class="DefVal">0.75</div>
+                        <div class="DefVal" id="PostCausticPurgeTonVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך ניקוז ללא אוויר בכל חזרה</div>
-                        <div class="DefVal">1</div>
+                        <div class="DefVal" id="PostCausticPurgeToffVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                 </div>
@@ -920,24 +927,24 @@
                 <div class="row defStageBox" id="stage15">
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">כמות שטיפות</div>
-                        <div class="DefVal">3</div>
+                        <div class="DefVal" id="postCausticWaterRinseRecureVal"></div>
                         <div class="DefSpec translatable">פעמים</div>
                     </div>
                     <div class="d-none d-md-block col-md-8 DefeStageRow"></div>
                     <div class="col-12 functionSubLabel translatable">דחיקת מים החוצה עם אוויר בין כל שטיפה</div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">כמות חזרות</div>
-                        <div class="DefVal">5</div>
+                        <div class="DefVal" id="postCausticWaterRinseRecureEachRinsVal"></div>
                         <div class="DefSpec translatable">פעמים</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך כניסת מים בכל חזרה</div>
-                        <div class="DefVal">1</div>
+                        <div class="DefVal" id="postCausticWaterRinseOnVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך ניקוז ללא מים בכל חזרה</div>
-                        <div class="DefVal">2</div>
+                        <div class="DefVal" id="postCausticWaterRinseOfVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                 </div>
@@ -949,51 +956,51 @@
                 <div class="row defStageBox" id="stage16">
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך מילוי פראצטית חבית ימין</div>
-                        <div class="DefVal">35</div>
+                        <div class="DefVal" id="SanitizeInitialKeg1Val"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך מילוי פראצטית חבית שמאל</div>
-                        <div class="DefVal">35</div>
+                        <div class="DefVal" id="SanitizeInitialKeg2Val"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך מילוי פראצטית ל2 החביות</div>
-                        <div class="DefVal">10</div>
+                        <div class="DefVal" id="SanitizeInitialBothKegsVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 functionSubLabel translatable">התזת פראצטית ראשונה</div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">כמות חזרות</div>
-                        <div class="DefVal">15</div>
+                        <div class="DefVal" id="paaInitialPumpRecureVal"></div>
                         <div class="DefSpec translatable">פעמים</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך הפעלת משאבה</div>
-                        <div class="DefVal">0.3</div>
+                        <div class="DefVal" id="paaInitialPumpOnVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך כיבוי משאבה</div>
-                        <div class="DefVal">0.3</div>
+                        <div class="DefVal" id="paaInitialPumpOffVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 functionSubLabel translatable">התזת פראצטית בשילוב CO2</div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">כמות חזרות</div>
-                        <div class="DefVal">7</div>
+                        <div class="DefVal" id="paaSquirtRecureVal"></div>
                         <div class="DefSpec translatable">פעמים</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">אינטרוול CO2 ומשאבה</div>
-                        <div class="DefVal">1.2</div>
+                        <div class="DefVal" id="Co2PumpIntervaleVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="d-none d-md-block col-md-4 DefeStageRow"></div>
                     <div class="col-12 functionSubLabel translatable">חיטוי פראצטית ארוך לשני החביות- לאחר התזה בשילוב CO2</div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך חיטוי פראצטית ארוך לשני החביות</div>
-                        <div class="DefVal">10</div>
+                        <div class="DefVal" id="postSquirtSanitizeBothKegsVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="d-none d-md-block col-md-8 DefeStageRow"></div>
@@ -1007,44 +1014,44 @@
                     <div class="col-12 functionSubLabel translatable">חבית ימין</div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">כמות חזרות</div>
-                        <div class="DefVal">9</div>
+                        <div class="DefVal" id="co2PurgeKeg1RecureVal"></div>
                         <div class="DefSpec translatable">פעמים</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך כניסת CO2 בכל חזרה</div>
-                        <div class="DefVal">0.7</div>
+                        <div class="DefVal" id="co2PurgeKeg1OpenVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך ניקוז ללא CO2 בכל חזרה</div>
-                        <div class="DefVal">2.4</div>
+                        <div class="DefVal" id="co2PurgeKeg1ClosedVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 functionSubLabel translatable">חבית שמאל</div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">כמות חזרות</div>
-                        <div class="DefVal">9</div>
+                        <div class="DefVal" id="co2PurgeKeg2RecureVal"></div>
                         <div class="DefSpec translatable">פעמים</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך כניסת CO2 בכל חזרה</div>
-                        <div class="DefVal">0.7</div>
+                        <div class="DefVal" id="co2PurgeKeg2OpenVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך ניקוז ללא CO2 בכל חזרה</div>
-                        <div class="DefVal">2.4</div>
+                        <div class="DefVal" id="co2PurgeKeg2ClosedVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 functionSubLabel translatable">חבית ימין ושמאל יחד</div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך דחיקת פראצטית החוצה עם CO2 ל 2 החביות</div>
-                        <div class="DefVal">5</div>
+                        <div class="DefVal" id="co2PurgeBothKegsOpenVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 col-md-4 DefeStageRow">
                         <div class="translatable">משך ניקוז פראצטית החוצה ללא CO2 ל 2 החביות</div>
-                        <div class="DefVal">5</div>
+                        <div class="DefVal" id="co2PurgeBothKegsClosedVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="d-none d-md-block col-md-4 DefeStageRow"></div>
@@ -1057,22 +1064,22 @@
                 <div class="row defStageBox" id="stage18">
                     <div class="col-12 col-md-6 DefeStageRow">
                         <div class="translatable">לחץ יעד</div>
-                        <div class="DefVal">15</div>
+                        <div class="DefVal" id="kegPdestinationVal"></div>
                         <div class="DefSpec">PSI</div>
                     </div>
                     <div class="col-12 col-md-6 DefeStageRow">
                         <div class="translatable">משך המתנה להגעה ליעד</div>
-                        <div class="DefVal">12</div>
+                        <div class="DefVal" id="TimeOutPdestinationVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 col-md-6 DefeStageRow PreLastdefStageRow">
                         <div class="translatable">משך בניית לחץ לאחר המתנה במידה ולא הגיע ללחץ יעד</div>
-                        <div class="DefVal">15</div>
+                        <div class="DefVal" id="PostTimeOutBuildPVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                     <div class="col-12 col-md-6 DefeStageRow LastdefStageRow">
                         <div class="translatable">משך בניית לחץ במידה ומתג חיישני לחץ כבוי</div>
-                        <div class="DefVal">35</div>
+                        <div class="DefVal" id="PTimeWhenSensorDisabledVal"></div>
                         <div class="DefSpec translatable">שניות</div>
                     </div>
                 </div>
@@ -1128,6 +1135,8 @@
         ]
 
         const translationDictionary = {
+            "הצג נתונים שנשמרו בעבר":"Show previously saved Values","הצג לוגים של משטף החביות":"Show Keg Washer Logs",
+            "הצג קונסולת משטף החביות":"Show Keg Washer Console","טוען נתונים מהשרת":"loading Data from server",
             "הפרמטרים של כל שטיפה מוגדרים בשלב #2":"The parameters of each rinse are detirmened by stage #2",
             "פרמטרים אלו ישפיעו גם על שלב #6":"These parameters will also efect stage #6",
             "משטף חביות התחבר לאחרונה ב:": 'Keg washer last connected at:',
@@ -1423,12 +1432,73 @@
                 prefboxOpen=false;
             }
         });
+        
+        async function LoadspecificValues(collection, DocR){
+            DisableItems()
+            try {
+                const DefRef = doc(db, collection, DocR);
+                const LoadedFromDb = await getDoc(DefRef);
+                const Values = LoadedFromDb.data();
+                document.getElementById("appendSpecificValues").addEventListener("click",function(){
+                    reset(collection,collection);
+                    extiDefaultValBox
+                });
+                let escapeTimeout = setTimeout(function () {
+                    escapePressedOnce = 0;
+                }, 500);
+                attributes.forEach(attribute => {
+                    if (Values.hasOwnProperty(attribute)) {
+                        document.getElementById(`${attribute}Val`).innerHTML = Values[attribute];
+                        if (attribute === "preboobotMeteg") {
+                            if (Values[attribute] == 1) {
+                                document.getElementById(`preboobotMetegVal`).innerHTML=LangFlag==0?"דלוק":"On";
+                            }
+                            else if (Values[attribute] == 0) {
+                                document.getElementById(`preboobotMetegVal`).innerHTML=LangFlag==0?"כבוי":"Off";
+                            }
+                        }
+                        if (attribute === "pressureMeteg") {
+                            if (Values[attribute] == 1) {
+                                document.getElementById(`pressureMetegVal`).innerHTML=LangFlag==0?"דלוק":"On";
+                            }
+                            else if (Values[attribute] == 0) {
+                                document.getElementById(`pressureMetegVal`).innerHTML=LangFlag==0?"כבוי":"Off";
+                            }
+                        }
+                    }
+                });
+                document.getElementById('SpecificValuesAutherId').innerHTML=Values['LastUser']; 
+                let timestamp = Values['Timestamp'];
+                let Timestamp=  new Date(timestamp.seconds * 1000);
+                function formattime(Timestamp){
+                    const year = Timestamp.getFullYear();
+                    const month = String(Timestamp.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+                    const day = String(Timestamp.getDate()).padStart(2, '0');
+                    const hours = String(Timestamp.getHours()).padStart(2, '0');
+                    const minutes = String(Timestamp.getMinutes()).padStart(2, '0');
+                    return `${day}/${month}/${year} ${hours}:${minutes}`;
+                }
+                const formattedTimestamp = formattime(Timestamp);
+                document.getElementById('SpecificValuesTime').innerHTML=formattedTimestamp;
+                exitConfirmBox()
+            } catch (error) {
+                document.getElementById("conirmContent").innerHTML = LangFlag == 0 ? 'תקלה בתקשורת לשרת' : 'Failed to Connect Server'
+                document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
+                document.getElementById("exitConfirm").classList.add("confirmBoxBtn");
+                console.error('Error loading initial values:', error);
+                let escapeTimeout = setTimeout(function () {
+                    escapePressedOnce = 0;
+                }, 500);
+            }
+        };
 
         document.getElementById("PastSaves").addEventListener("click", function(){
             document.getElementById("menuItems").classList.remove("menuItems")
             document.getElementById("menuItems").classList.add("hiddenMenItems")
             document.getElementById("menu").classList.remove("menuBack")
             menuOpen=false
+
+            event.stopPropagation();
         });
 
         document.getElementById("WasherLogs").addEventListener("click", function(){
@@ -1436,9 +1506,11 @@
             document.getElementById("menuItems").classList.add("hiddenMenItems")
             document.getElementById("menu").classList.remove("menuBack")
             menuOpen=false
+
+            event.stopPropagation();
         });
 
-        function showDefaultVals() {
+        async function showDefaultVals() {
             document.getElementById("DefValDisplayBox").classList.add("DefValDisplayBox");
             document.getElementById("DefValDisplayBox").classList.remove("hiddenValBox");
             document.getElementById("bodyBox").classList.add("disable_scroll");
@@ -1459,6 +1531,11 @@
                     LabelElemnt.classList.add("functionLabelDisable");
                 }
             });
+            let dinamicinner = LangFlag === 0 ? 'טוען נתונים מהשרת' : 'Loading Values from Server';
+            document.getElementById("conirmContent").innerHTML = dinamicinner + '<img src="assets/pics/loading.png" class="loading" id="loading4">';
+            document.getElementById("exitConfirm").innerHTML = LangFlag === 0 ? 'ממתין לשרת' : 'Waiting for Server';
+            document.getElementById("exitConfirm").classList.add("disabledConfirmBtn");
+            await LoadspecificValues("parameters", "Default")
         }
 
         function DisableItems() {
@@ -1562,7 +1639,7 @@
             };
         }
 
-        async function reset() {
+        async function reset(collection, DocR) {
             let inner = document.getElementById("conirmContent");
             let dinamicinner = LangFlag === 0 ? 'טוען נתוני ברירת מחדל מהשרת' : 'Loading Default Values from Server';
             inner.innerHTML = dinamicinner + '<img src="assets/pics/loading.png" class="loading" id="loading4">';
@@ -1570,7 +1647,7 @@
             document.getElementById("exitConfirm").classList.add("disabledConfirmBtn");
             DisableItems()
             try {
-                const DefRef = doc(db, 'parameters', 'Default');
+                const DefRef = doc(db, collection, DocR);
                 const LoadedFromDb = await getDoc(DefRef);
                 const Default_values = LoadedFromDb.data();
                 let escapeTimeout = setTimeout(function () {
@@ -1813,7 +1890,7 @@
                 document.getElementById("exitConfirm").classList.remove("confirmBoxBtnHidden");
                 document.getElementById("Reset").classList.add("confirmBoxBtnHidden")
                 document.getElementById("Reset").classList.remove("confirmBoxBtn")
-                reset();
+                reset("parameters","Default");;
             }
         });
 
@@ -2164,7 +2241,7 @@
                 document.getElementById("RelogIn").classList.add("confirmBoxBtn")
                 DisableItems()
             } else {
-                reset();
+                reset("parameters","Default");
             }
         });
 
@@ -2184,7 +2261,7 @@
                 document.getElementById("menuItems").classList.add("hiddenMenItems")
                 document.getElementById("menu").classList.remove("menuBack")
                 menuOpen=false
-                reset();
+                reset("parameters","Default");
             }
         });
 

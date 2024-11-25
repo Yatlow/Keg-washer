@@ -105,6 +105,7 @@ html{
     padding-bottom: 30px;
 }
 .DefValDisplayBox{
+    font-family: all,ENG;
     z-index: 5;
     display: inline-block;
     position: fixed;
@@ -138,6 +139,7 @@ html{
     box-shadow: inset 0 0 5px grey;
     border-radius: 15px 0 0 15px;
 }
+
 #LiveLogDisplayBox{
     width: 82%;
     height: 82%;
@@ -210,6 +212,15 @@ html{
 }
 .FNCTglHouse:hover, .ValDiVTglBtnBox:hover,.LangTglHouse:hover{
     cursor: pointer;
+}
+.DefValDisplayBoxHeader{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-bottom: 2%;
+}
+#appendSpecificValues:hover{
+    background-color: #D34607;
 }
 .DefeStageLabel{
     background-color: #DFB725;
@@ -599,7 +610,7 @@ html{
     }
     .exitBtnBox{
         position: fixed;
-        inset-inline-end: 27%;
+        inset-inline-end: 15%;
     }
     .note{
         font-size: 10px;
@@ -721,7 +732,7 @@ html{
     }
     .exitBtnBox{
         position: fixed;
-        inset-inline-end: 31%;
+        inset-inline-end: 21%;
     }
     .H1{
         font-size: 16px;
