@@ -1373,6 +1373,10 @@
                 consoleBox.classList.add("DefValDisplayBox")
                 LiveLogsOpen=true
                 DisableItems()
+                document.getElementById("menuItems").classList.remove("menuItems")
+                document.getElementById("menuItems").classList.add("hiddenMenItems")
+                document.getElementById("menu").classList.remove("menuBack")
+                menuOpen=false
                 confirmBox.classList.add("hiddenBox");  // Remove hidden class
                 confirmBox.classList.remove("infoBox");
                 function scrollToBottom(){
@@ -1418,6 +1422,20 @@
                 document.getElementById("userPrefBox").classList.remove("userPrefBox")
                 prefboxOpen=false;
             }
+        });
+
+        document.getElementById("PastSaves").addEventListener("click", function(){
+            document.getElementById("menuItems").classList.remove("menuItems")
+            document.getElementById("menuItems").classList.add("hiddenMenItems")
+            document.getElementById("menu").classList.remove("menuBack")
+            menuOpen=false
+        });
+
+        document.getElementById("WasherLogs").addEventListener("click", function(){
+            document.getElementById("menuItems").classList.remove("menuItems")
+            document.getElementById("menuItems").classList.add("hiddenMenItems")
+            document.getElementById("menu").classList.remove("menuBack")
+            menuOpen=false
         });
 
         function showDefaultVals() {
@@ -2105,6 +2123,10 @@
         });
 
         document.getElementById("showDefaultsTop").addEventListener("click", function (event) {
+            document.getElementById("menuItems").classList.remove("menuItems")
+            document.getElementById("menuItems").classList.add("hiddenMenItems")
+            document.getElementById("menu").classList.remove("menuBack")
+            menuOpen=false
             showDefaultVals();
             event.stopPropagation();
         });
@@ -2158,6 +2180,10 @@
                 document.getElementById("RelogIn").classList.add("confirmBoxBtn")
                 DisableItems()
             } else {
+                document.getElementById("menuItems").classList.remove("menuItems")
+                document.getElementById("menuItems").classList.add("hiddenMenItems")
+                document.getElementById("menu").classList.remove("menuBack")
+                menuOpen=false
                 reset();
             }
         });

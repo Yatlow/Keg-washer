@@ -671,8 +671,8 @@ html{
         width: 69%;
     }
     #CloseDefaultValBox,#CloseuserPrefBox,#CloseConsole,#RefrshConsole{
-        max-height: 20px;
-        max-width: 20px;
+        max-height: 30px;
+        max-width: 30px;
     }
     .exitLog{
         width: 5%;
