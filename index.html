@@ -113,7 +113,7 @@
                 </div>
                 <div id="LastParamUpdateBox">
                     <div>
-                        <a class="translatable">פרמטרים עודכנו לאחרונה על ידי:</a>
+                        <a class="translatable">פרמטרים עודכנו על ידי:</a>
                         <a id="LastUser"></a>
                         <a class="translatable">ב:</a>
                         <a id="Timestamp"></a>
@@ -1093,6 +1093,14 @@
             </div>
             <iframe src="live-log.html" class="live-log" id="live-log"></iframe>
         </div>
+        <div class="hiddenValBox" id="SavedLogsBox">
+            <div class="SaveLogsHeader">
+                <Div class="translatable SaveLogsHeaderH1">נתונים שנשמרו בעבר</Div>
+                <div class="col existSaved dontShut"><img id="CloseSavedLogs" src="assets/pics/Close.png" /></div>
+            </div>
+            <div id="SavedLogs">
+            </div>
+        </div>
     </div>
 
     <script type="module">//main script
@@ -1142,7 +1150,7 @@
             "משטף חביות התחבר לאחרונה ב:": 'Keg washer last connected at:',
             "שפה מועדפת":"DefaultLanguage",
             "חיבור אחרון":"Last log in",
-            "פרמטרים עודכנו לאחרונה על ידי:": 'Parameters were last updated by:',
+            "פרמטרים עודכנו על ידי:": 'Parameters were updated by:',
             "שמור את כל הפרמטרים עכשיו": "Save All Parameters Now",
             "סגור ללא שמירה": "Close Without Saving",
             'סייקל בדיקה ראשוני ישתנה רק לאחר שמירת פרמטרים <br>לחיצה על "שמור פרמטים" ישמור את כל הפרמטרים מהדף!':'Initial test cycle will be changed only after saving parameters<br> clicking "Save Parameters" will save all parametrs on page!',
@@ -1247,7 +1255,7 @@
 
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js';
         import { getAuth, signInWithEmailAndPassword, signInWithCustomToken, signOut } from 'https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js';
-        import { getFirestore, doc, updateDoc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js';
+        import { getFirestore, doc, updateDoc, getDoc, setDoc, collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js';
         const firebaseConfig = {
             apiKey: "AIzaSyAIg4_DSXJH1nIjarnTHaYG7Z8ydNJEBZM",
             authDomain: "keg-washer.firebaseapp.com",
@@ -1276,6 +1284,8 @@
         let prefboxOpen=false;
         let menuOpen=false;
         let LiveLogsOpen=false;
+        let lastSaveOpen=false;
+        let DefValAndsLastSaveOpen= false;
 
         function translateToEnglish(hebrewText) {
             return translationDictionary[hebrewText] || hebrewText;  // Default to original text if not found
@@ -1433,6 +1443,16 @@
             }
         });
         
+        document.getElementById("CloseSavedLogs").addEventListener("click",function(){
+            if (lastSaveOpen){
+                document.getElementById("SavedLogsBox").classList.add("hiddenValBox")
+                document.getElementById("SavedLogsBox").classList.remove("SavedLogsBox")
+                document.getElementById("SavedLogs").innerHTML="";
+                lastSaveOpen=false;
+                exitConfirmBox();
+            }
+        });
+        
         async function LoadspecificValues(collection, DocR){
             DisableItems()
             try {
@@ -1493,13 +1513,83 @@
         };
 
         document.getElementById("PastSaves").addEventListener("click", function(){
-            document.getElementById("menuItems").classList.remove("menuItems")
-            document.getElementById("menuItems").classList.add("hiddenMenItems")
-            document.getElementById("menu").classList.remove("menuBack")
-            menuOpen=false
-
-            event.stopPropagation();
+            const confirmBox = document.getElementById("confirmBox");
+            const PastSavesBox= document.getElementById("SavedLogsBox")
+            if (!lastSaveOpen){
+                PastSavesBox.classList.remove("hiddenValBox")
+                PastSavesBox.classList.add("SavedLogsBox")
+                lastSaveOpen=true
+                DisableItems()
+                let dinamicinner = LangFlag === 0 ? 'טוען נתונים מהשרת' : 'Loading Values from Server';
+                document.getElementById("conirmContent").innerHTML = dinamicinner + '<img src="assets/pics/loading.png" class="loading" id="loading4">';
+                document.getElementById("exitConfirm").innerHTML = LangFlag === 0 ? 'ממתין לשרת' : 'Waiting for Server';
+                document.getElementById("exitConfirm").classList.add("disabledConfirmBtn");
+                document.getElementById("menuItems").classList.remove("menuItems")
+                document.getElementById("menuItems").classList.add("hiddenMenItems")
+                document.getElementById("menu").classList.remove("menuBack")
+                menuOpen=false
+                loadPastSaves()
+                event.stopPropagation();
+            }else{
+                PastSavesBox.classList.add("hiddenValBox")
+                PastSavesBox.classList.remove("SavedLogsBox")
+                lastSaveOpen=false
+                exitConfirmBox()
+            }
         });
+
+        async function loadPastSaves(){
+                function formattime(Timestamp){
+                    const year = Timestamp.getFullYear();
+                    const month = String(Timestamp.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+                    const day = String(Timestamp.getDate()).padStart(2, '0');
+                    const hours = String(Timestamp.getHours()).padStart(2, '0');
+                    const minutes = String(Timestamp.getMinutes()).padStart(2, '0');
+                    return `${day}/${month}/${year} ${hours}:${minutes}`;
+                }
+                try{
+                    const collectionRef= collection(db, "Saved-Parameters");
+                    const snapshot = await getDocs(collectionRef);
+                    let confirmBox = document.getElementById("confirmBox");
+                    confirmBox.classList.remove("infoBox");  
+                    confirmBox.classList.add("hiddenBox");
+                    const collection_Data=[];
+                    snapshot.forEach(doc=>{
+                        const docData = doc.data();
+                        let docId = doc.id; 
+                        const printableTime= formattime(new Date(docData.Timestamp.seconds*1000))
+                        collection_Data.push({id:doc.id, data:doc.data()})
+                        // console.log(`user: ${docData.LastUser}, Timestamp: ${printableTime}, ID: ${docId}`)
+                        document.getElementById("SavedLogs").insertAdjacentHTML('beforeend', `
+                        <div class="logRow">
+                            <div class="translatable">פרמטרים אלו עודכנו על ידי:</div>
+                            <div id="SavedLogsAuth">${docData.LastUser}</div>
+                            <div class="translatable">ב:</div>
+                            <div id="SavedLogsTimeStamp">${printableTime}</div>
+                            <div><button class="formBtn translatable" id="${docId}Display">תצוגה מקדימה</button></div>
+                            <div class="LoadThisBox"><button class="formBtn translatable LoadThis" id="${docId}Load">טען נונים למשטף</button></div>
+                        </div>`);
+                        (function (id) {
+                            document.getElementById(`${id}Display`).addEventListener("click", async function () {
+                                showValbox();
+                                DefValAndsLastSaveOpen= true;
+                                event.stopPropagation();
+                                await LoadspecificValues("Saved-Parameters", id);
+                            });
+                            
+                            document.getElementById(`${id}Load`).addEventListener("click", function () {
+                                reset("Saved-Parameters", id);
+                                document.getElementById("SavedLogsBox").classList.add("hiddenValBox")
+                                document.getElementById("SavedLogsBox").classList.remove("SavedLogsBox")
+                                document.getElementById("SavedLogs").innerHTML="";
+                                lastSaveOpen=false;
+                            });
+                        })(docId);
+                    });
+                }catch(eror){
+                    console.error("Saved Params not Found",eror)
+                }
+            }
 
         document.getElementById("WasherLogs").addEventListener("click", function(){
             document.getElementById("menuItems").classList.remove("menuItems")
@@ -1510,7 +1600,7 @@
             event.stopPropagation();
         });
 
-        async function showDefaultVals() {
+        function showValbox(){
             document.getElementById("DefValDisplayBox").classList.add("DefValDisplayBox");
             document.getElementById("DefValDisplayBox").classList.remove("hiddenValBox");
             document.getElementById("bodyBox").classList.add("disable_scroll");
@@ -1535,6 +1625,10 @@
             document.getElementById("conirmContent").innerHTML = dinamicinner + '<img src="assets/pics/loading.png" class="loading" id="loading4">';
             document.getElementById("exitConfirm").innerHTML = LangFlag === 0 ? 'ממתין לשרת' : 'Waiting for Server';
             document.getElementById("exitConfirm").classList.add("disabledConfirmBtn");
+        }
+        
+        async function showDefaultVals() {
+            showValbox()
             await LoadspecificValues("parameters", "Default")
         }
 
@@ -1647,7 +1741,6 @@
             document.getElementById("exitConfirm").classList.add("disabledConfirmBtn");
             DisableItems()
             try {
-                console.log(collection,DocR)
                 const DefRef = doc(db, collection, DocR);
                 const LoadedFromDb = await getDoc(DefRef);
                 const Default_values = LoadedFromDb.data();
@@ -1718,10 +1811,17 @@
                 const updateTime=new Date();
                 const stringedTimestamp= updateTime.toISOString();
                 Default_values['Timestamp']=updateTime;
+                console.log(Default_values['LastUser'])
+                if (Default_values['LastUser']=="KegWasher@machine.co.il"){
+                    Default_values['LastUser']= `${localStorage.getItem('LoggedInEmail')} ~DefVal`
+                    console.log(Default_values['LastUser'])
+                }
                 const LogDoc = doc(db, 'Saved-Parameters', stringedTimestamp);
-                await setDoc(LogDoc, Default_values);
+                if (collection!="Saved-Parameters"){
+                    await setDoc(LogDoc, Default_values);
+                }
                 let inner = document.getElementById("conirmContent");
-                inner.innerHTML = LangFlag == 0 ?  'עודכנו נתוני ברירת מחדל' : 'Default Values Updated';
+                inner.innerHTML = LangFlag == 0 ?  ' הנתונים עודכנו' : 'Values Updated';
                 document.getElementById("exitConfirm").innerHTML = LangFlag == 0 ? 'סגור' : 'Close';
                 setTimeout(() => {
                 exitConfirmBox()
@@ -2127,6 +2227,12 @@
                 && document.getElementById("DefValDisplayBox").classList.contains("DefValDisplayBox")
                 && document.getElementById("confirmBox").classList.contains("infoBox") == false) {  // Check if the key is 'Escape'
                 extiDefaultValBox();
+                if (DefValAndsLastSaveOpen){
+                    setTimeout(() => {
+                        DefValAndsLastSaveOpen= false;
+                    }, 500);
+                }
+                event.stopPropagation();
             }
             if (event.keyCode === 27 && document.getElementById("wariningBox").classList.contains("wariningBox")
             && document.getElementById("confirmBox").classList.contains("infoBox") == false){
@@ -2137,14 +2243,13 @@
             }
             if (event.keyCode === 27 && document.getElementById("userPrefBox").classList.contains("userPrefBox")
             && document.getElementById("confirmBox").classList.contains("infoBox") == false && !document.getElementById("resetPasswordBox").classList.contains("resetPasswordBox")){
-            document.getElementById("userPrefBox").classList.add("hiddenMain")
+                document.getElementById("userPrefBox").classList.add("hiddenMain")
                 document.getElementById("userPrefBox").classList.remove("userPrefBox")
                 prefboxOpen=false;
             }
             if (event.keyCode === 27 && document.getElementById("resetPasswordBox").classList.contains("resetPasswordBox")
             && document.getElementById("confirmBox").classList.contains("infoBox") == false && resetPassBoxOpen===true){
                 document.getElementById("resetPasswordBox").classList.add("hiddenMain")
-                document.getElementById("resetPasswordBox").classList.remove("resetPasswordBox")
                 resetPassBoxOpen=false;
                 exitConfirmBox();
             } 
@@ -2152,17 +2257,21 @@
             if (event.keyCode ===27 && consoleBox.classList.contains("DefValDisplayBox")
             && document.getElementById("confirmBox").classList.contains("infoBox") == false && LiveLogsOpen===true){
                 consoleBox.classList.add("hiddenValBox")
-                consoleBox.classList.remove("DefValDisplayBox")
                 LiveLogsOpen=false
+                exitConfirmBox()
+            }
+            const SavedLogsBox=document.getElementById("SavedLogsBox");
+            if (event.keyCode ===27 && SavedLogsBox.classList.contains("SavedLogsBox")
+            && document.getElementById("confirmBox").classList.contains("infoBox") == false && lastSaveOpen===true
+            && document.getElementById("DefValDisplayBox").classList.contains("hiddenValBox")== true && DefValAndsLastSaveOpen=== false){
+                SavedLogsBox.classList.add("hiddenValBox")
+                lastSaveOpen=false
+                document.getElementById("SavedLogs").innerHTML="";
                 exitConfirmBox()
             }
         });
 
         document.addEventListener("click",(event)=>{
-            const DefValDisplayBox = document.getElementById('DefValDisplayBox'); // Replace with your warning box ID
-            if (DefValDisplayBox && !DefValDisplayBox.contains(event.target) && DefValDisplayBox.classList.contains("DefValDisplayBox")){
-                extiDefaultValBox()
-            };
             const wariningBox = document.getElementById('wariningBox'); // Replace with your warning box ID
             if (wariningBox && !wariningBox.contains(event.target) && wariningBox.classList.contains("wariningBox")){
                 exitConfirmBox();
@@ -2190,6 +2299,24 @@
                 LiveLogsOpen=false;
                 exitConfirmBox();
             }
+            const SavedLogsBox=document.getElementById("SavedLogsBox");
+            if (!SavedLogsBox.contains(event.target) && SavedLogsBox.classList.contains("SavedLogsBox")
+            && document.getElementById("confirmBox").classList.contains("infoBox") == false && lastSaveOpen===true
+            && document.getElementById("DefValDisplayBox").classList.contains("hiddenValBox") && DefValAndsLastSaveOpen=== false){
+                SavedLogsBox.classList.add("hiddenValBox")
+                document.getElementById("SavedLogs").innerHTML="";
+                lastSaveOpen=false
+                exitConfirmBox()
+            }
+            const DefValDisplayBox = document.getElementById('DefValDisplayBox'); // Replace with your warning box ID
+            if (DefValDisplayBox && !DefValDisplayBox.contains(event.target) && DefValDisplayBox.classList.contains("DefValDisplayBox")){
+                extiDefaultValBox()
+                if (DefValAndsLastSaveOpen){
+                    setTimeout(() => {
+                        DefValAndsLastSaveOpen= false;
+                    }, 500);}
+                event.stopPropagation();
+            };
         });
 
         document.getElementById("exitConfirm").addEventListener("click", function (event) {

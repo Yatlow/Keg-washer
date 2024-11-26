@@ -9,7 +9,8 @@
 html{
     height: 100%;
     box-sizing: border-box;
-    direction: rtl;   
+    direction: rtl; 
+    font-family: all,Eng;  
 }
 .englishHtml{
     direction: ltr;
@@ -110,7 +111,7 @@ html{
     display: inline-block;
     position: fixed;
     inset-inline-start: 10%;
-    top: 10%;
+    top: 15%;
     width: 80%;
     overflow-y: scroll;
     height: 80%;
@@ -136,10 +137,88 @@ html{
     border-radius: 15px 0 0 15px;
 }
 .DefValDisplayBox::-webkit-scrollbar-track {
+}
+.SavedLogsBox{
+    font-family: all,ENG;
+    z-index: 4;
+    display: inline-block;
+    position: fixed;
+    inset-inline-start: 15%;
+    top: 8%;
+    width: 70%;
+    overflow-y: scroll;
+    height: 80%;
+    max-height: none;
+    padding: 2%;
+    opacity: 1;
+    visibility: visible;
+    transition:height 200ms linear, opacity 200ms linear, padding 200ms linear;
+    background-color: #FFE9A4;
+    border: #937002 5px groove;
+    border-radius: 20px;
+}
+.SavedLogsBox::-webkit-scrollbar{
+    border-radius: 15px 0 0 15px;
+    background-color: #E0C263;
+    width: 30px;
+}
+.SavedLogsBox::-webkit-scrollbar-thumb {
+    background: #DFB725;
+    border-radius: 10px;
+    width: 28px;
+    /* max-height: 50px; */
+    border-radius: 15px 0 0 15px;
+}
+.SavedLogsBox::-webkit-scrollbar-track {
     box-shadow: inset 0 0 5px grey;
     border-radius: 15px 0 0 15px;
 }
-
+.SaveLogsHeaderH1{
+    width: 94%;
+    font-size: 20px;
+}
+.SaveLogsHeader{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: space-between;
+    width: 100%;
+}
+.existSaved{
+    width: 6%;
+}
+#SavedLogs{
+    display: flex;
+    flex-direction: column;
+    margin-top: 5%;
+    align-items: center;
+}
+.logRow{
+    text-align: center;
+    margin-top: 2%;
+    display: flex;
+    flex-direction: row;
+    font-size: 11px;
+    width: 100%;
+}
+.logRow > div:nth-child(1) {
+    flex: 9; 
+}
+.logRow > div:nth-child(2) {
+    flex: 13; 
+}
+.logRow > div:nth-child(3) {
+    flex: 1; 
+}
+.logRow > div:nth-child(4) {
+    flex: 6; 
+}
+.logRow > div:nth-child(5) {
+    flex: 8;   
+}
+.logRow > div:nth-child(6) {
+    flex: 10; 
+}
 #LiveLogDisplayBox{
     width: 82%;
     height: 82%;
@@ -175,10 +254,10 @@ html{
     justify-content: center;
     transition: border-radius 200ms linear;
 }
-.functionLabel:hover,#RefrshConsole:hover,#CloseConsole:hover,#CloseDefaultValBox:hover,#CloseuserPrefBox:hover,#ShowPass:hover,.LangIndictor:hover,.DefeStageLabel:hover,.clickable,#userPref:hover,#Hamburger:hover{
+.functionLabel:hover,#RefrshConsole:hover,#CloseSavedLogs:hover,#CloseConsole:hover,#CloseDefaultValBox:hover,#CloseuserPrefBox:hover,#ShowPass:hover,.LangIndictor:hover,.DefeStageLabel:hover,.clickable,#userPref:hover,#Hamburger:hover{
     cursor: pointer;   
 }
-#CloseDefaultValBox:hover,#userPref:hover,#CloseConsole:hover,#RefrshConsole:hover{
+#CloseDefaultValBox:hover,#CloseSavedLogs:hover,#userPref:hover,#CloseConsole:hover,#RefrshConsole:hover{
     transform: scale(1.4);
     transition: transform 200ms linear;
 }
@@ -253,7 +332,6 @@ html{
     font-style: bolder;
 }
 .FNCTglBtn,.LangTglBtn{
-    /* position: relative; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -270,7 +348,7 @@ html{
     position: relative;
     inset-inline-start: 43%;
 }
-#CloseDefaultValBox,#CloseuserPrefBox,#CloseConsole,#RefrshConsole{
+#CloseDefaultValBox,#CloseuserPrefBox,#CloseConsole,#RefrshConsole,#CloseSavedLogs{
     max-height: 30px;
     max-width: 30px;
 }
@@ -507,6 +585,9 @@ html{
 .formBtn:hover{
     background-color: #DFB725;
 }
+.LoadThis:hover{
+    background-color: #D34607;
+}
 .row{
     width: 100%;
     margin: 0;
@@ -681,7 +762,7 @@ html{
     .LiveLogHeaderH1{
         width: 69%;
     }
-    #CloseDefaultValBox,#CloseuserPrefBox,#CloseConsole,#RefrshConsole{
+    #CloseDefaultValBox,#CloseuserPrefBox,#CloseConsole,#RefrshConsole,#CloseSavedLogs{
         max-height: 30px;
         max-width: 30px;
     }
@@ -806,5 +887,31 @@ html{
     }
     #logout-btn{
         max-width: max-content;
+    }
+    .SaveLogsHeaderH1{
+        width: 80%;
+        font-size: 16px;
+    }
+    .existSaved{
+        width: 6%;
+    }
+    .logRow{
+        margin-top: 5%;
+        flex-direction: column;
+        font-size: 11px;
+        border: #DFB725 solid 1px;
+        width: 90%;
+        border-radius: 20px;
+        gap: 3px;
+        padding: 3px 0 3px 0;
+    }
+    .logRow button{
+        margin-bottom: 5px;
+    }
+    .LoadThis{
+        background-color: #D34607;
+    }
+    .LoadThisBox{
+        margin-bottom: 6px;
     }
 }
