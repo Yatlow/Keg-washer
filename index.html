@@ -657,9 +657,9 @@
                         </div>
                     </div>
                     <div class="SubmitionBox" id="BottomSubmit">
-                        <button class="formBtn translatable" id="send" type="submit">שמור פרמטרים</button>
-                        <button class="formBtn translatable" id="showDefaults" type="button">הצג נתוני ברירת מחדל</button>
-                        <button class="formBtn translatable" id="reset-btn" type="button">איפוס לנתוני ברירת מחדל</button>
+                        <div><button class="formBtn translatable" id="send" type="submit">שמור פרמטרים</button></div>
+                        <div><button class="formBtn translatable" id="showDefaults" type="button">הצג נתוני ברירת מחדל</button></div>
+                        <div><button class="formBtn translatable" id="reset-btn" type="button">איפוס לנתוני ברירת מחדל</button></div>
                     </div>
                 </div>
             </form>
@@ -675,10 +675,8 @@
         <div class="hiddenValBox" id="DefValDisplayBox">
             <div class="col exitBtnBox"><img id="CloseDefaultValBox" src="assets/pics/Close.png" /></div>
             <div class="DowloadBox" id="topSubmit">
-                <form action="assets/docs/Default_Parameters.pdf" method="get" target="_blank">
-                    <button class="formBtn translatable" id="DownloadPdfTop" type="submit">שמור כקובץ PDF</button>
-                </form>
-                <button id="appendSpecificValues" class="formBtn" type="button">טען נתונים אלו למשטף</button>
+                <div><button class="formBtn translatable" id="DownloadPdfTop" type="submit">שמור כקובץ PDF</button></div>
+                <div><button id="appendSpecificValues" class="formBtn" type="button">טען נתונים אלו למשטף</button></div>
             </div>
             <div id="DefValDisplayBoxHeader" class="DefValDisplayBoxHeader">
                 <div class="translatable">פרמטרים אלו עודכנו על ידי:</div>
@@ -1102,8 +1100,14 @@
             </div>
         </div>
     </div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+                
+    </script>
     <script type="module">//main script
+
+
         const attributes = [
             "postCausticWaterRinseRecureEachRins","postCausticWaterRinseOn","postCausticWaterRinseOf",
             "preboobotMeteg", "pressureMeteg", "FirstAirPurgeRecure", "FirstAirPurgeTon", "FirstAirPurgeToff", "InitialWaterFlud",
@@ -1143,6 +1147,7 @@
         ]
 
         const translationDictionary = {
+            "טען נתונים אלו למשטף":"Load these values to Keg Washer","פרמטרים אלו עודכנו על ידי:":"Parameters updated by:",
             "הצג נתונים שנשמרו בעבר":"Show previously saved Values","הצג לוגים של משטף החביות":"Show Keg Washer Logs",
             "הצג קונסולת משטף החביות":"Show Keg Washer Console","טוען נתונים מהשרת":"loading Data from server",
             "הפרמטרים של כל שטיפה מוגדרים בשלב #2":"The parameters of each rinse are detirmened by stage #2",
@@ -1461,7 +1466,16 @@
                 const Values = LoadedFromDb.data();
                 document.getElementById("appendSpecificValues").addEventListener("click",function(){
                     reset(collection,DocR);
-                    extiDefaultValBox
+                    extiDefaultValBox()
+                    if (DefValAndsLastSaveOpen){
+                        setTimeout(() => {
+                            document.getElementById("SavedLogsBox").classList.add("hiddenValBox")
+                            document.getElementById("SavedLogsBox").classList.remove("SavedLogsBox")
+                            document.getElementById("SavedLogs").innerHTML="";
+                            lastSaveOpen=false;
+                            exitConfirmBox();    
+                        }, 100);
+                    }
                 });
                 let escapeTimeout = setTimeout(function () {
                     escapePressedOnce = 0;
@@ -2338,6 +2352,85 @@
         document.getElementById("showDefaults").addEventListener("click", function (event) {
             showDefaultVals();
             event.stopPropagation();
+        });
+
+        document.getElementById("DownloadPdfTop").addEventListener("click", async function (event) {
+            const targetDiv = document.getElementById('DefValDisplayBox');
+            DisableItems();
+            let inner = document.getElementById("conirmContent");
+            let dinamicinner = LangFlag === 0 ? 'מוריד קובץ PDF' : 'Downloading PDF'
+            inner.innerHTML = dinamicinner + '<img src="assets/pics/loading.png" class="loading" id="loading5">';
+            async function savePdf(generatedPdf) {
+                return new Promise((resolve, reject) => {
+                    try {
+                        generatedPdf.save('Keg_Washer_Parameters.pdf', { returnPromise: true }).then(() => {
+                            resolve(true);
+                        });
+                    } catch (error) {
+                        reject(false);
+                    }
+                });
+            }
+
+            // Adjust styles for printing
+            targetDiv.classList.remove("DefValDisplayBox");
+            targetDiv.classList.add("PrintDefVal");
+
+            const canvas = await html2canvas(targetDiv, {
+                scale: 2,
+                useCORS: true,
+                allowTaint: true
+            });
+
+            const imgData = canvas.toDataURL('image/png');
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4',
+            });
+
+            const pdfWidth = 210; // A4 page width in mm
+            const pdfHeight = 297; // A4 page height in mm
+            const marginLeft = 5; // Left margin in mm
+            const marginTop = 5; // Top margin in mm
+            const contentWidth = pdfWidth - marginLeft * 2; // Content width after margins
+            const contentHeight = pdfHeight - marginTop * 2; // Content height after margins
+            const canvasWidth = canvas.width;
+            const canvasHeight = canvas.height;
+            const ratio = contentWidth / canvasWidth;
+            const scaledCanvasHeight = canvasHeight * ratio;
+            const totalPages = Math.ceil(scaledCanvasHeight / contentHeight);
+
+            for (let pageIndex = 0; pageIndex < totalPages; pageIndex++) {
+                const cropStartY = pageIndex * (contentHeight / ratio);
+                const cropEndY = Math.min(cropStartY + (contentHeight / ratio), canvasHeight);
+                const croppedCanvasHeight = cropEndY - cropStartY;
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = canvasWidth;
+                tempCanvas.height = croppedCanvasHeight;
+
+                const tempContext = tempCanvas.getContext('2d');
+                tempContext.drawImage(canvas, 0, -cropStartY);
+
+                const croppedImgData = tempCanvas.toDataURL('image/png');
+
+                if (pageIndex > 0) {
+                    pdf.addPage();
+                }
+
+                const finalHeight = (pageIndex === totalPages - 1) ? croppedCanvasHeight * ratio : contentHeight;
+                pdf.addImage(croppedImgData, 'PNG', marginLeft, marginTop, contentWidth, finalHeight);
+            }
+
+            // Save the PDF and log the result
+            let printed = await savePdf(pdf);
+            console.log(printed);
+            dinamicinner = LangFlag === 0 ? 'שולח פרמטרים לשרת' : 'Sending Data to Sever'
+            inner.innerHTML = dinamicinner + '<img src="assets/pics/loading.png" class="loading" id="loading5">';
+            exitConfirmBox();
+            targetDiv.classList.add("DefValDisplayBox");
+            targetDiv.classList.remove("PrintDefVal");
         });
 
         $('#control-form').on('submit',async function (e) {

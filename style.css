@@ -105,6 +105,25 @@ html{
     margin-inline-start: 10%;
     padding-bottom: 30px;
 }
+.PrintDefVal{
+    font-family: all,ENG;
+    z-index: 5;
+    display: inline-block;
+    position: relative;
+    inset-inline-start: 0;
+    top: 0;
+    width: 100%;
+    overflow-y: visible;
+    height: 100;
+    max-height: max-content;
+    padding: 2%;
+    opacity: 1;
+    visibility: visible;
+    transition:height 200ms linear, opacity 200ms linear, padding 200ms linear;
+    background-color: #FFE9A4;
+    border: #937002 5px groove;
+    border-radius: 20px;
+}
 .DefValDisplayBox{
     font-family: all,ENG;
     z-index: 5;
@@ -156,6 +175,13 @@ html{
     background-color: #FFE9A4;
     border: #937002 5px groove;
     border-radius: 20px;
+}
+.SubmitionBox{
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
 }
 .SavedLogsBox::-webkit-scrollbar{
     border-radius: 15px 0 0 15px;
@@ -913,5 +939,17 @@ html{
     }
     .LoadThisBox{
         margin-bottom: 6px;
+    }
+    .SubmitionBox{
+        flex-direction: column;
+    }
+    .DowloadBox {
+        padding-top: 15%;
+        flex-direction: column;
+        text-align: center;
+    }
+    .DefValDisplayBoxHeader{
+        flex-direction: column;
+        text-align: center;
     }
 }
