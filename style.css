@@ -155,8 +155,6 @@ html{
     /* max-height: 50px; */
     border-radius: 15px 0 0 15px;
 }
-.DefValDisplayBox::-webkit-scrollbar-track {
-}
 .SavedLogsBox{
     font-family: all,ENG;
     z-index: 4;
@@ -212,6 +210,8 @@ html{
 }
 .existSaved{
     width: 6%;
+    position: fixed;
+    inset-inline-end: 18%;
 }
 #SavedLogs{
     display: flex;
@@ -920,6 +920,8 @@ html{
     }
     .existSaved{
         width: 6%;
+        position: fixed;
+        inset-inline-end: 28%;
     }
     .logRow{
         margin-top: 5%;
