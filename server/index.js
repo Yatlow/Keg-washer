@@ -125,9 +125,9 @@ const OneWeek= 5000;
 // const OneWeek= 7*24*60*60*1000;
 setInterval(async() => {
     console.log("checking what to delet")
-    const collectionRef= doc(db, "users", "keg-washer")
-    const YearsDoc= await getDoc();
-    const yearsAgo= YearsDoc.data()
+    const collectionRef = db.collection("users").doc("keg-washer"); 
+    const docSnapshot = await collectionRef.get();
+    const yearsAgo= docSnapshot.data()["Years-Saved"]
     // const yearsAgo= YearsDoc.data()["Years-Saved"]
     console.log(yearsAgo)
     // DeleteOld("Saved-Parameters", "Timestamp", yearsAgo)
