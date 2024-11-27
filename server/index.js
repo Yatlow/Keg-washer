@@ -103,6 +103,7 @@ app.get('/ping', async (req, res) => {
 async function DeleteOld(CollectionName, Tfield, yearsAgo) {
     const now= new Date();
     const cutoofDate= new Date();
+    const deletedSomthing=false;
     cutoofDate.setFullYear(now.getFullYear()-yearsAgo) 
     try{
         const colRef = db.collection(CollectionName); // Use Admin SDK's method
@@ -114,24 +115,26 @@ async function DeleteOld(CollectionName, Tfield, yearsAgo) {
            if (timestamp && timestamp<cutoofDate){
                 deleteDoc(doc)
                 console.log("dleted doc from", DocData[Tfield])
+                deletedSomthing=true;
            }
         });
+        if (!deletedSomthing){
+            console.log("nothing to delete")
+        }
     }catch (error){
         console.log("error deleting old docs", error)
     }
 }
 
-const OneWeek= 5000;
+const OneWeek= 10000;
 // const OneWeek= 7*24*60*60*1000;
 setInterval(async() => {
-    console.log("checking what to delet")
+    console.log("checking what to delete")
     const collectionRef = db.collection("users").doc("keg-washer"); 
     const docSnapshot = await collectionRef.get();
     const yearsAgo= docSnapshot.data()["Years-Saved"]
-    // const yearsAgo= YearsDoc.data()["Years-Saved"]
-    console.log(yearsAgo)
-    // DeleteOld("Saved-Parameters", "Timestamp", yearsAgo)
-    // DeleteOld("Washer-Logs", "On", yearsAgo)
+    await DeleteOld("Saved-Parameters", "Timestamp", yearsAgo)
+    await DeleteOld("Washer-Logs", "On", yearsAgo)
 }, OneWeek);
 
 const port = process.env.PORT || 10000;  
