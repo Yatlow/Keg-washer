@@ -25,7 +25,7 @@ admin.initializeApp({
     credential: admin.credential.cert('keg-washer-firebase-adminsdk-7ww1i-aa7938c93f.json'),  
 });
 const app = express();
-const db= admin.firestore()
+const db = admin.firestore();
 const allowedOrigins = [
     'https://yatlow.github.io',
     'http://localhost:5500',
@@ -105,8 +105,8 @@ async function DeleteOld(CollectionName, Tfield, yearsAgo) {
     const cutoofDate= new Date();
     cutoofDate.setFullYear(now.getFullYear()-yearsAgo) 
     try{
-        const Col=collection(db, CollectionName)
-        const snapshot= await getDocs(Col);
+        const colRef = db.collection(CollectionName); // Use Admin SDK's method
+        const snapshot = await colRef.get();
 
         snapshot.forEach(doc => {
            const DocData= doc.data();
