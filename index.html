@@ -1109,31 +1109,15 @@
         <div class="hiddenValBox" id="WasherLogsBox">
             <div class="SaveLogsHeader">
                 <Div class="translatable SaveLogsHeaderH1">לוגים ממשטף החביות</Div>
-                <div class="col existSaved dontShut"><img id="CloseWasherLogs" src="assets/pics/Close.png" /></div>
+                <div class="col existSaved dontShut" id="CloseWasherLogsBox"><img id="CloseWasherLogs" src="assets/pics/Close.png" /></div>
             </div>
             <div id="WasherLogsWrap">
-                <!-- <div class="KeglogRow">
-                    <div class="translatable LogLabel">תאריך:</div>
-                    <div class="LogVal"></div>
-                    <div class="translatable LogLabel">הודלק ב:</div>
-                    <div class="LogVal"></div>
-                    <div class="translatable LogLabel">חביות שנשטפו:</div>
-                    <div class="LogVal"></div>
-                    <div class="translatable LogLabel">חביות שחוטאו בלבד:</div>
-                    <div class="LogVal"></div>
-                    <div class="translatable LogLabel">חביות שרוקנו בלבד:</div>
-                    <div class="LogVal"></div>
-                    <div class="translatable LogLabel">כובה ב:</div>
-                    <div class="LogVal"></div>
-                </div> -->
             </div>
         </div>
     </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script>
-                
-    </script>
     <script type="module">//main script
 
         const attributes = [
@@ -1633,6 +1617,16 @@
                     console.error("Saved Params not Found",eror)
                 }
             }
+        
+        document.getElementById("CloseWasherLogs").addEventListener("click",function(){
+            if (WasherLogsOpen){
+                document.getElementById("WasherLogsBox").classList.add("hiddenValBox")
+                document.getElementById("WasherLogsBox").classList.remove("DefValDisplayBox")
+                document.getElementById("WasherLogsWrap").innerHTML="";
+                WasherLogsOpen=false;
+                exitConfirmBox();
+            }
+        });
 
         async function loadKWLogs() {
             function formattime(Timestamp){
@@ -1663,8 +1657,6 @@
                         let docId = doc.id; 
                         const printableTime= formattime(new Date(docData["On"].seconds*1000))
                         collection_Data.push({id:doc.id, data:doc.data()})
-                        console.log(docData)
-                        // console.log(`user: ${docData.LastUser}, Timestamp: ${printableTime}, ID: ${docId}`)
                         document.getElementById("WasherLogsWrap").insertAdjacentHTML('beforeend', `
                         <div class="KeglogRow">
                             <div class="translatable LogLabel">תאריך:</div>
@@ -2377,6 +2369,14 @@
                 LiveLogsOpen=false
                 exitConfirmBox()
             }
+            const WasherLogsBox=document.getElementById("WasherLogsBox");
+            if (event.keyCode ===27 && WasherLogsBox.classList.contains("DefValDisplayBox")
+            && document.getElementById("confirmBox").classList.contains("infoBox") == false && WasherLogsOpen===true){
+                WasherLogsBox.classList.add("hiddenValBox")
+                document.getElementById("WasherLogsWrap").innerHTML="";
+                WasherLogsOpen=false
+                exitConfirmBox()
+            }
             const SavedLogsBox=document.getElementById("SavedLogsBox");
             if (event.keyCode ===27 && SavedLogsBox.classList.contains("SavedLogsBox")
             && document.getElementById("confirmBox").classList.contains("infoBox") == false && lastSaveOpen===true
@@ -2434,6 +2434,14 @@
                     }, 500);}
                 event.stopPropagation();
             };
+            const WasherLogsBox=document.getElementById("WasherLogsBox");
+            if (!WasherLogsBox.contains(event.target) && WasherLogsBox.classList.contains("DefValDisplayBox")
+            && document.getElementById("confirmBox").classList.contains("infoBox") == false && WasherLogsOpen===true){
+                WasherLogsBox.classList.add("hiddenValBox")
+                document.getElementById("WasherLogsWrap").innerHTML="";
+                WasherLogsOpen=false
+                exitConfirmBox()
+            }
         });
 
         document.getElementById("exitConfirm").addEventListener("click", function (event) {
@@ -2536,7 +2544,7 @@
             targetDiv.classList.remove("PrintDefVal");
         });
 
-        $('#control-form').on('submit',async function (e) {
+        document.getElementById('control-form').addEventListener('submit',async function (e) {
             e.preventDefault(); // Prevent the default form submission
             const customToken = localStorage.getItem('customToken');
             if (!customToken) {
@@ -2553,7 +2561,7 @@
             }
         });
 
-        $('#reset-btn').on('click', function () {
+        document.getElementById('reset-btn').addEventListener('click', function () {
             const customToken = localStorage.getItem('customToken');
             if (!customToken) {
                 let inner = document.getElementById("conirmContent");
@@ -2569,7 +2577,7 @@
             }
         });
 
-        $('#reset-btn-top').on('click', function () {
+        document.getElementById('reset-btn-top').addEventListener('click', function () {
             const customToken = localStorage.getItem('customToken');
             if (!customToken) {
                 let inner = document.getElementById("conirmContent");
