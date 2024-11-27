@@ -127,8 +127,9 @@ setInterval(async() => {
     console.log("checking what to delet")
     const YearsDoc= await getDoc(doc(db, "users", "keg-washer"));
     const yearsAgo= YearsDoc.data()["Years-Saved"]
-    DeleteOld("Saved-Parameters", "Timestamp", yearsAgo)
-    DeleteOld("Washer-Logs", "On", yearsAgo)
+    console.log(yearsAgo)
+    // DeleteOld("Saved-Parameters", "Timestamp", yearsAgo)
+    // DeleteOld("Washer-Logs", "On", yearsAgo)
 }, OneWeek);
 
 const port = process.env.PORT || 10000;  
