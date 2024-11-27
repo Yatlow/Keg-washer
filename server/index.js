@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword, signOut , sendPasswordResetEmail } from 'firebase/auth';
 import admin from 'firebase-admin';
-import {doc, getDoc, deleteDoc } from "firebase/firestore";
+import {doc, getDoc, deleteDoc,getDocs,collection } from "firebase/firestore";
 
 dotenv.config();
 
@@ -98,27 +98,17 @@ app.post('/resetPassowrd', async (req, res) => {
 app.get('/ping', async (req, res) => {
     res.status(200).send('server is allive');
 });
-app.get('/test-firestore', async (req, res) => {
-    try {
-        const testDoc = db.collection('test').doc('example');
-        await testDoc.set({ message: 'Hello, Firestore!' });
-        const snapshot = await testDoc.get();
-        res.status(200).json({ data: snapshot.data() });
-    } catch (error) {
-        console.error('Error accessing Firestore:', error);
-        res.status(500).send('Firestore test failed');
-    }
-});
+
 
 async function DeleteOld(CollectionName, Tfield, yearsAgo) {
     const now= new Date();
     const cutoofDate= new Date();
     cutoofDate.setFullYear(now.getFullYear()-yearsAgo) 
     try{
-        const snapshot= await db.collection(CollectionName).get();
-        const batch =db.batch();
+        const Col=collection(db, CollectionName)
+        const snapshot= await getDocs(Col);
 
-        snapshot.forEach((doc) => {
+        snapshot.forEach(doc => {
            const DocData= doc.data();
            const timestamp=  DocData[Tfield]?.toDate();
            if (timestamp && timestamp<cutoofDate){
@@ -133,13 +123,13 @@ async function DeleteOld(CollectionName, Tfield, yearsAgo) {
 
 const OneWeek= 5000;
 // const OneWeek= 7*24*60*60*1000;
-// setInterval(async() => {
-//     console.log("checking what to delet")
-//     const YearsDoc= await getDoc(doc(db, "users", "keg-washer"));
-//     const yearsAgo= YearsDoc.data()["Years-Saved"]
-//     DeleteOld("Saved-Parameters", "Timestamp", yearsAgo)
-//     DeleteOld("Washer-Logs", "On", yearsAgo)
-// }, OneWeek);
+setInterval(async() => {
+    console.log("checking what to delet")
+    const YearsDoc= await getDoc(doc(db, "users", "keg-washer"));
+    const yearsAgo= YearsDoc.data()["Years-Saved"]
+    DeleteOld("Saved-Parameters", "Timestamp", yearsAgo)
+    DeleteOld("Washer-Logs", "On", yearsAgo)
+}, OneWeek);
 
 const port = process.env.PORT || 10000;  
 app.listen(port, () => {
