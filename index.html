@@ -1825,10 +1825,8 @@
                 const updateTime=new Date();
                 const stringedTimestamp= updateTime.toISOString();
                 Default_values['Timestamp']=updateTime;
-                console.log(Default_values['LastUser'])
                 if (Default_values['LastUser']=="KegWasher@machine.co.il"){
                     Default_values['LastUser']= `${localStorage.getItem('LoggedInEmail')} ~DefVal`
-                    console.log(Default_values['LastUser'])
                 }
                 const LogDoc = doc(db, 'Saved-Parameters', stringedTimestamp);
                 if (collection!="Saved-Parameters"){

@@ -64,36 +64,46 @@ async function write() {
 }
 
 async function LiveLog(){
-    const LiveLog = doc(db, 'users', 'keg-washer');
+    const LiveLog = doc(db, 'users', 'Live-Logs');
     const LogPrint =document.getElementById("Logs");
-    let previosLog= false;
     let rowCount= 1;
+    const logs=[]
     
     const appendWithDelay = (text, charDelay,Tag) => {
-        let delay = 0;
-        text.split('').forEach((char,index) => {
-            setTimeout(() => {
-                Tag.innerHTML += char;
-            }, delay);
-            delay += charDelay;
+        return new Promise((resolve)=>{
+            let delay = 0;
+            LogPrint.innerHTML += `\n${rowCount}\t`
+            text.split('').forEach((char,index) => {
+                setTimeout(() => {
+                    Tag.innerHTML += char;
+                    if (index === text.length-1){
+                        resolve();
+                    }
+                }, delay);
+                delay += charDelay;
+            });
         });
-    };
+    }
     async function fetchAndUpdateLog() {
+        
         try{
             let UserDoc= await getDoc(LiveLog);
-            if (UserDoc.exists()){
-                const currentLog = UserDoc.data()["current-log"];
-                if( previosLog!=currentLog){
-                    LogPrint.innerHTML += `\n${rowCount}\t`
-                    appendWithDelay(currentLog,10,LogPrint);
-                    rowCount++;
-                    previosLog=currentLog;
-                }} else {
-                    console.error("No such document!");
+            let Doc=UserDoc.data()
+            for (const KWlog of Object.values(Doc)) {          
+                if (!logs.includes(KWlog)){
+                    try{
+                        logs.push(KWlog)
+                        await appendWithDelay(KWlog,30,LogPrint);
+                        rowCount++;
+                    }catch (error){
+                        console.error(`Error:${error}`)
+                    }
                 }
+            };
         } catch (error) {
                 console.error("Error fetching document:", error);
         }   
+        // setTimeout(fetchAndUpdateLog, 1000);  
         setTimeout(fetchAndUpdateLog, 50);  
     };
     fetchAndUpdateLog();
@@ -102,8 +112,8 @@ async function LiveLog(){
 
 function loadingLog(){
     const loadingLog = document.getElementById("loadingLog");
-let count = 0; // Current number of *
-let increasing = true; // Flag to track the direction of animation
+    let count = 0; // Current number of *
+    let increasing = true; // Flag to track the direction of animation
 
 function animateLoading() {
     let loadingString = "\n*"; // First star has no space
