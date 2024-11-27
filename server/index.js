@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword, signOut , sendPasswordResetEmail } from 'firebase/auth';
 import admin from 'firebase-admin';
+import {doc, getDoc, deleteDoc } from "firebase/firestore";
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ admin.initializeApp({
     credential: admin.credential.cert('keg-washer-firebase-adminsdk-7ww1i-aa7938c93f.json'),  
 });
 const app = express();
+const db= admin.firestore()
 const allowedOrigins = [
     'https://yatlow.github.io',
     'http://localhost:5500',
@@ -96,6 +98,38 @@ app.post('/resetPassowrd', async (req, res) => {
 app.get('/ping', async (req, res) => {
     res.status(200).send('server is allive');
 });
+
+async function DeleteOld(CollectionName, Tfield, yearsAgo) {
+    const now= new Date();
+    const cutoofDate= new Date();
+    cutoofDate.setFullYear(now.getFullYear()-yearsAgo) 
+    try{
+        const snapshot= await db.Collection(CollectionName).get();
+        const batch =db.batch();
+
+        snapshot.forEach((doc) => {
+           const DocData= doc.data();
+           const timestamp=  DocData[Tfield]?.toDate();
+           if (timestamp && timestamp<cutoofDate){
+                deleteDoc(doc)
+                console.log("dleted doc from", DocData[Tfield])
+           }
+        });
+    }catch (error){
+        console.log("error deleting old docs", error)
+    }
+}
+
+const OneWeek= 5000;
+// const OneWeek= 7*24*60*60*1000;
+setInterval(async() => {
+    console.log("checking what to delet")
+    const YearsDoc= await getDoc(doc(db, "users", DocR));
+    const yearsAgo= YearsDoc.data()["Years-Saved"]
+    DeleteOld("Saved-Parameters", "Timestamp", yearsAgo)
+    DeleteOld("Washer-Logs", "On", yearsAgo)
+}, OneWeek);
+
 const port = process.env.PORT || 10000;  
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
