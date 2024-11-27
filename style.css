@@ -155,6 +155,10 @@ html{
     /* max-height: 50px; */
     border-radius: 15px 0 0 15px;
 }
+#WasherLogsBox{
+    inset-inline-start: 20%;
+    width: 60%;
+}
 .SavedLogsBox{
     font-family: all,ENG;
     z-index: 4;
@@ -226,6 +230,9 @@ html{
     flex-direction: row;
     font-size: 11px;
     width: 100%;
+    border: #DFB725 solid 1px;
+    border-radius: 20px;
+    padding: 3px 0 3px 0;
 }
 .logRow > div:nth-child(1) {
     flex: 9; 
@@ -280,10 +287,10 @@ html{
     justify-content: center;
     transition: border-radius 200ms linear;
 }
-.functionLabel:hover,#RefrshConsole:hover,#CloseSavedLogs:hover,#CloseConsole:hover,#CloseDefaultValBox:hover,#CloseuserPrefBox:hover,#ShowPass:hover,.LangIndictor:hover,.DefeStageLabel:hover,.clickable,#userPref:hover,#Hamburger:hover{
+.functionLabel:hover,#RefrshConsole:hover,#CloseWasherLogs:hover,#CloseSavedLogs:hover,#CloseConsole:hover,#CloseDefaultValBox:hover,#CloseuserPrefBox:hover,#ShowPass:hover,.LangIndictor:hover,.DefeStageLabel:hover,.clickable,#userPref:hover,#Hamburger:hover{
     cursor: pointer;   
 }
-#CloseDefaultValBox:hover,#CloseSavedLogs:hover,#userPref:hover,#CloseConsole:hover,#RefrshConsole:hover{
+#CloseDefaultValBox:hover,#CloseSavedLogs:hover,#CloseWasherLogs:hover,#userPref:hover,#CloseConsole:hover,#RefrshConsole:hover{
     transform: scale(1.4);
     transition: transform 200ms linear;
 }
@@ -374,7 +381,7 @@ html{
     position: relative;
     inset-inline-start: 43%;
 }
-#CloseDefaultValBox,#CloseuserPrefBox,#CloseConsole,#RefrshConsole,#CloseSavedLogs{
+#CloseDefaultValBox,#CloseuserPrefBox,#CloseConsole,#RefrshConsole,#CloseSavedLogs,#CloseWasherLogs{
     max-height: 30px;
     max-width: 30px;
 }
@@ -417,7 +424,7 @@ html{
 .functionLabelHiddenInput {
     border-radius: 20px;
 }
-.functionLabelDisable{
+.functionLabelDisable,#KeepLogs{
     cursor: not-allowed;
     pointer-events: none;
 }
@@ -446,15 +453,15 @@ html{
     padding-inline-start: 20px;
     background-color: #E0C263;
 }
-.functionInputs input,.login-container input{
-    width: 90px;
+.functionInputs input,.login-container input,#KeepLogs{
+    width: 60px;
     border: #DFB725 0.5px solid;
     border-radius: 20px;
     padding-inline-start: 10px;
     margin-inline-start: 5px;
     height: 40px;
 }
-.functionInputs input:focus,.login-container input:focus{
+.functionInputs input:focus,.login-container input:focus,#KeepLogs:focus{
     outline: #937002 2px solid;
     border: none;
 }
@@ -570,6 +577,24 @@ html{
     width: 30px;
     height: 30px;
     animation:load 0.7s infinite steps(10); 
+}
+.KeglogRow{
+    text-align: center;
+    margin-top: 2%;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    font-size: 11px;
+    border: #DFB725 solid 1px;
+    border-radius: 20px;
+    padding: 3px 15px 3px 0;
+}
+.LogLabel{
+    margin-inline-end: 5px;
+}
+.LogVal{
+    color: #D34607;
+    margin-inline-end: 10px;
 }
 @keyframes load {to{transform: rotate(1turn)}}
 .confirmBoxBtn{
@@ -788,7 +813,7 @@ html{
     .LiveLogHeaderH1{
         width: 69%;
     }
-    #CloseDefaultValBox,#CloseuserPrefBox,#CloseConsole,#RefrshConsole,#CloseSavedLogs{
+    #CloseDefaultValBox,#CloseuserPrefBox,#CloseConsole,#RefrshConsole,#CloseSavedLogs,#CloseWasherLogs{
         max-height: 30px;
         max-width: 30px;
     }
@@ -800,7 +825,9 @@ html{
         position: relative;
     }
     #Haburgerbox{
-        width: 100%;
+        width: 20%;
+        z-index: 5;
+        align-self: flex-start;
         text-align: start;
         padding-inline-start: 5%;
     }
@@ -810,7 +837,7 @@ html{
         width: 100%;
         position: absolute;
         align-items: center;
-        top: 40%;
+        top: 0;
         z-index: 2;
         padding: 3%;
         background-color: #FFE9A4;
@@ -923,15 +950,19 @@ html{
         position: fixed;
         inset-inline-end: 28%;
     }
+    .KeglogRow{
+        margin-top: 5%;
+        flex-direction: column;
+        font-size: 11px;
+        width: 90%;
+        gap: 3px;
+    }
     .logRow{
         margin-top: 5%;
         flex-direction: column;
         font-size: 11px;
-        border: #DFB725 solid 1px;
         width: 90%;
-        border-radius: 20px;
         gap: 3px;
-        padding: 3px 0 3px 0;
     }
     .logRow button{
         margin-bottom: 5px;
@@ -953,5 +984,9 @@ html{
     .DefValDisplayBoxHeader{
         flex-direction: column;
         text-align: center;
+    }
+    #WasherLogsBox{
+        inset-inline-start: 10%;
+        width: 80%;
     }
 }

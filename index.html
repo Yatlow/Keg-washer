@@ -108,6 +108,13 @@
                                 </div>
                                 <div>English</div>
                             </div>
+                            <div>
+                                <form id="KeepLogsForm">
+                                    <label for="KeepLogs" class="translatable">שמור לוגים ל:</label>
+                                    <input id="KeepLogs" type="number" min="1" disabled="true">
+                                    <label class="translatable valType ">שנים</label>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1099,6 +1106,28 @@
             <div id="SavedLogs">
             </div>
         </div>
+        <div class="hiddenValBox" id="WasherLogsBox">
+            <div class="SaveLogsHeader">
+                <Div class="translatable SaveLogsHeaderH1">לוגים ממשטף החביות</Div>
+                <div class="col existSaved dontShut"><img id="CloseWasherLogs" src="assets/pics/Close.png" /></div>
+            </div>
+            <div id="WasherLogsWrap">
+                <!-- <div class="KeglogRow">
+                    <div class="translatable LogLabel">תאריך:</div>
+                    <div class="LogVal"></div>
+                    <div class="translatable LogLabel">הודלק ב:</div>
+                    <div class="LogVal"></div>
+                    <div class="translatable LogLabel">חביות שנשטפו:</div>
+                    <div class="LogVal"></div>
+                    <div class="translatable LogLabel">חביות שחוטאו בלבד:</div>
+                    <div class="LogVal"></div>
+                    <div class="translatable LogLabel">חביות שרוקנו בלבד:</div>
+                    <div class="LogVal"></div>
+                    <div class="translatable LogLabel">כובה ב:</div>
+                    <div class="LogVal"></div>
+                </div> -->
+            </div>
+        </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -1276,11 +1305,9 @@
 
         // let servrPort = "http://localhost:10000";
         let servrPort="https://keg-control-1.onrender.com";  
-
-
         let preboobotMeteg = 1;
         let pressureMeteg = 1;
-        let escapePressedOnce = 1;  // Flag to track if escape was pressed
+        let escapePressedOnce = 1;  
         let closedConfirmBox = 0;
         let secretClick = 0;
         let LangFlag = 0; //hebrew
@@ -1290,6 +1317,8 @@
         let LiveLogsOpen=false;
         let lastSaveOpen=false;
         let DefValAndsLastSaveOpen= false;
+        let WasherLogsOpen= false;
+        const idToken = localStorage.getItem('customToken');
 
         function translateToEnglish(hebrewText) {
             return translationDictionary[hebrewText] || hebrewText;  // Default to original text if not found
@@ -1577,9 +1606,9 @@
                         document.getElementById("SavedLogs").insertAdjacentHTML('beforeend', `
                         <div class="logRow">
                             <div class="translatable">פרמטרים אלו עודכנו על ידי:</div>
-                            <div id="SavedLogsAuth">${docData.LastUser}</div>
+                            <div>${docData.LastUser}</div>
                             <div class="translatable">ב:</div>
-                            <div id="SavedLogsTimeStamp">${printableTime}</div>
+                            <div>${printableTime}</div>
                             <div><button class="formBtn translatable" id="${docId}Display">תצוגה מקדימה</button></div>
                             <div class="LoadThisBox"><button class="formBtn translatable LoadThis" id="${docId}Load">טען נונים למשטף</button></div>
                         </div>`);
@@ -1605,13 +1634,82 @@
                 }
             }
 
-        document.getElementById("WasherLogs").addEventListener("click", function(){
-            document.getElementById("menuItems").classList.remove("menuItems")
-            document.getElementById("menuItems").classList.add("hiddenMenItems")
-            document.getElementById("menu").classList.remove("menuBack")
-            menuOpen=false
+        async function loadKWLogs() {
+            function formattime(Timestamp){
+                    const year = Timestamp.getFullYear();
+                    const month = String(Timestamp.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+                    const day = String(Timestamp.getDate()).padStart(2, '0');
+                    const hours = String(Timestamp.getHours()).padStart(2, '0');
+                    const minutes = String(Timestamp.getMinutes()).padStart(2, '0');
+                    return `${day}/${month}/${year}`;
+                }
+            function formattimeNoD(Timestamp){
+                    const year = Timestamp.getFullYear();
+                    const month = String(Timestamp.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+                    const day = String(Timestamp.getDate()).padStart(2, '0');
+                    const hours = String(Timestamp.getHours()).padStart(2, '0');
+                    const minutes = String(Timestamp.getMinutes()).padStart(2, '0');
+                    return `${hours}:${minutes}`;
+                }
+                try{
+                    const collectionRef= collection(db, "Washer-Logs");
+                    const snapshot = await getDocs(collectionRef);
+                    let confirmBox = document.getElementById("confirmBox");
+                    confirmBox.classList.remove("infoBox");  
+                    confirmBox.classList.add("hiddenBox");
+                    const collection_Data=[];
+                    snapshot.forEach(doc=>{
+                        const docData = doc.data();
+                        let docId = doc.id; 
+                        const printableTime= formattime(new Date(docData["On"].seconds*1000))
+                        collection_Data.push({id:doc.id, data:doc.data()})
+                        console.log(docData)
+                        // console.log(`user: ${docData.LastUser}, Timestamp: ${printableTime}, ID: ${docId}`)
+                        document.getElementById("WasherLogsWrap").insertAdjacentHTML('beforeend', `
+                        <div class="KeglogRow">
+                            <div class="translatable LogLabel">תאריך:</div>
+                            <div class="LogVal">${printableTime}</div>
+                            <div class="translatable LogLabel">הודלק ב:</div>
+                            <div class="LogVal">${formattimeNoD(new Date(docData["On"].seconds*1000))}</div>
+                            <div class="translatable LogLabel">חביות שנשטפו:</div>
+                            <div class="LogVal">${docData["full Cycle"]}</div>
+                            <div class="translatable LogLabel">חביות שחוטאו בלבד:</div>
+                            <div class="LogVal">${docData["Short cycle"]}</div>
+                            <div class="translatable LogLabel">חביות שרוקנו בלבד:</div>
+                            <div class="LogVal">${docData["purge cycle"]}</div>
+                            <div class="translatable LogLabel">כובה ב:</div>
+                            <div class="LogVal">${formattimeNoD(new Date(docData["off"].seconds*1000))}</div>
+                        </div>`);
+                    });
+                }catch(eror){
+                    console.error("KW Logs not Found",eror)
+                }
+        }
 
-            event.stopPropagation();
+        document.getElementById("WasherLogs").addEventListener("click", function(){
+            const confirmBox = document.getElementById("confirmBox");
+            const WasherLogsBox= document.getElementById("WasherLogsBox")
+            if (!WasherLogsOpen){
+                WasherLogsBox.classList.remove("hiddenValBox")
+                WasherLogsBox.classList.add("DefValDisplayBox")
+                WasherLogsOpen=true
+                DisableItems()
+                let dinamicinner = LangFlag === 0 ? 'טוען נתונים מהשרת' : 'Loading Values from Server';
+                document.getElementById("conirmContent").innerHTML = dinamicinner + '<img src="assets/pics/loading.png" class="loading" id="loading4">';
+                document.getElementById("exitConfirm").innerHTML = LangFlag === 0 ? 'ממתין לשרת' : 'Waiting for Server';
+                document.getElementById("exitConfirm").classList.add("disabledConfirmBtn");
+                document.getElementById("menuItems").classList.remove("menuItems")
+                document.getElementById("menuItems").classList.add("hiddenMenItems")
+                document.getElementById("menu").classList.remove("menuBack")
+                menuOpen=false
+                loadKWLogs()
+                event.stopPropagation();
+            }else{
+                WasherLogsBox.classList.add("hiddenValBox")
+                WasherLogsBox.classList.remove("DefValDisplayBox")
+                WasherLogsOpen=false
+                exitConfirmBox()
+            }
         });
 
         function showValbox(){
@@ -1692,7 +1790,12 @@
             // console.log(pressureMeteg);
         }
         
-        const idToken = localStorage.getItem('customToken');
+        document.getElementById("KeepLogs").addEventListener("change",function(){
+            const YearsSaved={"Years-Saved":document.getElementById("KeepLogs").value}
+            const YerRef = doc(db, 'users', 'keg-washer');
+            updateDoc(YerRef, YearsSaved);
+        });
+        
         async function update() {
             let inner = document.getElementById("conirmContent");
             let dinamicinner = LangFlag === 0 ? 'שולח פרמטרים לשרת' : 'Sending Data to Sever'
@@ -2022,6 +2125,7 @@
                 try{
                         const kegWaherDoc= await getDoc(washerConectTime);
                         const washerLastConnect= kegWaherDoc.data()["last-connection"];
+                        const YearsToSave= +kegWaherDoc.data()["Years-Saved"];
                         let Timestamp=  new Date(washerLastConnect.seconds * 1000);
                         const year = Timestamp.getFullYear();
                         const month = String(Timestamp.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
@@ -2030,6 +2134,7 @@
                         const minutes = String(Timestamp.getMinutes()).padStart(2, '0');
                         const formattedTimestamp = `${day}/${month}/${year} ${hours}:${minutes}`;
                         document.getElementById('KegWasherLastConnected').innerHTML=formattedTimestamp;
+                        document.getElementById('KeepLogs').value=YearsToSave;
 
                 }catch(eror){
                     console.log("error getting washerLastConnect",eror)
