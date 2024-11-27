@@ -235,7 +235,7 @@ html{
     width: 100%;
     border: #DFB725 solid 1px;
     border-radius: 20px;
-    padding: 3px 10px 3px 0;
+    padding: 3px 10px 3px 10px;
     div{
         display: flex;
         align-items: center;
@@ -590,12 +590,11 @@ html{
     margin-top: 2%;
     display: flex;
     flex-direction: row;
-    
     width: 100%;
     font-size: 11px;
     border: #DFB725 solid 1px;
     border-radius: 20px;
-    padding: 3px 15px 3px 0;
+    padding: 3px 15px 3px 15px;
 }
 .LogLabel{
     margin-inline-end: 5px;
@@ -684,7 +683,7 @@ html{
     height: 90%;
 }
 #LiveLogHeader{
-    font-family: all;
+    font-family: all,ENG;
     padding-inline-start: 2%;
     font-size: 30px;
     position: relative;

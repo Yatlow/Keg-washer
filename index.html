@@ -69,8 +69,8 @@
                 </div>
                 <div class="col-6 col-md-3 HeadinfoBox">
                     <div class="Headinfo translatable">עדכון אחרון</div>
-                    <div class="Headinfo">17/11/2024 11:37</div>
-                    <div class="Headinfo">V 5.1.5</div>
+                    <div class="Headinfo">27/11/2024 11:37</div>
+                    <div class="Headinfo">V 5.2.1</div>
                     <div class="Headinfo translatable">© ישראל אטלו</div>
                 </div>
                 <div class="menu" id="menu">
@@ -683,7 +683,7 @@
             <div class="col exitBtnBox"><img id="CloseDefaultValBox" src="assets/pics/Close.png" /></div>
             <div class="DowloadBox" id="topSubmit">
                 <div><button class="formBtn translatable" id="DownloadPdfTop" type="submit">שמור כקובץ PDF</button></div>
-                <div><button id="appendSpecificValues" class="formBtn" type="button">טען נתונים אלו למשטף</button></div>
+                <div><button id="appendSpecificValues" class="formBtn translatable" type="button">טען נתונים אלו למשטף</button></div>
             </div>
             <div id="DefValDisplayBoxHeader" class="DefValDisplayBoxHeader">
                 <div class="translatable">פרמטרים אלו עודכנו על ידי:</div>
@@ -1108,7 +1108,7 @@
         </div>
         <div class="hiddenValBox" id="WasherLogsBox">
             <div class="SaveLogsHeader">
-                <Div class="translatable SaveLogsHeaderH1">לוגים ממשטף החביות</Div>
+                <Div class="translatable SaveLogsHeaderH1">לוגים של משטף החביות</Div>
                 <div class="col existSaved dontShut" id="CloseWasherLogsBox"><img id="CloseWasherLogs" src="assets/pics/Close.png" /></div>
             </div>
             <div id="WasherLogsWrap">
@@ -1159,6 +1159,9 @@
         ]
 
         const translationDictionary = {
+            "טען נתונים למשטף":"Load values to Washer","תצוגה מקדימה":"Preview","קונסולת משטף חביות":"Keg Washer Console",
+            "שמור לוגים ל:":"Save Logs For","שנים":"years","נתונים שנשמרו בעבר":"Previously saved Values",
+            "לוגים של משטף החביות":"Keg Washer Logs","הודלק ב:":"Turned on at:","חביות שנשטפו:":"Kegs Washed",
             "טען נתונים אלו למשטף":"Load these values to Keg Washer","פרמטרים אלו עודכנו על ידי:":"Parameters updated by:",
             "הצג נתונים שנשמרו בעבר":"Show previously saved Values","הצג לוגים של משטף החביות":"Show Keg Washer Logs",
             "הצג קונסולת משטף החביות":"Show Keg Washer Console","טוען נתונים מהשרת":"loading Data from server",
@@ -1586,15 +1589,18 @@
                         let docId = doc.id; 
                         const printableTime= formattime(new Date(docData.Timestamp.seconds*1000))
                         collection_Data.push({id:doc.id, data:doc.data()})
-                        // console.log(`user: ${docData.LastUser}, Timestamp: ${printableTime}, ID: ${docId}`)
+                        const string1=LangFlag===0?"פרמטרים אלו עודכנו על ידי:":"Parameters updated by:";
+                        const string2=LangFlag===0?"ב:":"at:";
+                        const string3=LangFlag===0?"תצוגה מקדימה":"Preview";
+                        const string4=LangFlag===0?"טען נתונים למשטף":"Load values to Washer";
                         document.getElementById("SavedLogs").insertAdjacentHTML('beforeend', `
                         <div class="logRow">
-                            <div class="translatable">פרמטרים אלו עודכנו על ידי:</div>
+                            <div class="translatable">${string1}</div>
                             <div>${docData.LastUser}</div>
-                            <div class="translatable">ב:</div>
+                            <div class="translatable">${string2}</div>
                             <div>${printableTime}</div>
-                            <div><button class="formBtn translatable" id="${docId}Display">תצוגה מקדימה</button></div>
-                            <div class="LoadThisBox"><button class="formBtn translatable LoadThis" id="${docId}Load">טען נונים למשטף</button></div>
+                            <div><button class="formBtn translatable" id="${docId}Display">${string3}</button></div>
+                            <div class="LoadThisBox"><button class="formBtn translatable LoadThis" id="${docId}Load">${string4}</button></div>
                         </div>`);
                         (function (id) {
                             document.getElementById(`${id}Display`).addEventListener("click", async function () {
@@ -1653,23 +1659,29 @@
                     confirmBox.classList.add("hiddenBox");
                     const collection_Data=[];
                     snapshot.forEach(doc=>{
+                        const string1=LangFlag===0?"תאריך":"Date";
+                        const string2=LangFlag===0?"הודלק ב":"Turned on";
+                        const string3=LangFlag===0?"חביות שנשטפו":"Kegs Washed";
+                        const string4=LangFlag===0?"חביות שחוטאו בלבד":"Kegs only Sanitized";
+                        const string5=LangFlag===0?"חביות שרוקנו בלבד":"Kegs only Purged";
+                        const string6=LangFlag===0?"כובה ב":"Turned off";
                         const docData = doc.data();
                         let docId = doc.id; 
                         const printableTime= formattime(new Date(docData["On"].seconds*1000))
                         collection_Data.push({id:doc.id, data:doc.data()})
                         document.getElementById("WasherLogsWrap").insertAdjacentHTML('beforeend', `
                         <div class="KeglogRow">
-                            <div class="translatable LogLabel">תאריך:</div>
+                            <div class="translatable LogLabel">${string1}:</div>
                             <div class="LogVal">${printableTime}</div>
-                            <div class="translatable LogLabel">הודלק ב:</div>
+                            <div class="translatable LogLabel">${string2}:</div>
                             <div class="LogVal">${formattimeNoD(new Date(docData["On"].seconds*1000))}</div>
-                            <div class="translatable LogLabel">חביות שנשטפו:</div>
+                            <div class="translatable LogLabel">${string3}:</div>
                             <div class="LogVal">${docData["full Cycle"]}</div>
-                            <div class="translatable LogLabel">חביות שחוטאו בלבד:</div>
+                            <div class="translatable LogLabel">${string4}:</div>
                             <div class="LogVal">${docData["Short cycle"]}</div>
-                            <div class="translatable LogLabel">חביות שרוקנו בלבד:</div>
+                            <div class="translatable LogLabel">${string5}:</div>
                             <div class="LogVal">${docData["purge cycle"]}</div>
-                            <div class="translatable LogLabel">כובה ב:</div>
+                            <div class="translatable LogLabel">${string6}:</div>
                             <div class="LogVal">${formattimeNoD(new Date(docData["off"].seconds*1000))}</div>
                         </div>`);
                     });
