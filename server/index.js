@@ -109,11 +109,11 @@ async function DeleteOld(CollectionName, Tfield, yearsAgo) {
         const colRef = db.collection(CollectionName); // Use Admin SDK's method
         const snapshot = await colRef.get();
 
-        snapshot.forEach(doc => {
+        snapshot.forEach(async (doc) => {
            const DocData= doc.data();
            const timestamp=  DocData[Tfield]?.toDate();
            if (timestamp && timestamp<cutoofDate){
-                deleteDoc(doc)
+                await doc.ref.delete()
                 console.log("dleted doc from", DocData[Tfield])
                 deletedSomthing=true;
            }
