@@ -124,7 +124,7 @@ const OneWeek= 5000;
 // const OneWeek= 7*24*60*60*1000;
 setInterval(async() => {
     console.log("checking what to delet")
-    const YearsDoc= await getDoc(doc(db, "users", DocR));
+    const YearsDoc= await getDoc(doc(db, "users", "keg-washer"));
     const yearsAgo= YearsDoc.data()["Years-Saved"]
     DeleteOld("Saved-Parameters", "Timestamp", yearsAgo)
     DeleteOld("Washer-Logs", "On", yearsAgo)
