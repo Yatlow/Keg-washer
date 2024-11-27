@@ -102,9 +102,8 @@ app.get('/ping', async (req, res) => {
 
 async function DeleteOld(CollectionName, Tfield, yearsAgo) {
     const now= new Date();
-    const cutoofDate= new Date();
-    let deletedSomthing=false;
-    cutoofDate.setFullYear(now.getFullYear()-yearsAgo) 
+    const cutOfDate= new Date();
+    cutOfDate.setFullYear(now.getFullYear()-yearsAgo) 
     try{
         const colRef = db.collection(CollectionName); // Use Admin SDK's method
         const snapshot = await colRef.get();
@@ -112,24 +111,17 @@ async function DeleteOld(CollectionName, Tfield, yearsAgo) {
         snapshot.forEach(async (doc) => {
            const DocData= doc.data();
            const timestamp=  DocData[Tfield]?.toDate();
-           if (timestamp && timestamp<cutoofDate){
+           if (timestamp && timestamp<cutOfDate){
                 await doc.ref.delete()
-                console.log("dleted doc from", DocData[Tfield])
-                deletedSomthing=true;
            }
         });
-        if (!deletedSomthing){
-            console.log("nothing to delete")
-        }
     }catch (error){
         console.log("error deleting old docs", error)
     }
 }
 
-const OneWeek= 10000;
-// const OneWeek= 7*24*60*60*1000;
+const OneWeek= 7*24*60*60*1000;
 setInterval(async() => {
-    console.log("checking what to delete")
     const collectionRef = db.collection("users").doc("keg-washer"); 
     const docSnapshot = await collectionRef.get();
     const yearsAgo= docSnapshot.data()["Years-Saved"]
