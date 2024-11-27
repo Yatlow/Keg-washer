@@ -104,7 +104,7 @@ async function DeleteOld(CollectionName, Tfield, yearsAgo) {
     const cutoofDate= new Date();
     cutoofDate.setFullYear(now.getFullYear()-yearsAgo) 
     try{
-        const snapshot= await db.Collection(CollectionName).get();
+        const snapshot= await db.collection(CollectionName).get();
         const batch =db.batch();
 
         snapshot.forEach((doc) => {
