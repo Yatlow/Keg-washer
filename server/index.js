@@ -103,7 +103,7 @@ app.get('/ping', async (req, res) => {
 async function DeleteOld(CollectionName, Tfield, yearsAgo) {
     const now= new Date();
     const cutoofDate= new Date();
-    const deletedSomthing=false;
+    let deletedSomthing=false;
     cutoofDate.setFullYear(now.getFullYear()-yearsAgo) 
     try{
         const colRef = db.collection(CollectionName); // Use Admin SDK's method
