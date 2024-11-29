@@ -1674,15 +1674,15 @@
                             <div class="translatable LogLabel">${string1}:</div>
                             <div class="LogVal">${printableTime}</div>
                             <div class="translatable LogLabel">${string2}:</div>
-                            <div class="LogVal">${formattimeNoD(new Date(docData["On"].seconds*1000))}</div>
+                            <div class="LogVal">${docData["On"]?formattimeNoD(new Date(docData["On"].seconds*1000)):" - - -"}</div>
                             <div class="translatable LogLabel">${string3}:</div>
-                            <div class="LogVal">${docData["full Cycle"]}</div>
+                            <div class="LogVal">${docData["full_cycle"]||0}</div>
                             <div class="translatable LogLabel">${string4}:</div>
-                            <div class="LogVal">${docData["Short cycle"]}</div>
+                            <div class="LogVal">${docData["Short_cycle"]||0}</div>
                             <div class="translatable LogLabel">${string5}:</div>
-                            <div class="LogVal">${docData["purge cycle"]}</div>
+                            <div class="LogVal">${docData["purge_cycle"]||0}</div>
                             <div class="translatable LogLabel">${string6}:</div>
-                            <div class="LogVal">${formattimeNoD(new Date(docData["off"].seconds*1000))}</div>
+                            <div class="LogVal">${docData["off"]?formattimeNoD(new Date(docData["off"].seconds*1000)):" - - -"}</div>
                         </div>`);
                     });
                 }catch(eror){

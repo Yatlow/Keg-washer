@@ -13,6 +13,7 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 from datetime import datetime
 import pytz
+import sys
 
 cred = credentials.Certificate("keg-washer-firebase-adminsdk-7ww1i-aa7938c93f.json")  # Path to your Firebase JSON key
 firebase_admin.initialize_app(cred)
@@ -1523,8 +1524,6 @@ async def boot():
     GPIO.output(Ground_Pneu_valves, GPIO.HIGH)
     checkbtn()
     main()
-
-
 
 def launch():
     import asyncio

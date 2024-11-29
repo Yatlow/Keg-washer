@@ -67,8 +67,8 @@ async function LiveLog(){
     const LiveLog = doc(db, 'users', 'Live-Logs');
     const LogPrint =document.getElementById("Logs");
     let rowCount= 1;
-    const logs=[]
-    
+    const processedKeys = new Set();
+
     const appendWithDelay = (text, charDelay,Tag) => {
         return new Promise((resolve)=>{
             let delay = 0;
@@ -85,25 +85,23 @@ async function LiveLog(){
         });
     }
     async function fetchAndUpdateLog() {
-        
         try{
             let UserDoc= await getDoc(LiveLog);
             let Doc=UserDoc.data()
-            for (const KWlog of Object.values(Doc)) {          
-                if (!logs.includes(KWlog)){
+            for (const [key, KWlog] of Object.entries(Doc)) {          
                     try{
-                        logs.push(KWlog)
-                        await appendWithDelay(KWlog,30,LogPrint);
-                        rowCount++;
+                        if(!processedKeys.has(key)){
+                            processedKeys.add(key)
+                            await appendWithDelay(KWlog,30,LogPrint);
+                            rowCount++;
+                        }
                     }catch (error){
                         console.error(`Error:${error}`)
                     }
-                }
             };
         } catch (error) {
                 console.error("Error fetching document:", error);
         }   
-        // setTimeout(fetchAndUpdateLog, 1000);  
         setTimeout(fetchAndUpdateLog, 50);  
     };
     fetchAndUpdateLog();
