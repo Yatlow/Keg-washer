@@ -12,6 +12,7 @@ from adafruit_ads1x15.analog_in import AnalogIn
 import firebase_admin
 from firebase_admin import credentials, firestore
 from datetime import datetime
+from google.api_core.exceptions import DeadlineExceeded
 import pytz
 import sys
 
@@ -162,18 +163,51 @@ buttons= manager.list([
 
 previous_values = {key: value for key, value in shared_values}
 
+log_counter=0
+full_Cycle_count=0
+purge_Cycle_count=0
+short_Cycle_count=0
+log_ref = db.collection("Washer-Logs")
+current_log_id=0
+Live_log_ref = db.collection("users").document("Live-Logs")
+
+class FirestoreLogger:
+    def __init__(self):
+        self.buffer = ""
+
+    def write(self, message):
+        global log_counter
+        self.buffer += message  # Accumulate the message in the buffer
+        if "\n" in self.buffer:  # Process only when a newline is encountered
+            lines = self.buffer.split("\n")
+            for line in lines[:-1]:  # Process all complete lines
+                if line.strip():  # Avoid empty lines
+                    sys.__stdout__.write(line + "\n")  # Print to console in real time
+                    Live_log_ref.update({str(log_counter): line})
+                    log_counter += 1
+            self.buffer = lines[-1]  # Keep the remaining partial line in the buffer
+
+    def flush(self):
+        if self.buffer.strip():  # Flush any remaining text in the buffer
+            sys.__stdout__.write(self.buffer + "\n")
+            Live_log_ref.update({str(log_counter): self.buffer})
+            self.buffer = ""
+
 def get_current_settings():
     doc_ref = db.collection("parameters").document("updated")
     btn_ref =db.collection("buttons").document("butons")
     while True:
-        db.collection("users").document("keg-washer").update({
-            "`last-connection`": datetime.now(local_tz)
-        })
+        try:
+            db.collection("users").document("keg-washer").update({
+                "`last-connection`": datetime.now(local_tz)
+            })
+        except Exception as e:
+            print (f"failed to write last-connection, {e}")
         try:
             doc = doc_ref.get()
             btn = btn_ref.get()
         except Exception as e:
-            print(f"Error fetching Firestore document: {e}")
+            print(f"Error fetching data from server: {e}")
             sleep(1)
             continue
         if doc.exists:
@@ -184,7 +218,7 @@ def get_current_settings():
                     if new_value != value:  # Check if the value has changed
                         with lock:
                             shared_values[i] = (key, new_value)  # Update shared_values
-                        print(f"Updated {key}: {value} -> {new_value}")
+                        print(f"Updated Parameter{key}: {value} -> {new_value} from online platform")
         if btn.exists:
             btn_data = btn.to_dict()
             for i, (key, value) in enumerate(buttons):
@@ -193,42 +227,48 @@ def get_current_settings():
                     if btn_value != value:  # Check if the value has changed
                         with lock:
                             buttons[i] = (key, btn_value)  # Update shared_values
-                        print(f"Updated {key}: {value} -> {btn_value}")
-        else:
-            print("No such document!")
+                        print(f"Button changed! {key}: {value} -> {btn_value}")
         sleep(1)
 
 async def fetch_settings_once():
-    print("fetching Data from server")
+    print("Fetching parameters from server...")
     doc_ref = db.collection("parameters").document("updated")
-    x=0
-    while x<1:
+    max_attempts = 10
+    try:
         db.collection("users").document("keg-washer").update({
             "`last-connection`": datetime.now(local_tz)
         })
+    except Exception as e:
+        print (f"failed to write last-connection, {e}")
+    for attempt in range(max_attempts):
         try:
-            doc = doc_ref.get()
+            doc = doc_ref.get(timeout=30)
+            if doc.exists:
+                updated_data = doc.to_dict()
+                for i, (key, value) in enumerate(shared_values):
+                    if key in updated_data:
+                        new_value = updated_data[key]
+                        if new_value != value:  # Check if the value has changed
+                            with lock:
+                                shared_values[i] = (key, new_value)  # Update shared_values
+                print("Successfully fetched data.")
+                return  # Exit after successful fetch
+            else:
+                print("Data does not exists in server!")
+        except DeadlineExceeded as e:
+            if attempt < max_attempts - 1:
+                wait_time = min(2 ** attempt, max_delay)  # Exponential backoff with a cap
+                print(f"Attempt {attempt+1}: Deadline exceeded, retrying in {wait_time} seconds...")
+                time.sleep(wait_time)
+            else:
+                print("Failed to fetch settings after maximum attempts. Using default values.")
         except Exception as e:
             print(f"Error fetching Firestore document: {e}")
-            sleep(1)
-            continue
-        if doc.exists:
-            updated_data = doc.to_dict()
-            for i, (key, value) in enumerate(shared_values):
-                if key in updated_data:
-                    new_value = updated_data[key]
-                    if new_value != value:  # Check if the value has changed
-                        with lock:
-                            shared_values[i] = (key, new_value)  # Update shared_values
-                        print(f"Updated {key}: {value} -> {new_value}")
-        else:
-            print("No such document!")
-        print("sucssesfully fetched Data")
-        x=x+1    
+    print("launching washer with default settings.")  
 
 def protectheat():
     if GPIO.input(Water_Level) == GPIO.LOW:
-        print('heat on')
+        print('Heat on')
     else:
         print('Heat off')
     while True:
@@ -245,7 +285,6 @@ def convert_pressure():
     pressureoutmed = PressureguageC * (Pressureoutraw.voltage - VLout) / 4
     Pressurein = round(pressureinmed, 2)
     Pressureout = round(pressureoutmed, 2)
-    print(Pressureinraw.voltage, Pressureoutraw.voltage)
     print('Pressure in:',Pressurein,'PSI, Pressure out:',Pressureout,'PSI')
 
 def checkpruessurecanceled():
@@ -257,9 +296,9 @@ def checkpruessurecanceled():
     if (next(val for key, val in shared_values if key == 'pressureMeteg')==0):
         i=11
         x=1
-        print ("pressuer meteg off from online")
+        print ("pressure check is disabled from online platform")
     else:
-        print ("pressuer meteg on from online checking Pressure")
+        print ("pressure check is enabled from online platform > proceeding to check pressure")
 
     while i<10:
         if GPIO.input(pressure_cancel) == GPIO.HIGH:
@@ -277,7 +316,7 @@ def checkpruessurecanceled():
                 i=0
             x=0
     if x==1:
-        print('pressure check canceled from physycal meteg')
+        print('pressure check disabled from mechanichal switc')
         Pressurein=10000
         Pressureout=1000
     if y==1:
@@ -340,7 +379,7 @@ def Pauseindicator():
     GPIO.output(STBYlight, GPIO.HIGH)
     while True:
         GPIO.output(InProceslight, GPIO.HIGH)
-        print('Pause Press green BTN to Resume')
+        print('Paused! Press green BTN to Resume')
         sleep(0.5)
         GPIO.output(InProceslight, GPIO.LOW)
         sleep(0.5)
@@ -364,7 +403,7 @@ def filltanks():
             GPIO.output(Paa_In, GPIO.LOW)
 
 def Stdby():
-    print('Stand By, Reddy for cycle')
+    print('Stand By, Reddy for cycle, press button to start!')
     GPIO.cleanup()
     Outputs = [6,9,11,0,5,13,19,26,21,20,16,12,15,7,8,1]
     Inputs = [25,27,24,10,18,22,14,23]
@@ -376,7 +415,7 @@ def Stdby():
     GPIO.output(STBYlight, GPIO.HIGH)
  
 def AirPurge(Recure,purgetimeon,purgetimeoff):
-    print('Air purge: air in for',purgetimeon,'sec, keg empty for', purgetimeoff,'seconds, repeet', Recure,'times' )
+    print('Air purge: air in for',purgetimeon,'seconds, keg empty for', purgetimeoff,'seconds, repeet', Recure,'times' )
     global ErrNmbr
     GPIO.output(Air_In, GPIO.HIGH)
     GPIO.output(keg1, GPIO.HIGH)
@@ -542,7 +581,7 @@ def PumpSquirt(Purge): # - changeble vars
         string="Air"
     i = 0
 
-    print(f"squirting {string} for {pumpRecure} Times, pumpOn for {pumpOn/100} seconds, pumpOff for {pumpOff/100} seconds")
+    print(f"squirting {string} - {pumpRecure} Times, pumpOn for {pumpOn/100} seconds, pumpOff for {pumpOff/100} seconds")
     while i < pumpRecure : 
         GPIO.output(Pump, GPIO.HIGH)
         t=0
@@ -610,7 +649,7 @@ def PumpSquirt(Purge): # - changeble vars
             t=t+1
         i= i+1
     GPIO.output(Pump, GPIO.LOW)
-    print("squirt done")
+    print("squirt done > mooving on...")
 
 def causticrinse():
     global ErrNmbr
@@ -768,7 +807,7 @@ def paasanitize():
         sleep(0.01)
         t=t+1
     GPIO.output(Pump, GPIO.LOW)
-    print("asintainion over")
+    print("sintainion over")
 
 def Co2purge():
     global ErrNmbr
@@ -795,7 +834,7 @@ def Co2purge():
     recure=(next(val for key, val in shared_values if key == 'co2PurgeKeg1Recure'))
     co2Open=(next(val for key, val in shared_values if key == 'co2PurgeKeg1Open')*100)
     co2Closed=(next(val for key, val in shared_values if key == 'co2PurgeKeg1Closed')*100)
-    print(f"purging with co2 {recure} times co2 open for {co2Open/100} seconds co2 closed for {co2Closed/100} seconds")
+    print(f"purging with co2 {recure} times, co2 open for {co2Open/100} seconds, co2 closed for {co2Closed/100} seconds")
     
     while c <recure:
         GPIO.output(Co2_In, GPIO.HIGH)
@@ -872,7 +911,7 @@ def kegprssurize():
         TO= time.time()
         TT=TO-TK
         if TT>TimeOutPdestination: 
-            print('Timed Out building Pressure- pressure is',Pressureout,'PSI, building pressure for 15 s') 
+            print('Timed Out building Pressure: pressure is',Pressureout,'PSI, building pressure for 15 s') 
             sleep(PTimeWhenSensorDisabled)
             Pressureout= Pressuroutthresh+1
     if TT<7 and GPIO.input(pressure_cancel) == GPIO.LOW:
@@ -883,18 +922,19 @@ def kegprssurize():
         sleep(TS)
     if GPIO.input(pressure_cancel) == GPIO.HIGH:
         t=0
-        print(f'pressure detect is off, building pressure for {PTimeWhenSensorDisabled} s') 
+        print(f'pressure detect is off, building pressure for {PTimeWhenSensorDisabled} seconds') 
         while t<PTimeWhenSensorDisabled:
             sleep(0.01)
             t=t+1
     GPIO.output(Co2_In, GPIO.LOW)
  
 def Cycle():
-    print('start Cycle')
+    print('start full Cycle')
     #start cycle and purge until btn is up
     global ErrNmbr
     global Pressurein
     global Pressureout
+    global full_Cycle_count
     GPIO.output(Outputs, GPIO.LOW)
     GPIO.output(InProceslight, GPIO.HIGH)
     GPIO.output(Main_Drain, GPIO.HIGH)
@@ -916,7 +956,7 @@ def Cycle():
     PostWaterPurgeToff= next(val for key, val in shared_values if key == 'PostWaterPurgeToff')
     AirPurge(PostWaterPurgeRecure,PostWaterPurgeTon,PostWaterPurgeToff) 
     #caustic rins
-    print('Caustic rinse')
+    print('starting Caustic rinse')
     causticrinse()
     #water rinse post caustic X3
     GPIO.output(Main_Drain, GPIO.HIGH)
@@ -930,7 +970,7 @@ def Cycle():
         AirPurge(postCausticWaterRinseRecureEachRins,postCausticWaterRinseOn,postCausticWaterRinseOf) #in betweein water rinse air purge - changeble vars
         z=z+1
     #paa sanitize
-    print('Paa sanitation')
+    print('starting Paa sanitation')
     paasanitize()
     print('Purging keg with Co2')
     #purge With CO2
@@ -938,7 +978,12 @@ def Cycle():
     print('Building Pressure in keg to',Pressuroutthresh,'PSI')
     #build pressure
     kegprssurize()
-    print('sucsses!')
+    print('Full Cycle is sucssesfully over!')
+    full_Cycle_count=full_Cycle_count+1
+    try:
+        log_ref.document(current_log_id).update({"full_cycle":full_Cycle_count*2})
+    except Exception as e:
+            print(f"Error updating full_Cycle_count: {e}")
     sleep(0.5)
     Stdby()
 
@@ -948,11 +993,12 @@ def ShortCycle():
     global ErrNmbr
     global Pressurein
     global Pressureout
+    global short_Cycle_count
     GPIO.output(Outputs, GPIO.LOW)
     GPIO.output(InProceslight, GPIO.HIGH)
     GPIO.output(Ground_Pneu_valves, GPIO.HIGH)
     #paa sanitize
-    print('Paa sanitation')
+    print('starting Paa sanitation')
     paasanitize()
     print('Purging keg with Co2')
     #purge With CO2
@@ -960,20 +1006,31 @@ def ShortCycle():
     print('Building Pressure in keg to',Pressuroutthresh,'PSI')
     #build pressure
     kegprssurize()
-    print('sucsses!')
+    print('Short Cycle sucssesfully over!')
+    short_Cycle_count=short_Cycle_count+1
+    try:
+        log_ref.document(current_log_id).update({"Short_cycle":short_Cycle_count*2})
+    except Exception as e:
+            print(f"Error updating Short_Cycle_count: {e}")
     sleep(0.5)
     Stdby()
 
 def purgecycle():
     global Pressurein
     global Pressureout
-    print('start keg emptying cycle')
+    global purge_Cycle_count
+    print('start keg purge cycle')
     GPIO.output(Outputs, GPIO.LOW)
     GPIO.output(Ground_Pneu_valves, GPIO.HIGH)
     GPIO.output(Main_Drain, GPIO.HIGH)
     GPIO.output(InProceslight, GPIO.HIGH)
     AirPurge(15,1,1)
-    ('sucsses')
+    purge_Cycle_count=purge_Cycle_count+1
+    try:
+        log_ref.document(current_log_id).update({"purge_cycle":purge_Cycle_count*2})
+    except Exception as e:
+            print(f"Error updating purge_Cycle_count: {e}")
+    print('purge cycle sucssesfully  over!')
     Stdby()
 
 def checkbtn():
@@ -1001,7 +1058,29 @@ def shutdown():
             sleep(0.01)
             if GPIO.input(ShutdownBtn) == GPIO.HIGH and shutStarted == 0:
                 Shutdown_pushTime=Shutdown_pushTime+1
-        print('shuting down')
+        print('shuting down...')
+        try:
+            log_ref.document(current_log_id).update({"off":datetime.now(local_tz)})
+        except Exception as e:
+            print (f"failed to update off time, {e}") 
+        x=0
+        while (x==0):
+            try:
+                log= Live_log_ref.get()
+                fields = log.to_dict().keys()
+                updates = {field: firestore.DELETE_FIELD for field in fields}
+                snap = Live_log_ref.get()
+                snap_dict = snap.to_dict() if snap.exists else {}
+                if len(snap_dict) != 0:  # Check if the document is not empty
+                    try:
+                        Live_log_ref.update(updates)
+                    except Exception as e:
+                        print (f"failed to delete live logs, {e}")
+            except Exception as e:
+                print(f"Error fetching live logs in order to delete them... {e}")
+            else:
+                x = 1 
+        sleep(7)
         os.system("sudo systemctl poweroff")
         shutStarted = 1
 
@@ -1017,7 +1096,7 @@ def main():
     fillproc.start()
     Pause=0
     Stdby()
-    print('Stdby parameters set for first time')
+    print('Stdby set (for first time)')
     proc= None
     push_req = 70
     ErrNmbr=0
@@ -1071,7 +1150,7 @@ def main():
         if stop==1:
             totaltime = (time.time() - starttime)
             printtime=round(totaltime,2)
-            print('Stdby parameters set, program ran for')
+            print('Stdby parameters set, program ran for-')
             converttime(printtime)
             fillproc = Process(target=filltanks)
             fillproc.start()
@@ -1112,7 +1191,7 @@ def main():
                         pauseddurationtime=resumetime-pausedtime
                         starttime= starttime+pauseddurationtime
                         printtime=round(RPtime,2)
-                        print('resume','Pausduration',round(pauseddurationtime,2))
+                        print('resume','Paused for',round(pauseddurationtime,2)' seconds')
                         converttime(printtime)
                         push_req = 20
                         pressed=0
@@ -1134,7 +1213,7 @@ def main():
                                 stop=1 
                                 proc=None
                                 ErrNmbr = 0
-                                print('stop/Err reset GBTN')
+                                print('stop/Eror wss reset by green buton')
                                 converttime(printtime)
                             else:
                                 os.kill(proc.pid, signal.SIGSTOP)
@@ -1160,7 +1239,7 @@ def main():
                         stop=1 
                         proc=None
                         ErrNmbr = 0
-                        print('stop/Err reset GBTN')
+                        print('stop/Eror wss reset by green buton')
                         converttime(printtime)
             if Btnstatus==2:#red button will stop any procces and return to standby
                 if Pause==1:#if Pause indicator is on, turn it off
@@ -1175,7 +1254,7 @@ def main():
                     stop=1 
                     proc=None
                     ErrNmbr = 0
-                    print('stop/Err reset RBTN')
+                    print('stop/Eror wss reset by red buton')
                     converttime(printtime)
             if Btnstatus==3:#emergancy button will stop any procces and return to standby
                 if Pause==1:#if Pause indicator is on, turn it off
@@ -1186,7 +1265,7 @@ def main():
                     proc.terminate()
                     totaltime = (time.time() - starttime)
                     printtime=round(totaltime,2)
-                    print('totaltime')
+                    print('total time of cycle was:')
                     converttime(printtime)
                 ErrNmbr = 5
                 proc = Process(target=Err,args=(5,))
@@ -1201,16 +1280,16 @@ def main():
                 if proc.is_alive()== True:
                     totaltime = (time.time() - starttime)
                     printtime=round(totaltime,2)
-                    print('totaltime')
+                    print('total time of cycle was:')
                     converttime(printtime)
                     proc.terminate()
                     Stdby()
                     stop=1 
                     proc=None
                     ErrNmbr = 0
-                    print('stop/Err reset R&GBTN')
+                    print('stop/Eror wss reset by red and green buton')
         if proc==None and stop ==0 and ErrNmbr==0:#if no proc is runing, and procces wasnt just aborted- will start apropriete procces
-            print('startsomthing')
+            print('starting a cycle(full/short/purge)')
             if fillproc.is_alive()== True:
                 fillproc.terminate()
             starttime = time.time()
@@ -1237,33 +1316,60 @@ async def boot():
     global VLout
     global VLin
     global Callsucsess
+    global current_log_id
     Errproc= None
     testsucsess=0
     pressed=0
     
-    print("Boot process initialized")
-    
     Heatproc = Process(target=protectheat)
     Heatproc.start()
-    print('heat elament protection active')
+    
     
     Shutproc = Process(target=shutdown)
     Shutproc.start()
-    print('Shutdown protection active')
+    
     
     def fetcing_signal():
         GPIO.output(Outputs, GPIO.LOW)
         GPIO.output(InProceslight, GPIO.HIGH)
         z=0
-        while z==0:
+        while z<1:
             GPIO.output(Errlight, GPIO.HIGH)
             sleep(0.3)
             GPIO.output(Errlight, GPIO.LOW)
-    
+            sleep(0.3)
+            
     prefetch_signal=Process(target=fetcing_signal)
     prefetch_signal.start()
     
+    sleep(30)###
+    try:
+        log= Live_log_ref.get()
+        fields = log.to_dict().keys()
+        updates = {field: firestore.DELETE_FIELD for field in fields}
+        x=0
+        while (x==0):
+            snap = Live_log_ref.get()
+            snap_dict = snap.to_dict() if snap.exists else {}
+            if len(snap_dict) != 0:  # Check if the document is not empty
+                try:
+                    Live_log_ref.update(updates)
+                except Exception as e:
+                    print (f"failed to delete live logs, {e}")
+            else:
+                x = 1 
+    except Exception as e:
+        print (f"failed to fetch live logs, {e}")
+    try:
+        current_log_id=datetime.now().isoformat()
+        log_ref.document(current_log_id).set({"On":datetime.now(local_tz)})
+    except Exception as e:
+        print (f"failed to update 'on' time, {e}") 
     await fetch_settings_once()
+    
+    print("Boot process initialized")
+    print('heat elament protection active')
+    print('Shutdown protection active')
     
     prefetch_signal.terminate()
     GPIO.output(Outputs, GPIO.LOW)
@@ -1292,20 +1398,19 @@ async def boot():
     GPIO.output(Outputs, GPIO.LOW) 
     sleep(2)
     B=next(val for key, val in shared_values if key == 'preboobotMeteg')
-    print(f"B is = {B},")
     if (B==1):
-        print("launching preboot")
+        print("Pre Boot test enabled online, launching preboot")
     elif (B==0):
-        print("skipng the preboot")
+        print("Pre Boot test disabled online, skipng the preboot")
         prebootproc.terminate()
         testsucsess=1
     while B>0:
         ErrNmbr=0
         if pressed==0:
-            print('Click GTBN for test cycle')
+            print('Click green buton to start test cycle')
         if Errproc==None:
             if pressed==1:
-                print('Click GTBN reset')
+                print('Click green button to reset')
             pressed=0
         Boot_push_req = 5
         Boot_pushTime = 0
@@ -1519,7 +1624,7 @@ async def boot():
                 GPIO.output(statuslights, GPIO.LOW)
                 sleep(0.5)
                 x=x+1 
-        print('boot cycle compleete')
+        print('pre boot cycle compleete!')
         B=B-1
     GPIO.output(Ground_Pneu_valves, GPIO.HIGH)
     checkbtn()
@@ -1527,7 +1632,8 @@ async def boot():
 
 def launch():
     import asyncio
+    sys.stdout = FirestoreLogger()
     asyncio.run(boot()) 
      
-#if __name__ == "__main__":    
-launch()
+if __name__ == "__main__":    
+    launch()

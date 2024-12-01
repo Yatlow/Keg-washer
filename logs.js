@@ -88,17 +88,23 @@ async function LiveLog(){
         try{
             let UserDoc= await getDoc(LiveLog);
             let Doc=UserDoc.data()
-            for (const [key, KWlog] of Object.entries(Doc)) {          
+            const sortedKeys = Object.keys(Doc).sort((a, b) => {
+                return parseInt(a) - parseInt(b); 
+            });
+            for (const key of sortedKeys) {          
+                if(!processedKeys.has(key)){
+                    processedKeys.add(key)
                     try{
-                        if(!processedKeys.has(key)){
-                            processedKeys.add(key)
-                            await appendWithDelay(KWlog,30,LogPrint);
-                            rowCount++;
+                        const KWlog=Doc[key]
+                        await appendWithDelay(KWlog,30,LogPrint);
+                        rowCount++;
                         }
-                    }catch (error){
+                    catch (error){
                         console.error(`Error:${error}`)
                     }
-            };
+                
+                }
+            }
         } catch (error) {
                 console.error("Error fetching document:", error);
         }   
