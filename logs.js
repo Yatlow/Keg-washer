@@ -58,8 +58,8 @@ async function write() {
         });
     };
 
-    appendWithDelay(Logo, 10,logoHatch); // Delay of 4ms per character for Logo
-    appendWithDelay(startText, 30,LoadedT); // Delay of 100ms per character for startText
+    appendWithDelay(Logo, 4,logoHatch); // Delay of 4ms per character for Logo
+    appendWithDelay(startText, 4,LoadedT); // Delay of 100ms per character for startText
     })
 }
 
@@ -96,7 +96,7 @@ async function LiveLog(){
                     processedKeys.add(key)
                     try{
                         const KWlog=Doc[key]
-                        await appendWithDelay(KWlog,30,LogPrint);
+                        await appendWithDelay(KWlog,5,LogPrint);
                         rowCount++;
                         }
                     catch (error){
