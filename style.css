@@ -1,0 +1,999 @@
+@font-face {
+    font-family: all;
+    src: url(assets/fonts/FbRotonda-Regular.otf);
+}
+@font-face {
+    font-family: Eng;
+    src: url(assets/fonts/Montserrat-Regular.ttf);
+}
+html{
+    height: 100%;
+    box-sizing: border-box;
+    direction: rtl; 
+    font-family: all,Eng;  
+}
+.englishHtml{
+    direction: ltr;
+}
+.disable_scroll{
+    overflow: hidden;
+    height: 100%;
+}
+.hiddenMain{
+    visibility: hidden;
+    overflow: hidden;
+    opacity: 0;
+    max-height: 0;
+    padding: 0;
+    /* width: 0; */
+}
+.ShownMain{
+    visibility: visible;
+    overflow: hidden;
+    opacity: 1;
+    max-height: max-content;
+    transition: opacity 1s linear,max-height 200ms linear;
+}
+.MainBox{
+    font-family: all,Eng, Helvetica, sans-serif;
+}
+.headBox{
+    overflow-wrap: normal;
+    padding-top: 5vh;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.HeadinfoBox,.h1Box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+#hostLangIn{
+    position: relative;
+}
+#userPref,#Hamburger{
+    width: 40px;
+    position: relative;
+}
+#Hamburger{
+    height: 30px;
+}
+.userPrefBox{
+    visibility: visible;
+    max-height: max-content;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 30px;
+    border-radius: 20px;
+    border: #842F00 solid 1px;
+    background-color: #FFE9A4;
+    font-size: 14px;
+    align-items: center;
+    opacity: 1;
+    z-index: 2;
+}
+.exitBtnBoxTop{
+    position: absolute;
+    top: 1.5vh;
+    inset-inline-start: 1.5vw;
+}
+.LangIndictor{
+    font-family: all,ENG;
+}
+.logo{
+    width: auto;
+    object-fit: scale-down;
+}
+#LastParamUpdateBox{
+    width: 100%;
+    text-align: center;
+}
+#LastParamUpdateBox div{
+    margin-top: 10px;
+}
+#LastParamUpdateBox a{
+    color: inherit;
+    text-decoration: inherit;
+    margin: 5px;
+}
+.formBox{
+    width: 80%;
+    margin-inline-start: 10%;
+    padding-bottom: 30px;
+}
+.PrintDefVal{
+    font-family: all,ENG;
+    z-index: 5;
+    display: inline-block;
+    position: relative;
+    inset-inline-start: 0;
+    top: 0;
+    width: 100%;
+    overflow-y: visible;
+    height: 100;
+    max-height: max-content;
+    padding: 2%;
+    opacity: 1;
+    visibility: visible;
+    transition:height 200ms linear, opacity 200ms linear, padding 200ms linear;
+    background-color: #FFE9A4;
+    border: #937002 5px groove;
+    border-radius: 20px;
+}
+.DefValDisplayBox{
+    font-family: all,ENG;
+    z-index: 8;
+    display: inline-block;
+    position: fixed;
+    inset-inline-start: 10%;
+    top: 15%;
+    width: 80%;
+    overflow-y: scroll;
+    height: 80%;
+    max-height: none;
+    padding: 2%;
+    opacity: 1;
+    visibility: visible;
+    transition:height 200ms linear, opacity 200ms linear, padding 200ms linear;
+    background-color: #FFE9A4;
+    border: #937002 5px groove;
+    border-radius: 20px;
+}
+.DefValDisplayBox::-webkit-scrollbar{
+    border-radius: 15px 0 0 15px;
+    background-color: #E0C263;
+    width: 30px;
+}
+.DefValDisplayBox::-webkit-scrollbar-thumb {
+    background: #DFB725;
+    border-radius: 10px;
+    width: 28px;
+    /* max-height: 50px; */
+    border-radius: 15px 0 0 15px;
+}
+#WasherLogsBox{
+    inset-inline-start: 20%;
+    width: 60%;
+}
+.SavedLogsBox{
+    font-family: all,ENG;
+    z-index: 6;
+    display: inline-block;
+    position: fixed;
+    inset-inline-start: 15%;
+    top: 8%;
+    width: 70%;
+    overflow-y: scroll;
+    height: 80%;
+    max-height: none;
+    padding: 2%;
+    opacity: 1;
+    visibility: visible;
+    transition:height 200ms linear, opacity 200ms linear, padding 200ms linear;
+    background-color: #FFE9A4;
+    border: #937002 5px groove;
+    border-radius: 20px;
+}
+.SubmitionBox{
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+}
+.SavedLogsBox::-webkit-scrollbar{
+    border-radius: 15px 0 0 15px;
+    background-color: #E0C263;
+    width: 30px;
+}
+.SavedLogsBox::-webkit-scrollbar-thumb {
+    background: #DFB725;
+    border-radius: 10px;
+    width: 28px;
+    /* max-height: 50px; */
+    border-radius: 15px 0 0 15px;
+}
+.SavedLogsBox::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 15px 0 0 15px;
+}
+.SaveLogsHeaderH1{
+    width: 94%;
+    font-size: 20px;
+}
+.SaveLogsHeader{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: space-between;
+    width: 100%;
+}
+.existSaved{
+    width: 6%;
+    position: fixed;
+    inset-inline-end: 18%;
+}
+#CloseWasherLogsBox{
+    inset-inline-end: 23%;
+}
+#SavedLogs{
+    display: flex;
+    flex-direction: column;
+    margin-top: 5%;
+    align-items: center;
+}
+.logRow{
+    text-align: center;
+    margin-top: 2%;
+    display: flex;
+    flex-direction: row;
+    font-size: 11px;
+    width: 100%;
+    border: #DFB725 solid 1px;
+    border-radius: 20px;
+    padding: 3px 10px 3px 10px;
+    div{
+        display: flex;
+        align-items: center;
+    }
+}
+.logRow > div:nth-child(1) {
+    flex: 9; 
+}
+.logRow > div:nth-child(2) {
+    flex: 13; 
+}
+.logRow > div:nth-child(3) {
+    flex: 1; 
+}
+.logRow > div:nth-child(4) {
+    flex: 6; 
+}
+.logRow > div:nth-child(5) {
+    flex: 8;   
+}
+.logRow > div:nth-child(6) {
+    flex: 10; 
+}
+#LiveLogDisplayBox{
+    width: 82%;
+    height: 82%;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+#sendTop{
+      margin: auto;
+}
+.DowloadBox,#sendTop{
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+.functionBox{
+    border: solid 0.6px rgb(200, 200, 200,0.7);
+    border-radius: 20px;
+    margin-bottom: 30px;
+    padding: 0;
+}   
+.functionLabel{
+    padding: 10px;
+    padding-inline-start: 20px;
+    border-radius: 20px 20px 0 0 ;
+    background-color: #DFB725;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    transition: border-radius 200ms linear;
+}
+.functionLabel:hover,#RefrshConsole:hover,#CloseWasherLogs:hover,#CloseSavedLogs:hover,#CloseConsole:hover,#CloseDefaultValBox:hover,#CloseuserPrefBox:hover,#ShowPass:hover,.LangIndictor:hover,.DefeStageLabel:hover,.clickable,#userPref:hover,#Hamburger:hover{
+    cursor: pointer;   
+}
+#CloseDefaultValBox:hover,#CloseSavedLogs:hover,#CloseWasherLogs:hover,#userPref:hover,#CloseConsole:hover,#RefrshConsole:hover{
+    transform: scale(1.4);
+    transition: transform 200ms linear;
+}
+.FirstfunctionLabel{
+    border-radius: 20px;
+    text-align: center;
+}
+.FirstfunctionLabel:hover{
+    cursor: default;
+}
+.FNCTTglBox{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.FNCTglHouse,.LangTglHouse{
+    border: 2px solid #937002;
+    background-color: #FFE9A4;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    width: 100px;
+    height: 40px;
+}
+.FNCTglHouseOFF{
+    direction: ltr;
+}
+.FNCTglHouseOFF-ENG{
+    direction: rtl;
+}
+.FNCTglHouse:hover, .ValDiVTglBtnBox:hover,.LangTglHouse:hover{
+    cursor: pointer;
+}
+.DefValDisplayBoxHeader{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-bottom: 2%;
+}
+#appendSpecificValues:hover{
+    background-color: #D34607;
+}
+.DefeStageLabel{
+    background-color: #DFB725;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.DefeStageRow{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 10px;
+    border: solid 0.6px rgb(200, 200, 200,0.7); 
+}
+#stage0_1,#stage0_2{
+    border: none;
+}
+.defStageBox{
+    border: solid 0.6px rgb(200, 200, 200,0.7); 
+    overflow: hidden;
+}
+.valType{
+    color: #D34607;
+}
+.DefVal{
+    color: #D34607;
+}
+.DefAtribute{
+    font-style: bolder;
+}
+.FNCTglBtn,.LangTglBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: #D34607;
+    color: #842F00;
+    border-radius: 20px;
+}
+.LangMetgHebrew{
+    position: relative;
+    inset-inline-start: 1%;
+}
+.LangMetgEng{
+    position: relative;
+    inset-inline-start: 43%;
+}
+#CloseDefaultValBox,#CloseuserPrefBox,#CloseConsole,#RefrshConsole,#CloseSavedLogs,#CloseWasherLogs{
+    max-height: 30px;
+    max-width: 30px;
+}
+.TglBtnBox{
+    display: flex;
+    justify-content: end;
+}
+.functionLabel img,.ValDiVTglBtnBox img{
+    height: 20px;
+    width: 25px;
+    transition: transform 200ms linear;
+}
+.ClosedImg{
+    transform: rotate(180deg);
+    transition: transform 200ms linear;
+}
+.cloapsable{
+    max-height: none;
+    opacity: 1;
+    visibility: visible;
+    overflow: hidden;
+    height: max-content;
+    transition: opacity 200ms linear, max-height 200ms linear, height 200ms linear, visibility 0s 0ms linear;
+}
+.functionInputs{
+    display: flex;
+    border-radius: 0 0 20px 20px;
+    padding: 10px 8px 10px 0;
+    background-color: #FFE9A4;
+    max-height: none;
+    opacity: 1;
+    visibility: visible;
+    overflow: hidden;
+    height: max-content;
+    transition: opacity 200ms linear, max-height 200ms linear, height 200ms linear, visibility 0s 0ms linear;
+}
+.fullborder{
+    border-radius: 0;
+}
+.functionLabelHiddenInput {
+    border-radius: 20px;
+}
+.functionLabelDisable,#KeepLogs{
+    cursor: not-allowed;
+    pointer-events: none;
+}
+.functionInputsHidden{
+    padding: 0;
+    max-height: 0;
+    height: 0;
+    opacity: 0;
+    visibility: hidden; 
+    transition: opacity 200ms linear, height 200ms linear, padding 200ms linear, visibility 0ms 200ms linear; /* Add visibility transition with delay */
+}
+.loginErr,.forgotPassword{
+    color: #D34607;
+}
+.hiddenValBox{
+    padding: 0;
+    max-height: 0;
+    height: 0;
+    visibility: hidden;
+    overflow: hidden;
+    opacity: 0.5;
+    transition: opacity 200ms linear, height 200ms linear, padding 200ms linear, visibility 0ms 200ms linear; /* Add visibility transition with delay */
+}
+.functionSubLabel{
+    padding: 10px;
+    padding-inline-start: 20px;
+    background-color: #E0C263;
+}
+.functionInputs input,.login-container input,#KeepLogs{
+    width: 60px;
+    border: #DFB725 0.5px solid;
+    border-radius: 20px;
+    padding-inline-start: 10px;
+    margin-inline-start: 5px;
+    height: 40px;
+}
+.functionInputs input:focus,.login-container input:focus,#KeepLogs:focus{
+    outline: #937002 2px solid;
+    border: none;
+}
+.login-container input,#login-password{
+    width: 90%;
+    border: #842F00 0.5px solid;
+}
+.ParamterBox label{
+    overflow-wrap: break-word;
+}
+.hiddenBox {
+    display: none;
+    opacity: 0.2;
+}
+.FullyhiddenBox{
+    display: none;
+}
+.infoBox , .login-container,.resetPasswordBox, .wariningBox{
+    display:inline-flex;
+    flex-direction: column;
+    position: fixed;
+    flex-wrap: wrap-reverse;
+    justify-content: space-around;
+    gap: 30px;
+    align-items: center;
+    top: 30%;
+    z-index:10 ;
+    border: #937002 3px groove;
+    background-color: #E0C263;
+    border-radius: 20px;
+}
+.login-container{
+    top: 20%;
+}
+.resetPasswordBox button{
+    background-color: #E0C263;
+}
+.wariningBox button{
+    background-color: #DFB725;
+}
+.resetPasswordBox, .wariningBox{
+    background-color: #FFE9A4;
+    justify-content: space-between;
+    top: 35%;
+    border: #842F00 3px groove;
+    z-index: 15;
+    text-align: center;
+}
+#login-container{
+    font-family: all,Eng, Helvetica, sans-serif;
+    justify-content: space-evenly;
+}
+.login-container-h1{
+    padding-top: 15px;
+}
+#login-form a{
+    color: inherit;
+    text-decoration: none;
+}
+#login-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    justify-content: center;
+    margin-bottom: 0;
+    font-size: 16px;
+    width: 80%;
+}
+.Bnote{
+    font-size: 9px;
+    color: #D34607;
+}
+.loginInput{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 100%;
+}
+.loginInput>div{
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+}
+#ShowPass{
+    height: 15px;
+    width: auto;
+    margin: 5px;
+}
+#conirmContent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: fit-content;
+}
+#LogoutBox,#wariningBox {
+    font-family: all,ENG;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.loginFormBottonsBox{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    justify-content: space-around;
+    align-items: center;
+}
+.loading{
+    margin-inline-start: 10px;
+    width: 30px;
+    height: 30px;
+    animation:load 0.7s infinite steps(10); 
+}
+.KeglogRow{
+    text-align: center;
+    margin-top: 2%;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    font-size: 11px;
+    border: #DFB725 solid 1px;
+    border-radius: 20px;
+    padding: 3px 15px 3px 15px;
+}
+.LogLabel{
+    margin-inline-end: 5px;
+}
+.LogVal{
+    color: #D34607;
+    margin-inline-end: 10px;
+}
+@keyframes load {to{transform: rotate(1turn)}}
+.confirmBoxBtn{
+    outline: #937002 2px solid;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 15px ;
+    background-color: #FFE9A4;
+    width: max-content;
+    display: inline;
+    color: inherit;
+}
+.confirmBoxBtnHidden{
+    display: none;
+}
+.confirmBoxBtn:hover{
+    background-color: #DFB725;
+}
+.wariningBox button:hover{
+    background-color: #E0C263;
+}
+.disabledConfirmBtn{
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.6;
+}
+#LoginBtn{
+    font-family: all,Eng, Helvetica, sans-serif;
+    font-size: 16px;
+}
+.formBtn{
+    outline: #937002 2px solid;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 15px ;
+    background-color: #E0C263;
+    color: black;
+}
+.formBtn:hover{
+    background-color: #DFB725;
+}
+.LoadThis:hover{
+    background-color: #D34607;
+}
+.row{
+    width: 100%;
+    margin: 0;
+}
+.menu{
+    display: flex;
+    min-height: 100px ;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+}
+.hiddenMenItems{
+    max-height: 0;
+    height: 0;
+    visibility: hidden;
+    overflow: hidden;
+    opacity: 0.1;
+    transition: opacity 200ms linear, height 200ms linear,visibility 0ms 200ms linear; 
+}
+.menuItems{
+    min-height: 100px;
+    visibility: visible;
+    overflow: visible;
+    opacity: 1;
+    font-size: 12px;
+}
+.ShownItemsAlways{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+}
+.live-log{
+    height: 90%;
+}
+#LiveLogHeader{
+    font-family: all,ENG;
+    padding-inline-start: 2%;
+    font-size: 30px;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    padding-bottom: 2%;
+}
+@media (max-width: 1800px) {/* Medium screens */
+    .LiveLogHeaderH1{
+        width: 86%;
+    }
+    .exitLog{
+        width: 6%;
+    }
+    .HeadinfoBox,.h1Box{
+        gap: 20px;
+    }
+    .menu{
+        flex-direction: row;
+    }
+    #Haburgerbox{
+        width: 10%;
+    }
+    .hiddenMenItems{
+        width: 70%;
+    }
+    .ShownItemsAlwaysBox{
+        width: 20%;
+    }
+    .menuItems{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 70%;
+        justify-content: center;
+    }
+    .menuBack{
+        background-color: #FFE9A4;
+    }
+    .menuItemsRow{
+        flex-direction: row;
+        justify-content:center;
+        gap: 3%;
+        display: flex;
+        width: 100%;
+        /* height: 25px; */
+    }
+    .userPrefBox{
+        position: absolute;
+        top: 80%;
+        inset-inline-end: 10px;
+        width: 300px;
+    } 
+    #LastParamUpdateBox{
+        margin-bottom: 2vh;
+    }
+    .formBox{
+        font-size: 14px;
+    }
+    .reduceFontENG{
+        font-size: 12px;
+    }
+    .exitBtnBox{
+        position: fixed;
+        inset-inline-end: 15%;
+    }
+    .note{
+        font-size: 10px;
+    }
+    .noteEng{
+        font-size: 7px;
+    }
+    .valType{
+        font-size: 11px;
+    }
+    .DefVal{
+        font-size: 25px;
+    }
+    .H1{
+        font-size: 50px;
+        font-weight: bold;
+    }
+    .logo{
+        height: 200px;
+    }
+    .infoBox ,.login-container{
+        width: 40%;
+        inset-inline-start: 30%;
+        height: fit-content;
+        padding: 5px;
+    }
+    .resetPasswordBox, .wariningBox{
+        width: 30%;
+        inset-inline-start: 35%;
+        height: fit-content;
+        padding: 3%;
+    }
+    .initial_lang_location{
+        position: fixed;
+        inset-inline-end: 63%;
+        text-align: end;
+        top:22%;
+        z-index: 10;
+        color: #D34607;
+    }
+    .FNCTglHouse{
+        width: 100px;
+        height: 40px;
+    }
+    .LangTglHouse{
+        width: 60px;
+        height: 24px;
+    }
+    .FNCTglBtn{
+        width: 50px;
+        height: 38px;
+    }
+    .LangTglBtn{
+        width: 32px;
+        height:20px;
+    }
+    .reduceFont{
+        font-size: 15px;
+    }
+}
+@media (max-width: 768px) {/*small screens */
+    .HeadinfoBox,.h1Box{
+        gap: 0;
+    }
+    #LiveLogHeader{
+        font-size: 16px;
+    }
+    .LiveLogHeaderH1{
+        width: 69%;
+    }
+    #CloseDefaultValBox,#CloseuserPrefBox,#CloseConsole,#RefrshConsole,#CloseSavedLogs,#CloseWasherLogs{
+        max-height: 30px;
+        max-width: 30px;
+    }
+    .exitLog{
+        width: 5%;
+    }
+    .menu{
+        flex-direction: column;
+        position: relative;
+    }
+    #Haburgerbox{
+        width: 20%;
+        z-index: 5;
+        align-self: flex-start;
+        text-align: start;
+        padding-inline-start: 5%;
+    }
+    .menuItems{
+        flex-direction: column;
+        gap: 0;
+        width: 100%;
+        position: absolute;
+        align-items: center;
+        top: 0;
+        z-index: 2;
+        padding: 3%;
+        background-color: #FFE9A4;
+    }
+    .menuItemsRow{
+        flex-direction: column;
+        display: inline-flex;
+        gap: 2vh;
+        width: 80%;
+        align-items: center;
+    }
+    .ShownItemsAlwaysBox{
+        width: 100%;
+        justify-content: space-evenly;
+    }
+    .userPrefBox{
+        top: 85%;
+        width: 70%;
+        inset-inline-end: 15%;
+    }
+    .exitBtnBoxTop{
+        inset-inline-start:3vw;
+    }
+    #DownloadPdfTop{
+        max-width: 60%;
+    }
+    .exitBtnBox{
+        position: fixed;
+        inset-inline-end: 21%;
+    }
+    .H1{
+        font-size: 16px;
+        font-weight: bold;
+    }
+    .headBox{
+        div{
+            margin-top: 1vh;
+            margin-bottom: 1vh;}
+    }
+    .Headinfo{
+        margin: 0;
+        font-size: 15px;
+    }
+    .logo{
+        height: 100px;
+    }
+    .LangIndictor{
+        inset-inline-end: 7%; 
+    }
+    .LangTglBtn{
+        margin: 0 !important;
+    }
+    #LastParamUpdateBox{
+        margin-top: 1vh;
+        margin-bottom: 2vh;
+    }
+    .formBox{
+        font-size: 12px;
+    }
+    .reduceFontENG{
+        font-size: 8px;
+    }
+    .infoBox,.login-container {
+        width: 80%;
+        inset-inline-start: 10%;
+        height: fit-content;
+        padding: 10px;
+    }
+    .resetPasswordBox, .wariningBox{
+        width: 60%;
+        inset-inline-start: 20%;
+        height: fit-content;
+        padding: 10px;
+    }
+    .initial_lang_location{
+        position: fixed;
+        inset-inline-end: 13%;
+        top:21%;
+        z-index: 10;
+        color: #D34607;
+        text-align: end;
+    }
+    .FNCTTglBox{
+        justify-content: center;
+    }
+    .FNCTglHouse{
+        margin: 10px;
+    }
+    .note{
+        font-size: 10px;
+    }
+    .noteEng{
+        font-size: 6px;
+    }
+    .valType{
+        font-size: 11px;
+    }
+    .DefVal{
+        font-size: 25px;
+    }
+    #logout-btn{
+        max-width: max-content;
+    }
+    .SaveLogsHeaderH1{
+        width: 80%;
+        font-size: 16px;
+    }
+    .existSaved{
+        width: 6%;
+        position: fixed;
+        inset-inline-end: 28%;
+    }
+    .KeglogRow{
+        margin-top: 5%;
+        flex-direction: column;
+        font-size: 11px;
+        width: 90%;
+        gap: 3px;
+    }
+    .logRow{
+        margin-top: 5%;
+        flex-direction: column;
+        font-size: 11px;
+        width: 90%;
+        gap: 3px;
+    }
+    .logRow button{
+        margin-bottom: 5px;
+    }
+    .LoadThis{
+        background-color: #D34607;
+    }
+    .LoadThisBox{
+        margin-bottom: 6px;
+    }
+    .SubmitionBox{
+        flex-direction: column;
+    }
+    .DowloadBox {
+        padding-top: 15%;
+        flex-direction: column;
+        text-align: center;
+    }
+    .DefValDisplayBoxHeader{
+        flex-direction: column;
+        text-align: center;
+    }
+    #WasherLogsBox{
+        inset-inline-start: 10%;
+        width: 80%;
+    }
+}

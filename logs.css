@@ -1,0 +1,21 @@
+@font-face {
+    font-family: code;
+    src: url(assets/fonts/Cascadia.ttf);
+}
+body{
+    background-color: black;
+    font-family: code;
+    color: #DFB725;
+    white-space: pre;
+    font-size: 12px;
+}
+#logoHatch{
+    line-height: 0.6;   
+}
+#logoHatch, #Logs,#loadingLog,#loaded{
+    padding-inline-start: 5%;
+}
+#Logs{
+    max-width: 90%;
+    text-wrap: wrap;
+}

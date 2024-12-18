@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title class="translatable">פרמטרים למערכת חביות</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" rel="stylesheet" />
+    <link href="style.css" rel="stylesheet" />
+    <link href="assets/pics/hatch_logoblack_clear_Background.png" rel="shortcut icon" type="image/x-icon" />
+</head>
+
+<body id="bodyBox">
+    <div id="login-container" class="login-container">
+        <div class="translatable login-container-h1">הכנס פרטי משתמש</div>
+        <form id="login-form">
+            <div class="loginInput">
+                <a class="translatable">אימייל:</a>
+                <input type="email" id="login-email" placeholder="אימייל" required>
+            </div>
+            <div class="loginInput">
+                <a class="translatable">סיסמא:</a>
+                <div><input type="password" id="login-password" placeholder="סיסמא" required>
+                    <label for="login-password"><img src="assets/pics/ShowPass.png" id="ShowPass" for="login-password">
+                </div></label>
+            </div>
+            <div class="loginFormBottonsBox">
+                <div id="forgotPassword" class="forgotPassword clickable translatable">שכחתי סיסמא</div>
+                <button type="submit" class="confirmBoxBtn translatable" id="LoginBtn">כניסה</button>
+                <button type="button" class="confirmBoxBtn translatable" id="GuestLoginBtn">כניסה כאורח</button>
+            </div>
+            <div id="loadingUserBox"></div>
+        </form>
+        <div id="login-error-message" class="hiddenMain loginErr translatable"></div>
+    </div>
+    <div id="resetPasswordBox" class="hiddenMain">
+        <div id="resetsPassMesseag"></div>
+        <button type="button" id="resetPassword" class="translatable confirmBoxBtn">איפוס סיסמא</button>
+        <button type="button" id="closeForgtBox" class="confirmBoxBtn translatable">סגור</button>
+    </div>
+
+    <div id="hostLangOut">
+        <div class="LangIndictor translatable initial_lang_location" id="LangIndictor">English</div>
+    </div>
+
+    <div id="LogoutBox" class="hiddenMain">
+        <div id="LogoutMesseag" class="translatable">מחליף משתמש</div>
+        <div>
+            <img src="assets/pics/loading.png" class="loading" id="loading6">
+        </div>
+    </div>
+
+    <div id="wariningBox" class="hiddenMain">
+        <button id="aproveWarning" class="confirmBoxBtn translatable">שמור את כל הפרמטרים עכשיו</button>
+        <button id="CloseWarning" class="confirmBoxBtn translatable">סגור ללא שמירה</button>
+        <div id="WarningMesseage" class="translatable"></div>
+    </div>
+
+    <div class="hiddenMain" id="contenet">
+        <div class="container-fluid MainBox">
+            <div class="headBox row">
+                <div class="h1Box col-12 col-md-6">
+                    <div class="H1 translatable">עדכון פרמטרים במשטף חביות</div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <img class="logo img-fluid" src="assets/pics/hatch_logoblack_clear_Background.png" />
+                </div>
+                <div class="col-6 col-md-3 HeadinfoBox">
+                    <div class="Headinfo translatable">עדכון אחרון</div>
+                    <div class="Headinfo">18/12/2024 11:37</div>
+                    <div class="Headinfo">V 5.2.1</div>
+                    <div class="Headinfo translatable">© ישראל אטלו</div>
+                </div>
+                <div class="menu" id="menu">
+                    <div id="Haburgerbox">
+                        <img src="assets/pics/Hamburger.png" id="Hamburger">
+                    </div>
+                    <div class="hiddenMenItems" id="menuItems">
+                        <div class="menuItemsRow">
+                            <button class="formBtn translatable" id="showDefaultsTop" type="button">הצג נתוני ברירת מחדל</button>
+                            <button class="formBtn translatable" id="reset-btn-top" type="button">איפוס לנתוני ברירת מחדל</button>
+                            <a href="documentation/Keg_Washer_Documentation.pdf" target="_blank"><button class="formBtn translatable" id="show-Doco" type="button" >הצג דוקומנטציה</button></a>
+                        </div>
+                        <div class="menuItemsRow">
+                            <button class="formBtn translatable" id="PastSaves" type="button">הצג נתונים שנשמרו בעבר</button>
+                            <button class="formBtn translatable" id="WasherLogs" type="button">הצג לוגים של משטף החביות</button>
+                            <button class="formBtn translatable" id="WasherConsole" type="button">הצג קונסולת משטף החביות</button>
+                        </div>
+                    </div>
+                    <div class="ShownItemsAlwaysBox">
+                        <div class="ShownItemsAlways">  
+                            <div id="hostLangIn"></div>
+                            <img src="assets/pics/user.png" id="userPref">
+                        </div>
+                        <div id="userPrefBox" class="hiddenMain">
+                            <div class="col exitBtnBoxTop"><img id="CloseuserPrefBox" src="assets/pics/Close.png" /></div>
+                            <div id="username-display" class="hiddenMain"></div>
+                            <div class="translatable">חיבור אחרון</div>
+                            <div id="LastLogin"></div>
+                            <button class="formBtn translatable" id="logout-btn" type="button">החלף משתמש</button>
+                            <button class="formBtn translatable" id="ForgotPassword-Upref" type="button">שכחתי סיסמא</button>
+                            <div class="translatable">שפה מועדפת</div>
+                            <div class="FNCTTglBox"><!-- to be delt with -->
+                                <div>עברית</div>
+                                <div class="LangTglHouse" id="DefaultLanguageHousing">
+                                    <div class="LangTglBtn LangMetgHebrew" id="DefaultLanguageBtn">|||</div>
+                                </div>
+                                <div>English</div>
+                            </div>
+                            <div>
+                                <form id="KeepLogsForm">
+                                    <label for="KeepLogs" class="translatable">שמור לוגים ל:</label>
+                                    <input id="KeepLogs" type="number" min="1" disabled="true">
+                                    <label class="translatable valType ">שנים</label>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="LastParamUpdateBox">
+                    <div>
+                        <a class="translatable">פרמטרים עודכנו על ידי:</a>
+                        <a id="LastUser"></a>
+                        <a class="translatable">ב:</a>
+                        <a id="Timestamp"></a>
+                    </div>
+                    <div>
+                        <a class="translatable">משטף חביות התחבר לאחרונה ב:</a>
+                        <a id="KegWasherLastConnected"></a>
+                    </div>
+                </div>
+            </div>
+            <form id="control-form" method="POST">
+                <div class="formBox">
+                    <button class="formBtn translatable" id="sendTop" type="submit">שמור פרמטרים</button>
+                    <!-- stage 0 -->
+                    <div class="functionBox container-fluid">
+                        <div class="FirstfunctionLabel functionLabel row">
+                            <div class="col-12 col-md-3">
+                                <div class="translatable">סייקל בדיקה ראשוני</div>
+                            </div>
+                            <div class="col-12 col-md-3 FNCTTglBox">
+                                <div>|</div>
+                                <div class="FNCTglHouse" id="PrebootToggleHousing">
+                                    <div class="FNCTglBtn" id="PrebootToggleBtn">|||</div>
+                                </div>
+                                <div>O</div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="translatable">חיישני לחץ</div>
+                                <div class="note translatable">יפעל רק אם המתג המכני מופעל!</div>
+                            </div>
+                            <div class="col-12 col-md-3 FNCTTglBox">
+                                <div>|</div>
+                                <div class="FNCTglHouse" id="PressureToggleHousing">
+                                    <div class="FNCTglBtn" id="PresuureToggleBtn">|||</div>
+                                </div>
+                                <div>O</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- stage 1 -->
+                    <div class="functionBox container-fluid">
+                        <div class="functionLabel cloapsable row" id="label1">
+                            <div class="col-10 translatable">שלב #1 דחיקת בירה החוצה עם אוויר</div>
+                            <div class="col-2 TglBtnBox"><img id="Tgl1" src="assets/pics/down.png" /></div>
+                        </div>
+                        <div class="functionInputs cloapsable row" id="stage1">
+                            <div class="col-12 col-md-3 ParamterBox">
+                                <label class="translatable" for="FirstAirPurgeRecure">כמות חזרות</label>
+                                <input id="FirstAirPurgeRecure" min="0" name="FirstAirPurgeRecure" required=""
+                                    type="number"/>
+                                <label class="valType translatable">פעמים</label>
+                            </div>
+                            <div class="col-12 col-md-5 ParamterBox">
+                                <label class="translatable" for="FirstAirPurgeTon">משך כניסת אוויר בכל חזרה</label>
+                                <input id="FirstAirPurgeTon" min="0.01" name="FirstAirPurgeTon" required="" step="0.01"
+                                    type="number"/>
+                                <label class="valType translatable">שניות</label>
+                            </div>
+                            <div class="col-12 col-md-4 ParamterBox">
+                                <label class="translatable" for="FirstAirPurgeToff">משך ניקוז ללא אוויר בכל חזרה</label>
+                                <input id="FirstAirPurgeToff" min="0.01" name="FirstAirPurgeToff" required=""
+                                    step="0.01" type="number"/>
+                                <label class="valType translatable">שניות</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- stage 2-->
+                    <div class="functionBox container-fluid">
+                        <div class="functionLabel row cloapsable" id="label2">
+                            <div class="col-10">
+                                <div class="translatable">שלב #2 שטיפה ראשונה במים</div>
+                                <div class="Bnote translatable">פרמטרים אלו ישפיעו גם על שלב #6</div>
+                            </div>
+                            <div class="col-2 TglBtnBox"><img id="Tgl2" src="assets/pics/down.png" /></div>
+                        </div>
+                        <div class="cloapsable row" id="stage2">
+                            <div class="functionInputs row fullborder">
+                                <div class="col-12 ParamterBox">
+                                    <label class="translatable" for="InitialWaterFlud">משך מילוי מים ראשוני</label>
+                                    <input id="InitialWaterFlud" min="0.01" name="InitialWaterFlud" required=""
+                                        step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                            </div>
+                            <div class="functionSubLabel translatable">התזת מים בינונית</div>
+                            <div class="functionInputs row fullborder">
+                                <div class="col-12 col-md-3 ParamterBox">
+                                    <label class="translatable" for="recureMedSquirt">כמות חזרות</label>
+                                    <input id="recureMedSquirt" min="0" name="recureMedSquirt" required="" type="number"/>
+                                    <label class="valType translatable">פעמים</label>
+                                </div>
+                                <div class="col-12 col-md-4 ParamterBox">
+                                    <label class="translatable" for="medSquirtWaterOn">משך כניסת מים בכל חזרה</label>
+                                    <input id="medSquirtWaterOn" min="0.01" name="medSquirtWaterOn" required=""
+                                        step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                                <div class="col-12 col-md-5 ParamterBox">
+                                    <label class="translatable" for="medSquirtWaterOff">משך ניקוז ללא מים בכל חזרה</label>
+                                    <input id="medSquirtWaterOff" min="0.01" name="medSquirtWaterOff" required=""
+                                        step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                            </div>
+                            <div class="functionSubLabel translatable">התזת מים קצרה</div>
+                            <div class="functionInputs row fullborder">
+                                <div class="col-12 col-md-3 ParamterBox">
+                                    <label class="translatable" for="recureShortSquirt">כמות חזרות</label>
+                                    <input id="recureShortSquirt" min="0" name="recureShortSquirt" required=""
+                                        type="number"/>
+                                    <label class="valType translatable">פעמים</label>
+                                </div>
+                                <div class="col-12 col-md-4 ParamterBox">
+                                    <label class="translatable" for="ShortSquirtWaterOn">משך כניסת מים בכל חזרה</label>
+                                    <input id="ShortSquirtWaterOn" min="0.01" name="ShortSquirtWaterOn" required=""
+                                        step="0.01" type="number" />
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                                <div class="col-12 col-md-5 ParamterBox">
+                                    <label class="translatable" for="ShortSquirtWaterOff">משך ניקוז ללא מים בכל חזרה</label>
+                                    <input id="ShortSquirtWaterOff" min="0.01" name="ShortSquirtWaterOff" required=""
+                                        step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                            </div>
+                            <div class="functionSubLabel fullborder translatable">התזת מים ארוכה</div>
+                            <div class="functionInputs row fullborder">
+                                <div class="col-12 col-md-3 ParamterBox">
+                                    <label class="translatable" for="recureLongSquirt">כמות חזרות</label>
+                                    <input id="recureLongSquirt" min="0" name="recureLongSquirt" required=""
+                                        type="number"/>
+                                    <label class="valType translatable">פעמים</label>
+                                </div>
+                                <div class="col-12 col-md-4 ParamterBox">
+                                    <label class="translatable" for="LongSquirtWaterOn">משך כניסת מים בכל חזרה</label>
+                                    <input id="LongSquirtWaterOn" min="0.01" name="LongSquirtWaterOn" required=""
+                                        step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                                <div class="col-12 col-md-5 ParamterBox">
+                                    <label class="translatable" for="LongSquirtWaterOff">משך ניקוז ללא מים בכל חזרה</label>
+                                    <input id="LongSquirtWaterOff" min="0.01" name="LongSquirtWaterOff" required=""
+                                        step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                            </div>
+                            <div class="functionSubLabel fullborder translatable">שטיפה במים יחד עם משאבה לבניית לחץ</div>
+                            <div class="functionInputs row">
+                                <div class="col-12 ParamterBox">
+                                    <label class="translatable" for="RinseWaterWithPump">משך שטיפה במים עם משאבה לבניית לחץ</label>
+                                    <input id="RinseWaterWithPump" min="0.01" name="RinseWaterWithPump" required=""
+                                        step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- stage 3-->
+                    <div class="functionBox container-fluid">
+                        <div class="functionLabel cloapsable row" id="label3">
+                            <div class="col-10 translatable">שלב #3 דחיקת מים לאחר שטיפה ראשונה החוצה עם אוויר</div>
+                            <div class="col-2 TglBtnBox"><img id="Tgl3" src="assets/pics/down.png" /></div>
+                        </div>
+                        <div class="cloapsable row" id="stage3">
+                            <div class="functionInputs row">
+                                <div class="col-12 col-md-3 ParamterBox">
+                                    <label class="translatable" for="PostWaterPurgeRecure">כמות חזרות</label>
+                                    <input id="PostWaterPurgeRecure" min="0" name="PostWaterPurgeRecure" required=""
+                                        type="number"/>
+                                    <label class="valType translatable">פעמים</label>
+                                </div>
+                                <div class="col-12 col-md-4 ParamterBox">
+                                    <label class="translatable" for="PostWaterPurgeTon">משך כניסת אוויר בכל חזרה</label>
+                                    <input id="PostWaterPurgeTon" min="0.01" name="PostWaterPurgeTon" required=""
+                                        step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                                <div class="col-12 col-md-5 ParamterBox">
+                                    <label class="translatable" for="PostWaterPurgeToff">משך ניקוז ללא אוויר בכל חזרה</label>
+                                    <input id="PostWaterPurgeToff" min="0.01" name="PostWaterPurgeToff" required=""
+                                        step="0.01" type="number" />
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- stage 4-->
+                    <div class="functionBox container-fluid">
+                        <div class="functionLabel cloapsable row" id="label4">
+                            <div class="col-10 translatable">שלב #4 ניקוי בסודה קאוסטיק</div>
+                            <div class="col-2 TglBtnBox"><img id="Tgl4" src="assets/pics/down.png" /></div>
+                        </div>
+                        <div class="cloapsable row" id="stage4">
+                            <div class="functionInputs row fullborder">
+                                <div class="col-12 ParamterBox">
+                                    <label class="translatable" for="InitialCausticFlud">משך מילוי קאוסטיק ראשוני- ל2 החביות</label>
+                                    <input id="InitialCausticFlud" min="0.01" name="InitialCausticFlud" required=""
+                                        step="0.01" type="number" />
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                            </div>
+                            <div class="functionInputs row fullborder">
+                                <div class="col-12 col-lg-6 ParamterBox">
+                                    <label class="translatable" for="CausticRinseKeg1">משך רחיצה קאוסטיק חבית ימין</label>
+                                    <input id="CausticRinseKeg1" min="0.01" name="CausticRinseKeg1" required=""
+                                        step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                                <div class="col-12 col-lg-6 ParamterBox">
+                                    <label class="translatable" for="CausticRinseKeg2">משך רחיצה קאוסטיק חבית שמאל</label>
+                                    <input id="CausticRinseKeg2" min="0.01" name="CausticRinseKeg2" required=""
+                                        step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                            </div>
+                            <div class="functionSubLabel translatable">כניסת קאוסטיק לחבית ללא יציאת הקאוסטיק לבניית לחץ
+                            </div>
+                            <div class="functionInputs row fullborder">
+                                <div class="col-12 col-lg-6 ParamterBox">
+                                    <label class="translatable" for="pressurizeCausticInKeg">משך דחיסת הקאוסטיק לחבית</label>
+                                    <input id="pressurizeCausticInKeg" min="0.01" name="pressurizeCausticInKeg"
+                                        required="" step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                                <div class="col-12 col-lg-6 ParamterBox">
+                                    <label class="translatable" for="causticSoakInKeg">משך השריית קאוסטיק בחבית בלחץ</label>
+                                    <input id="causticSoakInKeg" min="0.01" name="causticSoakInKeg" required=""
+                                        step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                            </div>
+                            <div class="functionInputs row fullborder">
+                                <div class="col-12 ParamterBox">
+                                    <label class="translatable" for="SecondCausticFlud">משך מילוי קאוסטיק שני- ל2 החביות</label>
+                                    <input id="SecondCausticFlud" min="0.01" name="SecondCausticFlud" required=""
+                                        step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                            </div>
+                            <div class="functionSubLabel fullborder translatable">התזת קאוסטיק קצרה</div>
+                            <div class="functionInputs row fullborder">
+                                <div class="col-12 col-md-6 col-lg-3 ParamterBox">
+                                    <label class="translatable" for="recureShortCausticSquirt">כמות חזרות</label>
+                                    <input id="recureShortCausticSquirt" min="0" name="recureShortCausticSquirt"
+                                        required="" type="number"/>
+                                    <label class="valType translatable">פעמים</label>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-4 ParamterBox">
+                                    <label class="translatable" for="CausticSquirtPumpOn">משך הפעלת משאבה</label>
+                                    <input id="CausticSquirtPumpOn" min="0.01" name="CausticSquirtPumpOn" required=""
+                                        step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                                <div class="col-12 col-lg-5 ParamterBox">
+                                    <label class="translatable" for="CausticSquirtPumpOff">משך כיבוי משאבה</label>
+                                    <input id="CausticSquirtPumpOff" min="0.01" name="CausticSquirtPumpOff" required=""
+                                        step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                            </div>
+                            <div class="functionSubLabel fullborder translatable">התזת קאוסטיק בשילוב אוויר</div>
+                            <div class="functionInputs row fullborder">
+                                <div class="col-12 col-md-6 ParamterBox">
+                                    <label class="translatable" for="recurePurgeCausticSquirt">כמות חזרות</label>
+                                    <input id="recurePurgeCausticSquirt" min="0" name="recureShortCausticSquirt"
+                                        required="" type="number"/>
+                                    <label class="valType translatable">פעמים</label>
+                                </div>
+                                <div class="col-12 col-md-6 ParamterBox">
+                                    <label class="translatable" for="airAndPumpIntervale">אינטרוול אוויר ומשאבה</label>
+                                    <input id="airAndPumpIntervale" min="0.01" name="airAndPumpIntervale" required=""
+                                        step="0.01" type="number" />
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                            </div>
+                            <div class="functionSubLabel fullborder translatable">התזת קאוסטיק ארוכה- לאחר התזה בשילוב אוויר</div>
+                            <div class="functionInputs row">
+                                <div class="col-12 col-md-3 ParamterBox">
+                                    <label class="translatable" for="recureLastCausticSquirt">כמות חזרות</label>
+                                    <input id="recureLastCausticSquirt" min="0" name="recureLastCausticSquirt"
+                                        required="" type="number"/>
+                                    <label class="valType translatable">פעמים</label>
+                                </div>
+                                <div class="col-12 col-md-4 ParamterBox">
+                                    <label class="translatable" for="CausticLastSquirtPumpOn">משך הפעלת משאבה</label>
+                                    <input id="CausticLastSquirtPumpOn" min="0.01" name="CausticLastSquirtPumpOn"
+                                        required="" step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                                <div class="col-12 col-md-5 ParamterBox">
+                                    <label class="translatable" for="CausticLastSquirtPumpOff">משך כיבוי משאבה</label>
+                                    <input id="CausticLastSquirtPumpOff" min="0.01" name="CausticLastSquirtPumpOff"
+                                        required="" step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- stage 5-->
+                    <div class="functionBox container-fluid">
+                        <div class="functionLabel cloapsable row" id="label5">
+                            <div class="col-10 translatable">שלב #5 דחיקת סודה קאוסטיק החוצה עם אוויר</div>
+                            <div class="col-2 TglBtnBox"><img id="Tgl5" src="assets/pics/down.png" /></div>
+                        </div>
+                        <div class="functionInputs cloapsable row" id="stage5">
+                            <div class="col-12 col-md-3 ParamterBox">
+                                <label class="translatable" for="PostCausticPurgeRecure">כמות חזרות</label>
+                                <input id="PostCausticPurgeRecure" min="0" name="PostCausticPurgeRecure" required=""
+                                    type="number"/>
+                                <label class="valType translatable">פעמים</label>
+                            </div>
+                            <div class="col-12 col-md-4 ParamterBox">
+                                <label class="translatable" for="PostCausticPurgeTon">משך כניסת אוויר בכל חזרה</label>
+                                <input id="PostCausticPurgeTon" min="0.01" name="PostCausticPurgeTon" required=""
+                                    step="0.01" type="number"/>
+                                <label class="valType translatable">שניות</label>
+                            </div>
+                            <div class="col-12 col-md-5 ParamterBox">
+                                <label class="translatable" for="PostCausticPurgeToff">משך ניקוז ללא אוויר בכל חזרה</label>
+                                <input id="PostCausticPurgeToff" min="0.01" name="PostCausticPurgeToff" required=""
+                                    step="0.01" type="number"/>
+                                <label class="valType translatable">שניות</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- stage 6-->
+                    <div class="functionBox container-fluid">
+                        <div class="functionLabel cloapsable row" id="label6">
+                            <div class="col-10">
+                                <div class="translatable">שלב #6 שטיפה במים לאחר ניקוי קאוסטיק</div>
+                                <div class="Bnote translatable">הפרמטרים של כל שטיפה מוגדרים בשלב #2</div>
+                            </div>
+                            <div class="col-2 TglBtnBox"><img id="Tgl6" src="assets/pics/down.png" /></div>
+                        </div>
+                        <div class="cloapsable row" id="stage6">
+                            <div class="functionInputs fullborder row">
+                                <div class="col-12 ParamterBox">
+                                    <label class="translatable" for="postCausticWaterRinseRecure">כמות שטיפות</label>
+                                    <input id="postCausticWaterRinseRecure" min="0" name="postCausticWaterRinseRecure"
+                                        required="" type="number"/>
+                                    <label class="valType translatable">פעמים</label>
+                                </div>
+                            </div>
+                            <div class="col-12 functionSubLabel translatable">דחיקת מים החוצה עם אוויר בין כל שטיפה</div>
+                            <div class="functionInputs row">
+                                <div class="col-12 col-md-3 ParamterBox">
+                                    <label class="translatable" for="postCausticWaterRinseRecureEachRins">כמות חזרות</label>
+                                    <input id="postCausticWaterRinseRecureEachRins" min="0"
+                                        name="postCausticWaterRinseRecureEachRins" required="" type="number" />
+                                    <label class="valType translatable">פעמים</label>
+                                </div>
+                                <div class="col-12 col-md-4 ParamterBox">
+                                    <label class="translatable" for="postCausticWaterRinseOn">משך כניסת אוויר בכל חזרה</label>
+                                    <input id="postCausticWaterRinseOn" min="0.01" name="postCausticWaterRinseOn"
+                                        required="" step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                                <div class="col-12 col-md-5 ParamterBox">
+                                    <label class="translatable" for="postCausticWaterRinseOf">משך ניקוז ללא אוויר בכל חזרה</label>
+                                    <input id="postCausticWaterRinseOf" min="0.01" name="postCausticWaterRinseOf"
+                                        required="" step="0.01" type="number" />
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- stage 7-->
+                    <div class="functionBox container-fluid">
+                        <div class="functionLabel cloapsable row" id="label7">
+                            <div class="col-10 translatable">שלב #7 חיטוי בחומצה פראצטית</div>
+                            <div class="col-2 TglBtnBox"><img id="Tgl7" src="assets/pics/down.png" /></div>
+                        </div>
+                        <div class="cloapsable row" id="stage7">
+                            <div class="functionInputs row fullborder reduceFont">
+                                <div class="col-12 col-md-4 ParamterBox">
+                                    <label class="translatable" for="SanitizeInitialKeg1">משך מילוי פראצטית חבית ימין</label>
+                                    <input id="SanitizeInitialKeg1" min="0.01" name="SanitizeInitialKeg1" required=""
+                                        step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                                <div class="col-12 col-md-4 ParamterBox">
+                                    <label class="translatable" for="SanitizeInitialKeg2">משך מילוי פראצטית חבית שמאל</label>
+                                    <input id="SanitizeInitialKeg2" min="0.01" name="SanitizeInitialKeg2" required=""
+                                        step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                                <div class="col-12 col-md-4 ParamterBox">
+                                    <label class="translatable" for="SanitizeInitialBothKegs">משך מילוי פראצטית ל2 החביות</label>
+                                    <input id="SanitizeInitialBothKegs" min="0.01" name="SanitizeInitialBothKegs"
+                                        required="" step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                            </div>
+                            <div class="functionSubLabel fullborder translatable">התזת פראצטית ראשונה</div>
+                            <div class="functionInputs row fullborder">
+                                <div class="col-12 col-md-3 ParamterBox">
+                                    <label class="translatable" for="paaInitialPumpRecure">כמות חזרות</label>
+                                    <input id="paaInitialPumpRecure" min="0" name="paaInitialPumpRecure" required=""
+                                        type="number"/>
+                                    <label class="valType translatable">פעמים</label>
+                                </div>
+                                <div class="col-12 col-md-4 ParamterBox">
+                                    <label class="translatable" for="paaInitialPumpOn">משך הפעלת משאבה</label>
+                                    <input id="paaInitialPumpOn" min="0.01" name="paaInitialPumpOn" required=""
+                                        step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                                <div class="col-12 col-md-5 ParamterBox">
+                                    <label class="translatable" for="paaInitialPumpOff">משך כיבוי משאבה</label>
+                                    <input id="paaInitialPumpOff" min="0.01" name="paaInitialPumpOff" required=""
+                                        step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                            </div>
+                            <div class="functionSubLabel fullborder translatable">התזת פראצטית בשילוב CO2</div>
+                            <div class="functionInputs row fullborder">
+                                <div class="col-12 col-md-6 ParamterBox">
+                                    <label class="translatable" for="paaSquirtRecure">כמות חזרות</label>
+                                    <input id="paaSquirtRecure" min="0" name="paaSquirtRecure" required="" type="number"/>
+                                    <label class="valType translatable">פעמים</label>
+                                </div>
+                                <div class="col-12 col-md-6 ParamterBox">
+                                    <label class="translatable" for="Co2PumpIntervale">אינטרוול CO2 ומשאבה</label>
+                                    <input id="Co2PumpIntervale" min="0.01" name="Co2PumpIntervale" required=""
+                                        step="0.01" type="number" />
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                            </div>
+                            <div class="functionSubLabel fullborder translatable">חיטוי פראצטית ארוך לשני החביות- לאחר התזה בשילוב CO2</div>
+                            <div class="functionInputs row">
+                                <div class="col-12 ParamterBox">
+                                    <label class="translatable" for="postSquirtSanitizeBothKegs">משך חיטוי פראצטית ארוך לשני החביות</label>
+                                    <input id="postSquirtSanitizeBothKegs" min="0.01" name="postSquirtSanitizeBothKegs"
+                                        required="" step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- stage 8 -->
+                    <div class="functionBox container-fluid">
+                        <div class="functionLabel cloapsable row" id="label8">
+                            <div class="col-10 translatable">שלב #8 דחיקת חומצה פראצטית החוצה עם CO2</div>
+                            <div class="col-2 TglBtnBox"><img id="Tgl8" src="assets/pics/down.png" /></div>
+                        </div>
+                        <div class="cloapsable row" id="stage8">
+                            <div class="functionSubLabel fullborder translatable">חבית ימין</div>
+                            <div class="functionInputs row fullborder">
+                                <div class="col-12 col-md-3 ParamterBox">
+                                    <label class="translatable" for="co2PurgeKeg1Recure">כמות חזרות</label>
+                                    <input id="co2PurgeKeg1Recure" min="0" name="co2PurgeKeg1Recure" required=""
+                                        type="number"/>
+                                    <label class="valType translatable">פעמים</label>
+                                </div>
+                                <div class="col-12 col-md-4 ParamterBox">
+                                    <label class="translatable" for="co2PurgeKeg1Open">משך כניסת CO2 בכל חזרה</label>
+                                    <input id="co2PurgeKeg1Open" min="0.01" name="co2PurgeKeg1Open" required=""
+                                        step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                                <div class="col-12 col-md-5 ParamterBox">
+                                    <label class="translatable" for="co2PurgeKeg1Closed">משך ניקוז ללא CO2 בכל חזרה</label>
+                                    <input id="co2PurgeKeg1Closed" min="0.01" name="co2PurgeKeg1Closed" required=""
+                                        step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                            </div>
+                            <div class="functionSubLabel fullborder translatable">חבית שמאל</div>
+                            <div class="functionInputs row fullborder">
+                                <div class="col-12 col-md-3 ParamterBox">
+                                    <label class="translatable" for="co2PurgeKeg2Recure">כמות חזרות</label>
+                                    <input id="co2PurgeKeg2Recure" min="0" name="co2PurgeKeg2Recure" required=""
+                                        type="number"/>
+                                    <label class="valType translatable">פעמים</label>
+                                </div>
+                                <div class="col-12 col-md-4 ParamterBox">
+                                    <label class="translatable" for="co2PurgeKeg2Open">משך כניסת CO2 בכל חזרה</label>
+                                    <input id="co2PurgeKeg2Open" min="0.01" name="co2PurgeKeg2Open" required=""
+                                        step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                                <div class="col-12 col-md-5 ParamterBox">
+                                    <label class="translatable" for="co2PurgeKeg2Closed">משך ניקוז ללא CO2 בכל חזרה</label>
+                                    <input id="co2PurgeKeg2Closed" min="0.01" name="co2PurgeKeg2Closed" required=""
+                                        step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                            </div>
+                            <div class="functionSubLabel fullborder translatable">חבית ימין ושמאל יחד</div>
+                            <div class="functionInputs row">
+                                <div class="col-12 col-md-6 ParamterBox">
+                                    <label class="translatable" for="co2PurgeBothKegsOpen">משך דחיקת פראצטית החוצה עם CO2 ל 2 החביות</label>
+                                    <input id="co2PurgeBothKegsOpen" min="0.01" name="co2PurgeBothKegsOpen" required=""
+                                        step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                                <div class="col-12 col-md-6 ParamterBox">
+                                    <label class="translatable" for="co2PurgeBothKegsClosed">משך ניקוז פראצטית החוצה ללא CO2 ל 2 החביות</label>
+                                    <input id="co2PurgeBothKegsClosed" min="0.01" name="co2PurgeBothKegsClosed"
+                                        required="" step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- stage 9 -->
+                    <div class="functionBox container-fluid">
+                        <div class="functionLabel row cloapsable" id="label9">
+                            <div class="col-10 translatable">שלב #9 בניית לחץ בחבית עם CO2</div>
+                            <div class="col-2 TglBtnBox"><img id="Tgl9" src="assets/pics/down.png" /></div>
+                        </div>
+                        <div class="cloapsable row" id="stage9">
+                            <div class="functionInputs row fullborder">
+                                <div class="col-12 col-md-6 ParamterBox">
+                                    <label class="translatable" for="kegPdestination">לחץ יעד</label>
+                                    <input disabled="" id="kegPdestination" min="0.1" name="kegPdestination" required=""
+                                        step="0.1" type="number"/>
+                                    <label class="valType">PSI</label>
+                                </div>
+                                <div class="col-12 col-md-6 ParamterBox">
+                                    <label class="translatable" for="TimeOutPdestination">משך המתנה להגעה ליעד</label>
+                                    <input disabled="" id="TimeOutPdestination" min="0.01" name="TimeOutPdestination"
+                                        required="" step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                            </div>
+                            <div class="functionInputs row">
+                                <div class="col-12 col-md-6 ParamterBox">
+                                    <label class="translatable" for="PostTimeOutBuildP">משך בניית לחץ לאחר המתנה במידה ולא הגיע ללחץ יעד</label>
+                                    <input disabled="" id="PostTimeOutBuildP" min="0.01" name="PostTimeOutBuildP"
+                                        required="" step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                                <div class="col-12 col-md-6 ParamterBox">
+                                    <label class="translatable" for="PTimeWhenSensorDisabled">משך בניית לחץ במידה ומתג חיישני לחץ כבוי</label>
+                                    <input id="PTimeWhenSensorDisabled" min="0.01" name="PTimeWhenSensorDisabled"
+                                        required="" step="0.01" type="number"/>
+                                    <label class="valType translatable">שניות</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="SubmitionBox" id="BottomSubmit">
+                        <div><button class="formBtn translatable" id="send" type="submit">שמור פרמטרים</button></div>
+                        <div><button class="formBtn translatable" id="showDefaults" type="button">הצג נתוני ברירת מחדל</button></div>
+                        <div><button class="formBtn translatable" id="reset-btn" type="button">איפוס לנתוני ברירת מחדל</button></div>
+                    </div>
+                </div>
+            </form>
+            <div class="hiddenBox" id="confirmBox">
+                <div id="conirmContent"></div>
+                <button class="confirmBoxBtn translatable" id="exitConfirm">אישור</button>
+                <button class="confirmBoxBtnHidden translatable" id="Reload">טעינה מחדש</button>
+                <button class="confirmBoxBtnHidden translatable" id="Resend">שליחה מחדש</button>
+                <button class="confirmBoxBtnHidden translatable" id="Reset">איפוס פרמטרים מחדש</button>
+                <button class="confirmBoxBtnHidden translatable" id="RelogIn">כניסה מחדש</button>
+            </div>
+        </div>
+        <div class="hiddenValBox" id="DefValDisplayBox">
+            <div class="col exitBtnBox"><img id="CloseDefaultValBox" src="assets/pics/Close.png" /></div>
+            <div class="DowloadBox" id="topSubmit">
+                <div><button class="formBtn translatable" id="DownloadPdfTop" type="submit">שמור כקובץ PDF</button></div>
+                <div><button id="appendSpecificValues" class="formBtn translatable" type="button">טען נתונים אלו למשטף</button></div>
+            </div>
+            <div id="DefValDisplayBoxHeader" class="DefValDisplayBoxHeader">
+                <div class="translatable">פרמטרים אלו עודכנו על ידי:</div>
+                <div id="SpecificValuesAutherId"></div>
+                <div class="translatable">ב:</div>
+                <div id="SpecificValuesTime"></div>
+            </div>
+            <!-- stage 0 -->
+            <div class="row">
+                <div class="col-12 col-md-6 DefeStageRow" id="stage0_1">
+                    <div class="DefAtribute translatable">סייקל בדיקה ראשוני</div>
+                    <div class="DefVal translatable" id="preboobotMetegVal"></div>
+                </div>
+                <div class="col-12 col-md-6 DefeStageRow" id="stage0_2">
+                    <div class="DefAtribute">
+                        <div class="translatable">חיישני לחץ</div>
+                        <div class="note translatable">יפעל רק אם המתג המכני מופעל!</div>
+                    </div>
+                    <div class="DefVal translatable" id="pressureMetegVal"></div>
+                </div>
+            </div>
+            <div class="DefValBox">
+                <!-- stage 1 -->
+                <div class="col-12 DefeStageLabel" id="label10">
+                    <div class="translatable">שלב #1 דחיקת בירה החוצה עם אוויר</div>
+                    <div class="ValDiVTglBtnBox"><img id="Tgl10" src="assets/pics/down.png" /></div>
+                </div>
+                <div class="row defStageBox" id="stage10">
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable" for="FirstAirPurgeRecure">כמות חזרות</div>
+                        <div class="note translatable">במידה ולאחר סיום- כפתור ההפעלה לחוץ, יפעל שוב- עד לעזיבת הכפתור</div>
+                        <div class="DefVal" id="FirstAirPurgeRecureVal"></div>
+                        <div class="DefSpec translatable">פעמים</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable" for="FirstAirPurgeTon">משך כניסת אוויר בכל חזרה</div>
+                        <div class="DefVal" id="FirstAirPurgeTonVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable" for="FirstAirPurgeToff">משך ניקוז ללא אוויר בכל חזרה</div>
+                        <div class="DefVal" id="FirstAirPurgeToffVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                </div>
+                <!-- stage 2-->
+                <div class="col-12 DefeStageLabel" id="label11">
+                    <div class="translatable">שלב #2 שטיפה ראשונה במים</div>
+                    <div class="ValDiVTglBtnBox"><img id="Tgl11" src="assets/pics/down.png" /></div>
+                </div>
+                <div class="row defStageBox" id="stage11">
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable" for="InitialWaterFlud">משך מילוי מים ראשוני</div>
+                        <div class="DefVal" id="InitialWaterFludVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="d-none d-md-block col-md-8 DefeStageRow"></div>
+                    <div class="col-12 DefeStageLabel functionSubLabel translatable">התזת מים בינונית</div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable" for="recureMedSquirt">כמות חזרות</div>
+                        <div class="DefVal" id="recureMedSquirtVal"></div>
+                        <div class="DefSpec translatable">פעמים</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable" for="medSquirtWaterOn">משך כניסת מים בכל חזרה</div>
+                        <div class="DefVal" id="medSquirtWaterOnVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable" for="medSquirtWaterOff">משך ניקוז ללא מים בכל חזרה</div>
+                        <div class="DefVal" id="medSquirtWaterOffVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 DefeStageLabel functionSubLabel translatable">התזת מים קצרה</div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">כמות חזרות</div>
+                        <div class="DefVal" id="recureShortSquirtVal"></div>
+                        <div class="DefSpec translatable">פעמים</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך כניסת מים בכל חזרה</div>
+                        <div class="DefVal" id="ShortSquirtWaterOnVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך ניקוז ללא מים בכל חזרה</div>
+                        <div class="DefVal" id="ShortSquirtWaterOffVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 DefeStageLabel functionSubLabel translatable">התזת מים ארוכה</div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">כמות חזרות</div>
+                        <div class="DefVal" id="recureLongSquirtVal"></div>
+                        <div class="DefSpec translatable">פעמים</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך כניסת מים בכל חזרה </div>
+                        <div class="DefVal" id="LongSquirtWaterOnVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך ניקוז ללא מים בכל חזרה </div>
+                        <div class="DefVal" id="LongSquirtWaterOffVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 DefeStageLabel functionSubLabel translatable">שטיפה במים יחד עם משאבה לבניית לחץ</div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך שטיפה במים עם משאבה לבניית לחץ</div>
+                        <div class="DefVal" id="RinseWaterWithPumpVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="d-none d-md-block col-md-8 DefeStageRow"></div>
+                </div>
+                <!-- stage 3-->
+                <div class="col-12 DefeStageLabel" id="label12">
+                    <div class="translatable">שלב #3 דחיקת מים לאחר שטיפה ראשונה החוצה עם אוויר</div>
+                    <div class="ValDiVTglBtnBox"><img id="Tgl12" src="assets/pics/down.png" /></div>
+                </div>
+                <div class="row defStageBox" id="stage12">
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">כמות חזרות</div>
+                        <div class="DefVal" id="PostWaterPurgeRecureVal"></div>
+                        <div class="DefSpec translatable">פעמים</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך כניסת אוויר בכל חזרה </div>
+                        <div class="DefVal" id="PostWaterPurgeTonVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך ניקוז ללא אוויר בכל חזרה </div>
+                        <div class="DefVal" id="PostWaterPurgeToffVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                </div>
+                <!-- stage 4-->
+                <div class="col-12 DefeStageLabel" id="label13">
+                    <div class="translatable">שלב #4 ניקוי בסודה קאוסטיק</div>
+                    <div class="ValDiVTglBtnBox"><img id="Tgl13" src="assets/pics/down.png" /></div>
+                </div>
+                <div class="row defStageBox" id="stage13">
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך מילוי קאוסטיק ראשוני- ל2 החביות </div>
+                        <div class="DefVal" id="InitialCausticFludVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך רחיצה קאוסטיק חבית ימין </div>
+                        <div class="DefVal" id="CausticRinseKeg1Val"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך רחיצה קאוסטיק חבית שמאל </div>
+                        <div class="DefVal" id="CausticRinseKeg2Val"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 DefeStageLabel functionSubLabel translatable">כניסת קאוסטיק לחבית ללא יציאת הקאוסטיק לבניית לחץ</div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך דחיסת הקאוסטיק לחבית </div>
+                        <div class="DefVal" id="pressurizeCausticInKegVal">10</div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך השריית קאוסטיק בחבית בלחץ </div>
+                        <div class="DefVal" id="causticSoakInKegVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך מילוי קאוסטיק שני- ל2 החביות </div>
+                        <div class="DefVal" id="SecondCausticFludVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 functionSubLabel translatable">התזת קאוסטיק קצרה</div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">כמות חזרות</div>
+                        <div class="DefVal" id="recureShortCausticSquirtVal"></div>
+                        <div class="DefSpec translatable">פעמים</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך הפעלת משאבה </div>
+                        <div class="DefVal" id="CausticSquirtPumpOnVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך כיבוי משאבה </div>
+                        <div class="DefVal" id="CausticSquirtPumpOffVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 functionSubLabel translatable">התזת קאוסטיק בשילוב אוויר</div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">כמות חזרות</div>
+                        <div class="DefVal" id="recurePurgeCausticSquirtVal"></div>
+                        <div class="DefSpec translatable">פעמים</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">אינטרוול אוויר ומשאבה </div>
+                        <div class="DefVal" id="airAndPumpIntervaleVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="d-none d-md-block col-md-4 DefeStageRow"></div>
+                    <div class="col-12 functionSubLabel translatable">התזת קאוסטיק ארוכה- לאחר התזה בשילוב אוויר
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">כמות חזרות</div>
+                        <div class="DefVal" id="recureLastCausticSquirtVal"></div>
+                        <div class="DefSpec translatable">פעמים</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך הפעלת משאבה </div>
+                        <div class="DefVal" id="CausticLastSquirtPumpOnVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך כיבוי משאבה </div>
+                        <div class="DefVal" id="CausticLastSquirtPumpOffVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                </div>
+                <!-- stage 5-->
+                <div class="col-12 DefeStageLabel" id="label14">
+                    <div class="translatable">שלב #5 דחיקת סודה קאוסטיק החוצה עם אוויר</div>
+                    <div class="ValDiVTglBtnBox"><img id="Tgl14" src="assets/pics/down.png" /></div>
+                </div>
+                <div class="row defStageBox" id="stage14">
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">כמות חזרות</div>
+                        <div class="DefVal" id="PostCausticPurgeRecureVal"></div>
+                        <div class="DefSpec translatable">פעמים</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך כניסת אוויר בכל חזרה</div>
+                        <div class="DefVal" id="PostCausticPurgeTonVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך ניקוז ללא אוויר בכל חזרה</div>
+                        <div class="DefVal" id="PostCausticPurgeToffVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                </div>
+                <!-- stage 6-->
+                <div class="col-12 DefeStageLabel" id="label15">
+                    <div class="translatable">שלב #6 שטיפה במים לאחר ניקוי קאוסטיק</div>
+                    <div class="ValDiVTglBtnBox"><img id="Tgl15" src="assets/pics/down.png" /></div>
+                </div>
+                <div class="row defStageBox" id="stage15">
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">כמות שטיפות</div>
+                        <div class="DefVal" id="postCausticWaterRinseRecureVal"></div>
+                        <div class="DefSpec translatable">פעמים</div>
+                    </div>
+                    <div class="d-none d-md-block col-md-8 DefeStageRow"></div>
+                    <div class="col-12 functionSubLabel translatable">דחיקת מים החוצה עם אוויר בין כל שטיפה</div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">כמות חזרות</div>
+                        <div class="DefVal" id="postCausticWaterRinseRecureEachRinsVal"></div>
+                        <div class="DefSpec translatable">פעמים</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך כניסת מים בכל חזרה</div>
+                        <div class="DefVal" id="postCausticWaterRinseOnVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך ניקוז ללא מים בכל חזרה</div>
+                        <div class="DefVal" id="postCausticWaterRinseOfVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                </div>
+                <!-- stage 7-->
+                <div class="col-12 DefeStageLabel" id="label16">
+                    <div class="translatable">שלב #7 חיטוי בחומצה פראצטית</div>
+                    <div class="ValDiVTglBtnBox"><img id="Tgl16" src="assets/pics/down.png" /></div>
+                </div>
+                <div class="row defStageBox" id="stage16">
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך מילוי פראצטית חבית ימין</div>
+                        <div class="DefVal" id="SanitizeInitialKeg1Val"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך מילוי פראצטית חבית שמאל</div>
+                        <div class="DefVal" id="SanitizeInitialKeg2Val"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך מילוי פראצטית ל2 החביות</div>
+                        <div class="DefVal" id="SanitizeInitialBothKegsVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 functionSubLabel translatable">התזת פראצטית ראשונה</div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">כמות חזרות</div>
+                        <div class="DefVal" id="paaInitialPumpRecureVal"></div>
+                        <div class="DefSpec translatable">פעמים</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך הפעלת משאבה</div>
+                        <div class="DefVal" id="paaInitialPumpOnVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך כיבוי משאבה</div>
+                        <div class="DefVal" id="paaInitialPumpOffVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 functionSubLabel translatable">התזת פראצטית בשילוב CO2</div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">כמות חזרות</div>
+                        <div class="DefVal" id="paaSquirtRecureVal"></div>
+                        <div class="DefSpec translatable">פעמים</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">אינטרוול CO2 ומשאבה</div>
+                        <div class="DefVal" id="Co2PumpIntervaleVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="d-none d-md-block col-md-4 DefeStageRow"></div>
+                    <div class="col-12 functionSubLabel translatable">חיטוי פראצטית ארוך לשני החביות- לאחר התזה בשילוב CO2</div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך חיטוי פראצטית ארוך לשני החביות</div>
+                        <div class="DefVal" id="postSquirtSanitizeBothKegsVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="d-none d-md-block col-md-8 DefeStageRow"></div>
+                </div>
+                <!-- stage 8 -->
+                <div class="col-12 DefeStageLabel" id="label17">
+                    <div class="translatable">שלב #8 דחיקת חומצה פראצטית החוצה עם CO2</div>
+                    <div class="ValDiVTglBtnBox"><img id="Tgl17" src="assets/pics/down.png" /></div>
+                </div>
+                <div class="row defStageBox" id="stage17">
+                    <div class="col-12 functionSubLabel translatable">חבית ימין</div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">כמות חזרות</div>
+                        <div class="DefVal" id="co2PurgeKeg1RecureVal"></div>
+                        <div class="DefSpec translatable">פעמים</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך כניסת CO2 בכל חזרה</div>
+                        <div class="DefVal" id="co2PurgeKeg1OpenVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך ניקוז ללא CO2 בכל חזרה</div>
+                        <div class="DefVal" id="co2PurgeKeg1ClosedVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 functionSubLabel translatable">חבית שמאל</div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">כמות חזרות</div>
+                        <div class="DefVal" id="co2PurgeKeg2RecureVal"></div>
+                        <div class="DefSpec translatable">פעמים</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך כניסת CO2 בכל חזרה</div>
+                        <div class="DefVal" id="co2PurgeKeg2OpenVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך ניקוז ללא CO2 בכל חזרה</div>
+                        <div class="DefVal" id="co2PurgeKeg2ClosedVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 functionSubLabel translatable">חבית ימין ושמאל יחד</div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך דחיקת פראצטית החוצה עם CO2 ל 2 החביות</div>
+                        <div class="DefVal" id="co2PurgeBothKegsOpenVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 col-md-4 DefeStageRow">
+                        <div class="translatable">משך ניקוז פראצטית החוצה ללא CO2 ל 2 החביות</div>
+                        <div class="DefVal" id="co2PurgeBothKegsClosedVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="d-none d-md-block col-md-4 DefeStageRow"></div>
+                </div>
+                <!-- stage 9 -->
+                <div class="col-12 DefeStageLabel" id="label18">
+                    <div class="translatable">שלב #9 בניית לחץ בחבית עם CO2</div>
+                    <div class="ValDiVTglBtnBox"><img id="Tgl18" src="assets/pics/down.png" /></div>
+                </div>
+                <div class="row defStageBox" id="stage18">
+                    <div class="col-12 col-md-6 DefeStageRow">
+                        <div class="translatable">לחץ יעד</div>
+                        <div class="DefVal" id="kegPdestinationVal"></div>
+                        <div class="DefSpec">PSI</div>
+                    </div>
+                    <div class="col-12 col-md-6 DefeStageRow">
+                        <div class="translatable">משך המתנה להגעה ליעד</div>
+                        <div class="DefVal" id="TimeOutPdestinationVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 col-md-6 DefeStageRow PreLastdefStageRow">
+                        <div class="translatable">משך בניית לחץ לאחר המתנה במידה ולא הגיע ללחץ יעד</div>
+                        <div class="DefVal" id="PostTimeOutBuildPVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                    <div class="col-12 col-md-6 DefeStageRow LastdefStageRow">
+                        <div class="translatable">משך בניית לחץ במידה ומתג חיישני לחץ כבוי</div>
+                        <div class="DefVal" id="PTimeWhenSensorDisabledVal"></div>
+                        <div class="DefSpec translatable">שניות</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hiddenValBox" id="LiveLogDisplayBox">
+            <div id="LiveLogHeader">
+                <div class="translatable LiveLogHeaderH1">קונסולת משטף חביות</div>
+                <div class="col exitLog dontShut"><img id="RefrshConsole" src="assets/pics/refresh.png" /></div>
+                <div class="col exitLog dontShut"><img id="CloseConsole" src="assets/pics/Close.png" /></div>
+            </div>
+            <iframe src="live-log.html" class="live-log" id="live-log"></iframe>
+        </div>
+        <div class="hiddenValBox" id="SavedLogsBox">
+            <div class="SaveLogsHeader">
+                <Div class="translatable SaveLogsHeaderH1">נתונים שנשמרו בעבר</Div>
+                <div class="col existSaved dontShut"><img id="CloseSavedLogs" src="assets/pics/Close.png" /></div>
+            </div>
+            <div id="SavedLogs">
+            </div>
+        </div>
+        <div class="hiddenValBox" id="WasherLogsBox">
+            <div class="SaveLogsHeader">
+                <Div class="translatable SaveLogsHeaderH1">לוגים של משטף החביות</Div>
+                <div class="col existSaved dontShut" id="CloseWasherLogsBox"><img id="CloseWasherLogs" src="assets/pics/Close.png" /></div>
+            </div>
+            <div id="WasherLogsWrap">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script type="module" src="main.js"></script>
+</body>
+
+</html>
