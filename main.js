@@ -1473,6 +1473,7 @@ document.getElementById('reset-btn-top').addEventListener('click', function () {
         let inner = document.getElementById("conirmContent");
         let dinamicinner2 = LangFlag === 0 ? 'משתמש אינו מחובר/אינו מורשה' : 'User unauthorized/ unauthenticated';
         inner.innerHTML = dinamicinner2;
+        document.getElementById("exitConfirm").innerHTML=LangFlag === 0 ? 'סגור' : 'Close';
         document.getElementById("exitConfirm").classList.remove("disabledConfirmBtn");
         document.getElementById("RelogIn").classList.remove("confirmBoxBtnHidden")
         document.getElementById("RelogIn").classList.add("confirmBoxBtn")
