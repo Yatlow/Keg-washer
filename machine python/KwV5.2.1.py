@@ -1392,7 +1392,7 @@ async def boot():
     prefetch_signal=Process(target=fetcing_signal)
     prefetch_signal.start()
     
-    sleep(1)###
+    sleep(10)###
     try:
         log= Live_log_ref.get()
         fields = log.to_dict().keys()
