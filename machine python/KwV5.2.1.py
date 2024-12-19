@@ -442,8 +442,6 @@ def filltanks():
 
 def Stdby():
     print('Stand By, Reddy for cycle, press button to start!')
-    with lock:
-        procIND[0] = (procIND[0][0], 0)
     GPIO.cleanup()
     Outputs = [6,9,11,0,5,13,19,26,21,20,16,12,15,7,8,1]
     Inputs = [25,27,24,10,18,22,14,23]
@@ -1024,9 +1022,12 @@ def Cycle(current_log_id):
     kegprssurize()
     print('Full Cycle is sucssesfully over!')
     sleep(0.5)
+    with lock:
+        procIND[0] = (procIND[0][0], 0)
     Stdby()
     update_cycle_count(log_ref, 'full_cycle', 1,current_log_id)
 
+     
 def ShortCycle(current_log_id):
     print('start Short Cycle')
     #start cycle and purge until btn is up
@@ -1052,6 +1053,8 @@ def ShortCycle(current_log_id):
     kegprssurize()
     print('Short Cycle sucssesfully over!')
     sleep(0.5)
+    with lock:
+        procIND[0] = (procIND[0][0], 0)
     Stdby()
     update_cycle_count(log_ref, 'Short_cycle', 1,current_log_id)
  
@@ -1070,9 +1073,12 @@ def purgecycle(current_log_id):
     GPIO.output(InProceslight, GPIO.HIGH)
     AirPurge(15,1,1)
     print('purge cycle sucssesfully  over!')
+    with lock:
+        procIND[0] = (procIND[0][0], 0)
     Stdby()
     update_cycle_count(log_ref, 'purge_cycle', 1,current_log_id)
     
+
 def checkbtn():
     global Btnstatus
     Btnstatus = 0
@@ -1114,8 +1120,9 @@ def shutdown(current_log_id_f):
         print('Shutting down...')
         shutdown_process = Process(target=update_and_delete)
         shutdown_process.start()
-        sleep(13)
+        sleep(10)
         if sucssesfully_update.is_set():
+            sleep(1)
             print("Keg washer is off")
             sleep(3)
         else:
@@ -1178,8 +1185,8 @@ def main(current_log_id):
                     print('{}:0{}'.format(minutes,seconds))
                 
     while True:
-        #db = init_firebase()
-        #log_ref = db.collection("Washer-Logs")
+        db = init_firebase()
+        log_ref = db.collection("Washer-Logs")
         pushTime = 0
         pressed = 0
         if stop==1:
@@ -1190,10 +1197,9 @@ def main(current_log_id):
             fillproc = Process(target=filltanks)
             fillproc.start()
             proc= None
-            push_req = 40
+            push_req = 70
             ErrNmbr=0
             procind=0
-            pressed=0
         while pushTime < push_req:#butoon examin
             checkbtn()
             sleep(0.01)
@@ -1208,7 +1214,7 @@ def main(current_log_id):
                 stop=0
                 if proc and GPIO.input(GBTN) == GPIO.HIGH:
                     pressed = 1
-            if proc!=None and procIND[0][0]== 0:
+            if proc!=None and proc.is_alive()==False:
                 stop=1
                 pushTime=push_req+1
         if pressed ==1: #will enter this loop only if a procces is runing and triger button was reliesed or in an emergancy eror           
@@ -1271,7 +1277,6 @@ def main(current_log_id):
                             proc.terminate()
                             proc=None
                             procind=0
-                            stop=0
                     if Pause==1:#if Pause indicator is on, turn it off
                         Pauseproc.terminate()
                         Pauseproc=None
